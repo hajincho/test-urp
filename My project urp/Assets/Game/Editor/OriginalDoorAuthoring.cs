@@ -14,7 +14,7 @@ public static class OriginalDoorAuthoring
     const string Folder="Assets/Game/OriginalDoors";
     class Data {public Vector3[] v,n;public Vector2[] uv;public int[][] triangles;}
     class Frame {public int sub;public HashSet<int> vertices;public Vector3 right,normal,center;public float minX,maxX,minY,maxY,depth,area;public float Width=>maxX-minX;public float Height=>maxY-minY;}
-    class Door {public Frame frame;public Vector3 right,normal,hinge;public float minX,maxX,minY,maxY,minZ,maxZ;public List<int>[] selected;public Mesh leaf,mirrored;public List<Vector2> outline;public bool hingeAtMax;public float Width=>maxX-minX;public float Height=>maxY-minY;}
+    class Door {public Frame frame,innerFrame;public Vector3 right,normal,hinge;public float minX,maxX,minY,maxY,minZ,maxZ;public List<int>[] selected;public Mesh leaf,mirrored;public List<Vector2> outline;public bool hingeAtMax;public float Width=>maxX-minX;public float Height=>maxY-minY;}
     class Vertex {public Vector3 p,n;public Vector2 uv;public Vertex(Vector3 p,Vector3 n,Vector2 uv){this.p=p;this.n=n;this.uv=uv;}public static Vertex Lerp(Vertex a,Vertex b,float t)=>new Vertex(Vector3.Lerp(a.p,b.p,t),Vector3.Lerp(a.n,b.n,t).normalized,Vector2.Lerp(a.uv,b.uv,t));}
     static Data Read(Mesh mesh)
     {
@@ -68,7 +68,7 @@ public static class OriginalDoorAuthoring
             if(result.Any(x=>Vector3.Distance(x.frame.center,frame.center)<.35f&&Mathf.Abs(Vector3.Dot(x.normal,frame.normal))>.95f))continue;
             var inner=candidates.Where(f=>f!=frame&&f.Width<frame.Width-.06f&&Vector3.Distance(f.center,frame.center)<.25f&&Vector3.Dot(f.normal,frame.normal)>.95f).OrderBy(f=>f.Width).FirstOrDefault();
             if(inner==null)continue;
-            var door=new Door{frame=frame,right=frame.right,normal=frame.normal,minX=inner.minX-.018f,maxX=inner.maxX+.018f,minY=inner.minY-.012f,maxY=inner.maxY+.04f,minZ=inner.depth-.75f,maxZ=Mathf.Max(frame.depth,inner.depth)+.15f};
+            var door=new Door{frame=frame,innerFrame=inner,right=frame.right,normal=frame.normal,minX=inner.minX-.018f,maxX=inner.maxX+.018f,minY=inner.minY-.012f,maxY=inner.maxY+.04f,minZ=inner.depth-.75f,maxZ=Mathf.Max(frame.depth,inner.depth)+.15f};
             door.outline=Outline(inner.vertices.Select(i=>new Vector2(Vector3.Dot(d.v[i],door.right),d.v[i].y)));
             door.hinge=door.right*door.minX+Vector3.up*door.minY+door.normal*inner.depth;
             door.selected=new List<int>[d.triangles.Length];
@@ -124,33 +124,91 @@ public static class OriginalDoorAuthoring
         for(int i=0;i<hull.Count;i++)hull[i]=Vector2.MoveTowards(hull[i],center,.0025f);
         return hull;
     }
+    static List<List<int>> Components(Data data,int sub)
+    {
+        var triangles=data.triangles[sub];var parent=Enumerable.Range(0,data.v.Length).ToArray();
+        for(int i=0;i<triangles.Length;i+=3){parent[Root(parent,triangles[i+1])]=Root(parent,triangles[i]);parent[Root(parent,triangles[i+2])]=Root(parent,triangles[i]);}
+        var parts=new Dictionary<int,List<int>>();
+        for(int i=0;i<triangles.Length;i+=3){int root=Root(parent,triangles[i]);if(!parts.TryGetValue(root,out var part)){part=new List<int>();parts.Add(root,part);}part.Add(triangles[i]);part.Add(triangles[i+1]);part.Add(triangles[i+2]);}
+        return parts.Values.ToList();
+    }
+    static float OutlineArea(List<Vector2> points)
+    {
+        float area=0;for(int i=0;i<points.Count;i++)area+=Cross2(points[i],points[(i+1)%points.Count]);return Mathf.Abs(area)*.5f;
+    }
+    static List<Vector2> FrameOpening(Data data,Frame frame,Vector3 right)
+    {
+        var edges=new Dictionary<(int,int),int>();var t=data.triangles[frame.sub];
+        for(int i=0;i<t.Length;i+=3)if(frame.vertices.Contains(t[i])&&frame.vertices.Contains(t[i+1])&&frame.vertices.Contains(t[i+2]))
+            for(int k=0;k<3;k++){int a=t[i+k],b=t[i+(k+1)%3];var key=a<b?(a,b):(b,a);if(!edges.ContainsKey(key))edges[key]=0;edges[key]++;}
+        var graph=new Dictionary<int,List<int>>();float bottom=frame.minY+frame.Height*.025f;
+        foreach(var edge in edges){
+            if(edge.Value!=1)continue;int a=edge.Key.Item1,b=edge.Key.Item2;
+            // An open-bottom U-shaped ring joins its inner and outer borders at the sill.
+            if(data.v[a].y<=bottom&&data.v[b].y<=bottom)continue;
+            if(!graph.ContainsKey(a))graph[a]=new List<int>();if(!graph.ContainsKey(b))graph[b]=new List<int>();graph[a].Add(b);graph[b].Add(a);
+        }
+        var seen=new HashSet<int>();var loops=new List<List<Vector2>>();
+        foreach(int start in graph.Keys){
+            if(!seen.Add(start))continue;var queue=new Queue<int>();queue.Enqueue(start);var points=new List<Vector2>();
+            while(queue.Count>0){int a=queue.Dequeue();points.Add(new Vector2(Vector3.Dot(data.v[a],right),data.v[a].y));foreach(int b in graph[a])if(seen.Add(b))queue.Enqueue(b);}
+            if(points.Count>=4){var hull=Outline(points);if(OutlineArea(hull)>.5f)loops.Add(hull);}
+        }
+        if(loops.Count<2)throw new Exception("Door frame inner border could not be isolated at "+frame.center);
+        return loops.OrderBy(OutlineArea).First();
+    }
+    static bool InOutline(Vector3 point,Door door,float margin)
+    {
+        var p=new Vector2(Vector3.Dot(point,door.right),point.y);
+        for(int i=0;i<door.outline.Count;i++){var a=door.outline[i];var edge=door.outline[(i+1)%door.outline.Count]-a;if(Cross2(edge,p-a)<-margin*edge.magnitude)return false;}
+        return true;
+    }
+    static bool HandleUV(Vector2 uv)=>(uv.x>.75f&&uv.x<.90f&&uv.y>.89f)||(uv.x>.85f&&uv.x<.89f&&uv.y>.53f&&uv.y<.69f);
     static void CompleteHardware(Data data,Door door)
     {
-        float leftHandle=0,rightHandle=0,leafPlane=Vector3.Dot(door.hinge,door.normal);
-        for(int sub=0;sub<data.triangles.Length;sub++){
-            var t=data.triangles[sub];var parent=Enumerable.Range(0,data.v.Length).ToArray();
-            for(int i=0;i<t.Length;i+=3){parent[Root(parent,t[i+1])]=Root(parent,t[i]);parent[Root(parent,t[i+2])]=Root(parent,t[i]);}
-            var parts=new Dictionary<int,List<int>>();for(int i=0;i<t.Length;i+=3){int key=Root(parent,t[i]);if(!parts.ContainsKey(key))parts[key]=new List<int>();parts[key].Add(t[i]);parts[key].Add(t[i+1]);parts[key].Add(t[i+2]);}
-            var previous=new HashSet<int>(door.selected[sub]);var complete=new List<int>();
-            foreach(var part in parts.Values){
-                if(sub==door.frame.sub&&part.All(i=>door.frame.vertices.Contains(i)))continue;
+        if(door.innerFrame!=null){
+            door.outline=FrameOpening(data,door.innerFrame,door.right);
+            door.minX=door.outline.Min(p=>p.x);door.maxX=door.outline.Max(p=>p.x);door.minY=door.outline.Min(p=>p.y);door.maxY=door.outline.Max(p=>p.y);
+        }
+        var parts=Enumerable.Range(0,data.triangles.Length).Select(sub=>Components(data,sub)).ToArray();
+        var protectedVertices=new HashSet<int>();
+        protectedVertices.UnionWith(door.frame.vertices);if(door.innerFrame!=null)protectedVertices.UnionWith(door.innerFrame.vertices);
+        float initialPlane=Vector3.Dot(door.hinge,door.normal),leafPlane=initialPlane;
+        int panelSub=-1;float bestArea=0;
+        // Find an actual filled, planar wood panel; a narrow frame ring cannot be a seed.
+        for(int sub=0;sub<parts.Length;sub++)foreach(var part in parts[sub]){
+            if(part.Any(protectedVertices.Contains)||!part.All(i=>InOutline(data.v[i],door,.075f)))continue;
+            var low=Vector3.one*99999;var high=-low;float area=0;
+            foreach(int i in part){var p=Coordinates(data.v[i],door);low=Vector3.Min(low,p);high=Vector3.Max(high,p);}
+            var size=high-low;if(size.x<door.Width*.10f||size.y<door.Height*.25f||size.z>.018f||low.z<initialPlane-.45f||high.z>initialPlane+.12f)continue;
+            for(int i=0;i<part.Count;i+=3)area+=Mathf.Abs(Vector3.Dot(Vector3.Cross(data.v[part[i+1]]-data.v[part[i]],data.v[part[i+2]]-data.v[part[i]]),door.normal))*.5f;
+            if(area<.60f*size.x*size.y||area<=bestArea)continue;
+            bestArea=area;leafPlane=(low.z+high.z)*.5f;panelSub=sub;
+        }
+        if(panelSub<0)throw new Exception("No filled original door panel at "+door.frame.center);
+        float leftHandle=0,rightHandle=0;
+        for(int sub=0;sub<parts.Length;sub++){
+            var complete=new List<int>();
+            foreach(var part in parts[sub]){
+                if(part.Any(protectedVertices.Contains))continue;
+                // Stone/reveal atlas and the separate prop-door atlas must never be combined.
+                if(panelSub!=door.frame.sub&&sub==door.frame.sub)continue;
+                if(!part.All(i=>InOutline(data.v[i],door,.075f)))continue;
                 var ids=new HashSet<int>(part);var low=Vector3.one*99999;var high=-low;
                 foreach(int i in ids){var p=Coordinates(data.v[i],door);low=Vector3.Min(low,p);high=Vector3.Max(high,p);}
-                var size=high-low;var center=(low+high)*.5f;
-                if(size.x>door.Width+.10f||size.y>door.Height+.10f||size.z>.65f)continue;
-                bool inCore=center.x>door.minX-.045f&&center.x<door.maxX+.045f&&center.y>door.minY-.035f&&center.y<door.maxY+.035f&&center.z>leafPlane-.23f&&center.z<leafPlane+.42f;
-                if(!inCore&&!part.Any(previous.Contains))continue;
+                var size=high-low;var center=(low+high)*.5f;bool metal=ids.Any(i=>HandleUV(data.uv[i]));
+                if(size.z>.28f||low.z<leafPlane-(metal?.14f:.085f)||high.z>leafPlane+.20f)continue;
                 complete.AddRange(part);
                 float y=(center.y-door.minY)/door.Height;float side=(center.x-(door.minX+door.maxX)*.5f)/door.Width;
-                bool metal=ids.Any(i=>data.uv[i].x>.75f&&data.uv[i].x<.89f&&data.uv[i].y>.89f);
-                if(y<.30f||y>.62f||Mathf.Abs(side)<.18f||size.x>door.Width*.48f||size.y>door.Height*.35f||(!metal&&(ids.Count<8||size.z<.035f)))continue;
+                if(!metal||y<.30f||y>.62f||Mathf.Abs(side)<.18f||size.x>door.Width*.48f||size.y>door.Height*.35f)continue;
                 float area=0;for(int i=0;i<part.Count;i+=3)area+=Vector3.Cross(data.v[part[i+1]]-data.v[part[i]],data.v[part[i+2]]-data.v[part[i]]).magnitude*.5f;
                 float score=area*(1+Mathf.Max(0,high.z-leafPlane)*8)*Mathf.Exp(-Mathf.Pow((y-.45f)/.14f,2));
                 if(side<0)leftHandle+=score;else rightHandle+=score;
             }
             door.selected[sub]=complete;
         }
-        door.hingeAtMax=leftHandle>rightHandle*1.10f&&leftHandle>.00001f;
+        // The latch/handle is the free edge; the hinge belongs on its opposite edge.
+        door.hingeAtMax=leftHandle>rightHandle&&leftHandle>.00001f;
         door.hinge=door.right*(door.hingeAtMax?door.maxX:door.minX)+Vector3.up*door.minY+door.normal*leafPlane;
     }
     static Vector3 Coordinates(Vector3 p,Door door)=>new Vector3(Vector3.Dot(p,door.right),p.y,Vector3.Dot(p,door.normal));
@@ -240,8 +298,14 @@ public static class OriginalDoorAuthoring
                 var polygon=new List<Vertex>{new Vertex(data.v[a],data.n[a],data.uv[a]),new Vertex(data.v[b],data.n[b],data.uv[b]),new Vertex(data.v[c],data.n[c],data.uv[c])};
                 var pieces=new List<List<Vertex>>{polygon};
                 bool frame=frameVertices.Any(f=>f.sub==sub&&f.vertices.Contains(a)&&f.vertices.Contains(b)&&f.vertices.Contains(c));
-                bool floor=Mathf.Abs(Vector3.Cross(data.v[b]-data.v[a],data.v[c]-data.v[a]).normalized.y)>.65f;
-                if(!frame&&!floor)foreach(var door in doors){var next=new List<List<Vertex>>();foreach(var piece in pieces)next.AddRange(Subtract(piece,door));pieces=next;if(pieces.Count==0)break;}
+                bool horizontal=Mathf.Abs(Vector3.Cross(data.v[b]-data.v[a],data.v[c]-data.v[a]).normalized.y)>.65f;
+                if(!frame)foreach(var door in doors){
+                    // Metal strap caps are horizontal too. Only a surface at the sill can
+                    // be supporting floor; upper caps must be removed from every static LOD.
+                    bool supportingFloor=horizontal&&polygon.All(v=>v.p.y<=door.minY+.05f);
+                    if(supportingFloor)continue;
+                    var next=new List<List<Vertex>>();foreach(var piece in pieces)next.AddRange(Subtract(piece,door));pieces=next;if(pieces.Count==0)break;
+                }
                 foreach(var piece in pieces)for(int k=1;k<piece.Count-1;k++)foreach(var v in new[]{piece[0],piece[k],piece[k+1]}){
                     output.Add(positions.Count);positions.Add(v.p);normals.Add(v.n);uv.Add(v.uv);
                 }
@@ -255,6 +319,29 @@ public static class OriginalDoorAuthoring
     static string Key(Mesh mesh)
     {
         AssetDatabase.TryGetGUIDAndLocalFileIdentifier(mesh,out string guid,out long id);return guid.Substring(0,8)+"_"+id.ToString().Replace("-","n");
+    }
+    [MenuItem("Tools/World/Rebuild Original Doors From Source")]
+    public static void Rebuild()
+    {
+        if(EditorApplication.isPlaying)throw new Exception("Stop play mode first.");
+        var replacements=new List<(MeshFilter filter,Mesh source)>();
+        foreach(var group in UnityEngine.Object.FindObjectsByType<LODGroup>(FindObjectsInactive.Include).Where(Eligible))
+            foreach(var renderer in group.GetLODs().SelectMany(l=>l.renderers).Where(r=>r).Distinct()){
+                var filter=renderer.GetComponent<MeshFilter>();if(!filter||!filter.sharedMesh||!AssetDatabase.GetAssetPath(filter.sharedMesh).StartsWith(Folder,StringComparison.Ordinal))continue;
+                var original=PrefabUtility.GetCorrespondingObjectFromSource(filter);
+                if(!original||!original.sharedMesh||AssetDatabase.GetAssetPath(original.sharedMesh).StartsWith(Folder,StringComparison.Ordinal))throw new Exception("Missing original facade source: "+filter.name);
+                replacements.Add((filter,original.sharedMesh));
+            }
+        var scene=UnityEngine.SceneManagement.SceneManager.GetActiveScene();EditorSceneManager.SaveScene(scene);
+        string backup=Application.dataPath+"/../Logs/WorldTraversalBackups";Directory.CreateDirectory(backup);
+        File.Copy(scene.path,backup+"/"+scene.name+"_BeforeDoorRebuild_"+DateTime.UtcNow.ToString("yyyyMMdd_HHmmss")+".unity",true);
+        foreach(var item in replacements){
+            item.filter.sharedMesh=item.source;PrefabUtility.RecordPrefabInstancePropertyModifications(item.filter);
+            var collider=item.filter.GetComponent<MeshCollider>();if(collider&&collider.enabled){collider.sharedMesh=item.source;PrefabUtility.RecordPrefabInstancePropertyModifications(collider);}
+        }
+        var old=GameObject.Find("Original Door Interactions");if(old)UnityEngine.Object.DestroyImmediate(old);
+        EditorSceneManager.MarkSceneDirty(scene);EditorSceneManager.SaveScene(scene);
+        Apply();SaveFacadeOverrides();
     }
     [MenuItem("Tools/World/Enable Original Physical House Doors")]
     public static void Apply()
