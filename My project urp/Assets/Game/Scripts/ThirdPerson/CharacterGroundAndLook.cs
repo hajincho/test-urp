@@ -26,6 +26,9 @@ namespace Game.ThirdPerson
 
         private void OnEnable() { hasStableHeadRotation = false; }
         private readonly RaycastHit[] hits = new RaycastHit[16];
+        private readonly RaycastHit[] footprintHits = new RaycastHit[5];
+        private readonly float[] footprintHeights = new float[5];
+        private static readonly Vector2[] footprint = { Vector2.zero, Vector2.right, Vector2.left, Vector2.up, Vector2.down };
 
         private sealed class Leg
         {
@@ -33,7 +36,7 @@ namespace Game.ThirdPerson
             public float restFootHeight;
             public Vector3 restAnkle, supportTarget, supportNormal;
             public Quaternion restFootInVisual;
-            public float targetHeight, weight;
+            public float targetHeight, weight, heightVelocity;
             public Quaternion restFootRotation;
             public Vector3 normal = Vector3.up;
             public bool planted;
@@ -103,6 +106,7 @@ namespace Game.ThirdPerson
             {
                 leg.planted = false;
                 leg.weight = 0f;
+                leg.heightVelocity = 0f;
                 leg.targetHeight = leg.foot.position.y;
                 return;
             }
@@ -135,7 +139,7 @@ namespace Game.ThirdPerson
                 {
                     if (!leg.planted) leg.contactPosition = foot;
                     leg.planted = true;
-                    float edge = Mathf.Clamp01(Mathf.Min(cycle, 2f * halfContact - cycle) / .045f);
+                    float edge = Mathf.Clamp01(Mathf.Min(cycle, 2f * halfContact - cycle) / .085f);
                     lockWeight = Mathf.SmoothStep(0f, 1f, edge) * motion.GroundStrideWeight * footWeight;
                     desiredHeight = Mathf.Lerp(desiredHeight, best.point.y + leg.restFootHeight, lockWeight);
                     desiredWeight = Mathf.Max(desiredWeight, lockWeight);
@@ -144,9 +148,11 @@ namespace Game.ThirdPerson
             }
             else leg.planted = false;
 
+            if (leg.weight > .1f && Mathf.Abs(desiredHeight - leg.targetHeight) < .012f * Mathf.Abs(playerRoot.lossyScale.y))
+                desiredHeight = leg.targetHeight;
             float blend = 1f - Mathf.Exp(-14f * dt);
             leg.weight = Mathf.Lerp(leg.weight, desiredWeight, blend);
-            leg.targetHeight = Mathf.Lerp(leg.targetHeight, desiredHeight, blend);
+            leg.targetHeight = Mathf.SmoothDamp(leg.targetHeight, desiredHeight, ref leg.heightVelocity, .065f, Mathf.Infinity, dt);
             leg.normal = Vector3.Slerp(leg.normal, normal, blend).normalized;
             float stance = supported ? stanceWeight : 0f;
             if (leg.weight < .005f && stance < .005f) return;
@@ -171,20 +177,34 @@ namespace Game.ThirdPerson
 
         private bool ProbeGround(Vector3 foot, out RaycastHit best)
         {
-            float scale = playerRoot.lossyScale.y;
-            Vector3 origin = foot + Vector3.up * (.45f * scale);
-            int count = Physics.RaycastNonAlloc(origin, Vector3.down, hits, 1.2f * scale, groundLayers, QueryTriggerInteraction.Ignore);
-            float closest = float.PositiveInfinity;
-            best = default;
-            for (int i = 0; i < count; i++)
-            {
-                var hit = hits[i];
-                if (!hit.collider || hit.collider.transform.IsChildOf(playerRoot)) continue;
-                if (hit.normal.y < .45f || hit.distance >= closest) continue;
-                closest = hit.distance;
-                best = hit;
+            float scale = Mathf.Abs(playerRoot.lossyScale.y);
+            int found = 0; best = default;
+            foreach (var offset in footprint) {
+                Vector3 origin = foot + Vector3.up * (.45f * scale)
+                    + (visualRoot.right * offset.x + visualRoot.forward * offset.y) * (.065f * scale);
+                int count = Physics.RaycastNonAlloc(origin, Vector3.down, hits, 1.2f * scale, groundLayers, QueryTriggerInteraction.Ignore);
+                float closest = float.PositiveInfinity; RaycastHit candidate = default;
+                for (int i = 0; i < count; i++) {
+                    var hit = hits[i];
+                    if (!hit.collider || hit.collider.transform.IsChildOf(playerRoot) || hit.normal.y < .45f || hit.distance >= closest) continue;
+                    closest = hit.distance; candidate = hit;
+                }
+                if (!candidate.collider) continue;
+                footprintHits[found] = candidate; footprintHeights[found] = candidate.point.y; found++;
             }
-            return best.collider != null;
+            if (found == 0) return false;
+            System.Array.Sort(footprintHeights, 0, found);
+            float median = footprintHeights[found / 2];
+            float nearest = float.PositiveInfinity; Vector3 normal = Vector3.zero;
+            for (int i = 0; i < found; i++) {
+                float delta = Mathf.Abs(footprintHits[i].point.y - median);
+                if (delta < nearest) { best = footprintHits[i]; nearest = delta; }
+                if (delta < .045f * scale) normal += footprintHits[i].normal;
+            }
+            normal = normal.sqrMagnitude > .001f ? normal.normalized : Vector3.up;
+            if (Vector3.Angle(normal, Vector3.up) < 3f) normal = Vector3.up;
+            best.point = new Vector3(foot.x, median, foot.z); best.normal = normal;
+            return true;
         }
 
         private bool SampleSupport(Leg leg, float side)

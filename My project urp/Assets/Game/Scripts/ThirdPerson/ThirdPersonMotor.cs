@@ -32,6 +32,30 @@ namespace Game.ThirdPerson
         float transitionTime, transitionDuration;
         Vector3 planarVelocity;
         bool previousMove, previousSprint, airStopped;
+        [Min(.01f)] public float groundSnapDistance = .24f;
+        public LayerMask groundMask = ~0;
+        readonly RaycastHit[] supportHits = new RaycastHit[24];
+        Vector3 stableGroundNormal = Vector3.up;
+
+        bool ProbeSupport(out RaycastHit support, out float gap)
+        {
+            float scale = Mathf.Abs(transform.lossyScale.y);
+            float radius = Mathf.Max(.04f, controller.radius * scale * .82f);
+            var foot = transform.TransformPoint(controller.center - Vector3.up * controller.height * .5f);
+            var origin = foot + Vector3.up * (radius + .18f * scale);
+            int count = Physics.SphereCastNonAlloc(origin, radius, Vector3.down, supportHits,
+                (.18f + groundSnapDistance) * scale, groundMask, QueryTriggerInteraction.Ignore);
+            support = default; gap = float.PositiveInfinity; float nearest = float.PositiveInfinity;
+            float minimumY = Mathf.Cos(controller.slopeLimit * Mathf.Deg2Rad);
+            for (int i = 0; i < count; i++) {
+                var hit = supportHits[i];
+                if (!hit.collider || hit.transform.IsChildOf(transform) || hit.normal.y < minimumY || hit.distance >= nearest) continue;
+                float difference = foot.y - hit.point.y;
+                if (difference < -.08f * scale || difference > groundSnapDistance * scale) continue;
+                nearest = hit.distance; support = hit; gap = difference;
+            }
+            return support.collider;
+        }
 
         void BeginTransition(Transition kind, float duration)
         {
@@ -66,6 +90,19 @@ namespace Game.ThirdPerson
             if (SimulationInput) { input = SimulatedMove; sprint = SimulatedSprint; jump = SimulatedJump; SimulatedJump = false; }
             Tick(input, sprint, jump, Time.deltaTime);
         }
+        public void TeleportTo(Vector3 destination)
+        {
+            if (!controller) controller = GetComponent<CharacterController>();
+            controller.enabled = false;
+            transform.position = destination;
+            spawn = destination;
+            verticalSpeed = 0f; planarVelocity = Vector3.zero; PlanarSpeed = 0f;
+            IsJumping = false; Grounded = false; Sprinting = false;
+            CurrentTransition = Transition.None; previousMove = previousSprint = airStopped = false;
+            stableGroundNormal = Vector3.up; UphillAngle = 0f;
+            lastGrounded = lastJumpPressed = -10f;
+            controller.enabled = true;
+        }
         public void Tick(Vector2 input, bool sprint, bool jump, float dt)
         {
             if (!controller) controller = GetComponent<CharacterController>();
@@ -75,7 +112,9 @@ namespace Game.ThirdPerson
             float yaw = cameraTransform ? cameraTransform.eulerAngles.y : 0f;
             Vector3 direction = Quaternion.Euler(0f, yaw, 0f) * new Vector3(input.x, 0f, input.y);
             bool moving = input.sqrMagnitude > .001f;
-            Grounded = controller.isGrounded;
+            bool wasSupported = Grounded;
+            Grounded = controller.isGrounded || (!IsJumping && verticalSpeed <= 0f &&
+                ProbeSupport(out var earlySupport, out float earlyGap) && earlyGap < .08f * Mathf.Abs(transform.lossyScale.y));
             bool wasJumping = IsJumping;
             transitionTime += dt;
             if (CurrentTransition != Transition.None && transitionTime >= transitionDuration)
@@ -131,6 +170,14 @@ namespace Game.ThirdPerson
             var flags = controller.Move(planarVelocity * dt + Vector3.up * verticalDisplacement);
             if ((flags & CollisionFlags.Above) != 0 && verticalSpeed > 0f) verticalSpeed = 0f;
             Grounded = (flags & CollisionFlags.Below) != 0;
+            RaycastHit support = default;
+            if (!IsJumping && verticalSpeed <= 0f && ProbeSupport(out support, out float supportGap)) {
+                if ((wasSupported || Grounded) && supportGap > .005f) {
+                    flags |= controller.Move(Vector3.down * (supportGap + .012f));
+                    Grounded = (flags & CollisionFlags.Below) != 0 || controller.isGrounded;
+                }
+                if ((wasSupported || Grounded) && supportGap <= .08f * Mathf.Abs(transform.lossyScale.y)) Grounded = true;
+            }
             if (Grounded)
             {
                 if (wasJumping && airStopped && !moving) BeginTransition(Transition.AirStop, .38f);
@@ -139,11 +186,19 @@ namespace Game.ThirdPerson
             }
             Vector3 delta = transform.position - before;
             float planarDistance = new Vector2(delta.x, delta.z).magnitude;
-            PlanarSpeed = planarDistance / dt;
-            if ((flags & CollisionFlags.Sides) != 0)
+            float measuredSpeed = planarDistance / dt;
+            PlanarSpeed = Mathf.Lerp(PlanarSpeed, measuredSpeed, 1f - Mathf.Exp(-24f * dt));
+            if (measuredSpeed < .015f && PlanarSpeed < .03f) PlanarSpeed = 0f;
+            if ((flags & CollisionFlags.Sides) != 0 && measuredSpeed < planarVelocity.magnitude * .6f)
                 planarVelocity = new Vector3(delta.x, 0f, delta.z) / dt;
-            UphillAngle = Grounded && input.sqrMagnitude > .001f && PlanarSpeed > .08f
-                ? Mathf.Atan2(Mathf.Max(0f, delta.y), planarDistance) * Mathf.Rad2Deg : 0f;
+            // A stair/stone edge is not an uphill slope. Use the supporting surface,
+            // rather than differentiating the capsule's tiny vertical steps.
+            var targetNormal = Grounded && support.collider ? support.normal : Vector3.up;
+            stableGroundNormal = Vector3.Slerp(stableGroundNormal, targetNormal, 1f - Mathf.Exp(-8f * dt)).normalized;
+            float gradient = -Vector3.Dot(stableGroundNormal, direction) / Mathf.Max(.1f, stableGroundNormal.y);
+            float targetSlope = Grounded && moving ? Mathf.Atan(Mathf.Max(0f, gradient)) * Mathf.Rad2Deg : 0f;
+            if (targetSlope < 3f) targetSlope = 0f;
+            UphillAngle = Mathf.MoveTowards(UphillAngle, targetSlope, 45f * dt);
             Sprinting = sprint && PlanarSpeed > .1f;
             if (direction.sqrMagnitude > .001f && visualRoot)
                 visualRoot.rotation = Quaternion.Slerp(visualRoot.rotation, Quaternion.LookRotation(direction), 1f - Mathf.Exp(-turnSpeed * dt));

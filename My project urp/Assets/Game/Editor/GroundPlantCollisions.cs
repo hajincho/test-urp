@@ -11,12 +11,12 @@ public static class GroundPlantCollisions
     static bool PlantName(string name)
     {
         string n = name.ToLowerInvariant();
-        return n.Contains("grass") || n.Contains("fern") || n.Contains("weed") || n.Contains("bush") || n.Contains("leaves_cluster");
+        return n.Contains("village_scatter") || n.Contains("grass") || n.Contains("fern") || n.Contains("weed") || n.Contains("bush") || n.Contains("leaves_cluster");
     }
     static bool IsGroundPlant(Collider collider)
     {
         if (collider is TerrainCollider || collider is CharacterController || collider.CompareTag("Player")) return false;
-        if (collider is MeshCollider mesh && mesh.sharedMesh && (PlantName(mesh.sharedMesh.name) || PlantName(AssetDatabase.GetAssetPath(mesh.sharedMesh)))) return true;
+        if (collider is MeshCollider mesh && mesh.sharedMesh && (PlantName(mesh.sharedMesh.name) || PlantName(Path.GetFileNameWithoutExtension(AssetDatabase.GetAssetPath(mesh.sharedMesh))))) return true;
         for (var t = collider.transform; t; t = t.parent)
         {
             if (PlantName(t.name)) return true;
