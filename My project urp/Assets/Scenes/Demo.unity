@@ -95246,6 +95246,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3c24c2e8a77f254f9cb0fc9511deb4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Game.ThirdPerson.ThirdPersonMotor
+  climbSpeed: 1.25
+  swimSpeed: 2.1
+  fastSwimSpeed: 3.5
+  enableClimbing: 1
+  enableSwimming: 1
+  useWaterOverride: 0
+  waterOverrideHeight: 0
   cameraTransform: {fileID: 1171884497}
   visualRoot: {fileID: 700431002}
   walkSpeed: 1.2
@@ -95376,6 +95383,7 @@ MonoBehaviour:
   useWaterLevel: 1
   waterLevel: -32.45
   waterSurfaceMesh: {fileID: 4300000, guid: 0c071ba752563fa489ac3b936773fd57, type: 2}
+  unrestrictedTeleport: 1
 --- !u!4 &380558303 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5275300973255859851, guid: e2875c1b538d6744caeb6200ef576a94, type: 3}
@@ -443830,8 +443838,12 @@ MonoBehaviour:
     side: 1
   walkingAmplitude: 32
   breathingAmplitude: 0.008
+  runBounceHeight: 0.032
+  walkBounceHeight: 0.036
   currentSpeed: 0
   motionPhase: 0
+  referenceRunLean: 28
+  referenceDashLean: 42
 --- !u!1 &1819081164241922916
 GameObject:
   m_ObjectHideFlags: 0
@@ -454023,7 +454035,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4791381371936604744}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.02445176, y: 0.020392062, z: -0.0335295, w: 0.99893045}
+  m_LocalRotation: {x: -0.024451762, y: 0.020392062, z: -0.033529505, w: 0.99893045}
   m_LocalPosition: {x: 0.000000022351742, y: 0.053747028, z: -0.00000014551915}
   m_LocalScale: {x: 0.99999994, y: 0.9999999, z: 1.0000001}
   m_ConstrainProportionsScale: 0
@@ -454039,7 +454051,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1650557296945370270}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.0069005224, y: 0.007920235, z: -0.015665889, w: 0.9998221}
+  m_LocalRotation: {x: -0.006900523, y: 0.007920235, z: -0.01566589, w: 0.9998221}
   m_LocalPosition: {x: -0.000000007450581, y: 0.04387355, z: 0.000000022351742}
   m_LocalScale: {x: 0.99999976, y: 0.9999999, z: 0.99999976}
   m_ConstrainProportionsScale: 0
@@ -454551,8 +454563,8 @@ SkinnedMeshRenderer:
   - 0
   m_RootBone: {fileID: 2178666681316590198}
   m_AABB:
-    m_Center: {x: 0.000008881092, y: -0.06490755, z: -0.19084921}
-    m_Extent: {x: 1.5, y: 1.5, z: 1.5}
+    m_Center: {x: 0.000008881092, y: -0.06490758, z: -0.19086449}
+    m_Extent: {x: 2.4848468, y: 2.4848468, z: 2.4848468}
   m_DirtyAABB: 0
 --- !u!4 &6586957910821294366
 Transform:
@@ -455785,7 +455797,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2016514734635414665}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.0025141512, y: 0.015429827, z: -0.022214672, w: 0.999631}
+  m_LocalRotation: {x: 0.0025141514, y: 0.015429827, z: -0.022214673, w: 0.999631}
   m_LocalPosition: {x: 4.656613e-10, y: 0.045982905, z: 0.000000009778887}
   m_LocalScale: {x: 0.9999999, y: 0.99999994, z: 0.9999999}
   m_ConstrainProportionsScale: 0
@@ -458974,6 +458986,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2242888603760953211}
   - component: {fileID: 8698159860354531531}
+  - component: {fileID: 8698159860354531532}
   m_Layer: 0
   m_Name: Furina
   m_TagString: Untagged
@@ -458993,6 +459006,2060 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48549da66ab0ddd418aecfca339cb983, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Game.ThirdPerson.BlenderCharacterRetarget
+--- !u!114 &8698159860354531532
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8698159860354531530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cda5ccca41f42d84aa8c856d1fa7ec32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Game.ThirdPerson.SilkClothDynamics
+  bones:
+  - bone: {fileID: 5557849972807018002}
+    chain: HB1_1_0
+    role: Pinned attachment; dynamic outgoing segment
+    depth: 0
+    weightedVertices: 4
+    restLocalPosition: {x: 0.115922764, y: 0.074691236, z: -0.035121586}
+    restLocalRotation: {x: 0.93868643, y: 0.20311263, z: 0.20311318, w: -0.19067802}
+    tipLocal: {x: 0.000000017578714, y: 0.06300702, z: 0.000000033644028}
+    stiffness: 13
+    damping: 6
+    mass: 0.04
+    gravityInfluence: 0.16
+    rotationLimit: 24
+    parentMotionInfluence: 0.78
+    velocityResponse: 0.055
+    accelerationResponse: 0.18
+    angularVelocityResponse: 0.18
+    collisionRadius: 0.008
+  - bone: {fileID: 2528750999503238554}
+    chain: HB1_1_6
+    role: Pinned attachment; dynamic outgoing segment
+    depth: 0
+    weightedVertices: 2
+    restLocalPosition: {x: -0.07549182, y: 0.061700102, z: -0.08668293}
+    restLocalRotation: {x: 0.9723423, y: -0.09683271, z: -0.096833676, w: -0.1892013}
+    tipLocal: {x: -0.000000009313226, y: 0.04474885, z: 0.000000009313226}
+    stiffness: 13
+    damping: 6
+    mass: 0.04
+    gravityInfluence: 0.16
+    rotationLimit: 24
+    parentMotionInfluence: 0.78
+    velocityResponse: 0.055
+    accelerationResponse: 0.18
+    angularVelocityResponse: 0.18
+    collisionRadius: 0.008
+  - bone: {fileID: 2531805050570171372}
+    chain: HB1_2_1
+    role: Pinned attachment; dynamic outgoing segment
+    depth: 0
+    weightedVertices: 4
+    restLocalPosition: {x: 0.121771865, y: 0.03766954, z: -0.064705975}
+    restLocalRotation: {x: 0.95166785, y: 0.16959992, z: 0.16960022, w: -0.19183311}
+    tipLocal: {x: 0.0000000055879354, y: 0.035981257, z: 0.000000011175871}
+    stiffness: 13
+    damping: 6
+    mass: 0.04
+    gravityInfluence: 0.16
+    rotationLimit: 24
+    parentMotionInfluence: 0.78
+    velocityResponse: 0.055
+    accelerationResponse: 0.18
+    angularVelocityResponse: 0.18
+    collisionRadius: 0.008
+  - bone: {fileID: 7118532839869057443}
+    chain: HB1_1_5
+    role: Pinned attachment; dynamic outgoing segment
+    depth: 0
+    weightedVertices: 4
+    restLocalPosition: {x: -0.039774247, y: 0.053594638, z: -0.11748682}
+    restLocalRotation: {x: 0.9723333, y: -0.04033254, z: -0.040332712, w: -0.22652695}
+    tipLocal: {x: 0.0000000027939677, y: 0.05601415, z: 0.000000040512532}
+    stiffness: 13
+    damping: 6
+    mass: 0.04
+    gravityInfluence: 0.16
+    rotationLimit: 24
+    parentMotionInfluence: 0.78
+    velocityResponse: 0.055
+    accelerationResponse: 0.18
+    angularVelocityResponse: 0.18
+    collisionRadius: 0.008
+  - bone: {fileID: 7733136546427375913}
+    chain: HB1_2_7
+    role: Pinned attachment; dynamic outgoing segment
+    depth: 0
+    weightedVertices: 4
+    restLocalPosition: {x: -0.12177266, y: 0.037669778, z: -0.06470607}
+    restLocalRotation: {x: 0.951667, y: -0.16960199, z: -0.16960238, w: -0.19183357}
+    tipLocal: {x: -0.0000000121071935, y: 0.03598111, z: 0.00000004284084}
+    stiffness: 13
+    damping: 6
+    mass: 0.04
+    gravityInfluence: 0.16
+    rotationLimit: 24
+    parentMotionInfluence: 0.78
+    velocityResponse: 0.055
+    accelerationResponse: 0.18
+    angularVelocityResponse: 0.18
+    collisionRadius: 0.008
+  - bone: {fileID: 3432472019792031193}
+    chain: HB2_0_1
+    role: Pinned attachment; dynamic outgoing segment
+    depth: 0
+    weightedVertices: 26
+    restLocalPosition: {x: -0.06364702, y: 0.07523517, z: -0.13991024}
+    restLocalRotation: {x: 0.95473856, y: -0.05643096, z: -0.056431025, w: -0.2865405}
+    tipLocal: {x: 0.000000009313226, y: 0.060018886, z: 0.00000008707866}
+    stiffness: 11
+    damping: 6
+    mass: 0.044
+    gravityInfluence: 0.16
+    rotationLimit: 24
+    parentMotionInfluence: 0.78
+    velocityResponse: 0.040909093
+    accelerationResponse: 0.22727272
+    angularVelocityResponse: 0.27272728
+    collisionRadius: 0.008
+  - bone: {fileID: 7374245086585490536}
+    chain: HB3_0_1
+    role: Pinned attachment; dynamic outgoing segment
+    depth: 0
+    weightedVertices: 86
+    restLocalPosition: {x: -0.035628192, y: 0.06868528, z: -0.16800353}
+    restLocalRotation: {x: 0.9088331, y: 0.105871774, z: 0.10587172, w: -0.3893647}
+    tipLocal: {x: -0, y: 0.054923955, z: -0.00000008032657}
+    stiffness: 10
+    damping: 6
+    mass: 0.04
+    gravityInfluence: 0.16
+    rotationLimit: 24
+    parentMotionInfluence: 0.78
+    velocityResponse: 0.045
+    accelerationResponse: 0.25
+    angularVelocityResponse: 0.3
+    collisionRadius: 0.008
+  - bone: {fileID: 6406198341920951951}
+    chain: HB1_1_3
+    role: Pinned attachment; dynamic outgoing segment
+    depth: 0
+    weightedVertices: 4
+    restLocalPosition: {x: 0.039774373, y: 0.053594638, z: -0.117486514}
+    restLocalRotation: {x: 0.97233313, y: 0.040332876, z: 0.040332925, w: -0.2265279}
+    tipLocal: {x: -0.000000017695129, y: 0.056014262, z: -0.000000007916242}
+    stiffness: 13
+    damping: 6
+    mass: 0.04
+    gravityInfluence: 0.16
+    rotationLimit: 24
+    parentMotionInfluence: 0.78
+    velocityResponse: 0.055
+    accelerationResponse: 0.18
+    angularVelocityResponse: 0.18
+    collisionRadius: 0.008
+  - bone: {fileID: 1313289667891548358}
+    chain: HB4_0_1
+    role: Pinned attachment; dynamic outgoing segment
+    depth: 0
+    weightedVertices: 183
+    restLocalPosition: {x: -0.015604318, y: 0.15504543, z: -0.1177161}
+    restLocalRotation: {x: -0.70965385, y: -0.07366713, z: -0.07366713, w: 0.6968054}
+    tipLocal: {x: -0.0000000027939677, y: 0.01852382, z: 0.000000110165274}
+    stiffness: 9.1
+    damping: 6
+    mass: 0.0364
+    gravityInfluence: 0.16
+    rotationLimit: 24
+    parentMotionInfluence: 0.78
+    velocityResponse: 0.04945055
+    accelerationResponse: 0.27472526
+    angularVelocityResponse: 0.32967034
+    collisionRadius: 0.008
+  - bone: {fileID: 8929008707904431049}
+    chain: HB1_1_4
+    role: Pinned attachment; dynamic outgoing segment
+    depth: 0
+    weightedVertices: 8
+    restLocalPosition: {x: 0.00000029224157, y: 0.0510466, z: -0.12678786}
+    restLocalRotation: {x: 0.97029585, y: -0, z: 0, w: -0.24192144}
+    tipLocal: {x: -0, y: 0.060364652, z: -0.000000037252903}
+    stiffness: 13
+    damping: 6
+    mass: 0.04
+    gravityInfluence: 0.16
+    rotationLimit: 24
+    parentMotionInfluence: 0.78
+    velocityResponse: 0.055
+    accelerationResponse: 0.18
+    angularVelocityResponse: 0.18
+    collisionRadius: 0.008
+  - bone: {fileID: 1050405341209514594}
+    chain: HB1_1_8
+    role: Pinned attachment; dynamic outgoing segment
+    depth: 0
+    weightedVertices: 6
+    restLocalPosition: {x: -0.115923375, y: 0.07469159, z: -0.035121623}
+    restLocalRotation: {x: 0.93868494, y: -0.20311551, z: -0.20311597, w: -0.19067922}
+    tipLocal: {x: 0.00000007072231, y: 0.06300738, z: -0.00000006170012}
+    stiffness: 13
+    damping: 6
+    mass: 0.04
+    gravityInfluence: 0.16
+    rotationLimit: 24
+    parentMotionInfluence: 0.78
+    velocityResponse: 0.055
+    accelerationResponse: 0.18
+    angularVelocityResponse: 0.18
+    collisionRadius: 0.008
+  - bone: {fileID: 2234275751722074091}
+    chain: HB1_1_2
+    role: Pinned attachment; dynamic outgoing segment
+    depth: 0
+    weightedVertices: 2
+    restLocalPosition: {x: 0.07549126, y: 0.061699983, z: -0.086682975}
+    restLocalRotation: {x: 0.9723423, y: 0.096832916, z: 0.09683284, w: -0.18920152}
+    tipLocal: {x: -0, y: 0.04474882, z: -0.000000092200935}
+    stiffness: 13
+    damping: 6
+    mass: 0.04
+    gravityInfluence: 0.16
+    rotationLimit: 24
+    parentMotionInfluence: 0.78
+    velocityResponse: 0.055
+    accelerationResponse: 0.18
+    angularVelocityResponse: 0.18
+    collisionRadius: 0.008
+  - bone: {fileID: 6226842251333736915}
+    chain: HB1_1_6
+    role: Short skirt panel
+    depth: 1
+    weightedVertices: 6
+    restLocalPosition: {x: -0.000000009313226, y: 0.04474885, z: 0.000000009313226}
+    restLocalRotation: {x: -0.0000007590278, y: 0.00000029988587, z: -0.00000031851232, w: 1}
+    tipLocal: {x: 0.000000013038516, y: 0.04474911, z: -0.000000022351742}
+    stiffness: 11.5
+    damping: 5.7
+    mass: 0.037
+    gravityInfluence: 0.175
+    rotationLimit: 27
+    parentMotionInfluence: 0.6933333
+    velocityResponse: 0.064166665
+    accelerationResponse: 0.21000001
+    angularVelocityResponse: 0.21666667
+    collisionRadius: 0.0085
+  - bone: {fileID: 3435695832660864081}
+    chain: HB1_1_0
+    role: Short skirt panel
+    depth: 1
+    weightedVertices: 8
+    restLocalPosition: {x: 0.000000017578714, y: 0.06300702, z: 0.000000033644028}
+    restLocalRotation: {x: 0.07266674, y: 0.02531347, z: 0.0012445593, w: 0.99703425}
+    tipLocal: {x: -0.00000010430813, y: 0.033887498, z: 0.000000058673322}
+    stiffness: 11.2
+    damping: 5.64
+    mass: 0.036399998
+    gravityInfluence: 0.178
+    rotationLimit: 27.6
+    parentMotionInfluence: 0.676
+    velocityResponse: 0.066
+    accelerationResponse: 0.216
+    angularVelocityResponse: 0.224
+    collisionRadius: 0.0086
+  - bone: {fileID: 478763299233813820}
+    chain: HB1_2_1
+    role: Short skirt panel
+    depth: 1
+    weightedVertices: 10
+    restLocalPosition: {x: 0.0000000055879354, y: 0.035981257, z: 0.000000011175871}
+    restLocalRotation: {x: 0.026488876, y: 0.007999153, z: -0.00021314778, w: 0.9996171}
+    tipLocal: {x: 0.00000008195639, y: 0.036882892, z: -0.000000026077032}
+    stiffness: 11.2
+    damping: 5.64
+    mass: 0.036399998
+    gravityInfluence: 0.178
+    rotationLimit: 27.6
+    parentMotionInfluence: 0.676
+    velocityResponse: 0.066
+    accelerationResponse: 0.216
+    angularVelocityResponse: 0.224
+    collisionRadius: 0.0086
+  - bone: {fileID: 450393801056091156}
+    chain: HB1_1_5
+    role: Short skirt panel
+    depth: 1
+    weightedVertices: 4
+    restLocalPosition: {x: 0.0000000027939677, y: 0.05601415, z: 0.000000040512532}
+    restLocalRotation: {x: -0.0022766707, y: 0.0008509139, z: -0.0011216134, w: 0.9999964}
+    tipLocal: {x: 0.000000008381903, y: 0.056008335, z: 0.0000000060535967}
+    stiffness: 11.5
+    damping: 5.7
+    mass: 0.037
+    gravityInfluence: 0.175
+    rotationLimit: 27
+    parentMotionInfluence: 0.6933333
+    velocityResponse: 0.064166665
+    accelerationResponse: 0.21000001
+    angularVelocityResponse: 0.21666667
+    collisionRadius: 0.0085
+  - bone: {fileID: 6826002497999999554}
+    chain: HB4_0_1
+    role: Flexible layered strip
+    depth: 1
+    weightedVertices: 194
+    restLocalPosition: {x: -0.0000000027939677, y: 0.01852382, z: 0.000000110165274}
+    restLocalRotation: {x: -0.18333665, y: -0.01938473, z: 0.019619623, w: 0.9826632}
+    tipLocal: {x: 0.0000000023283064, y: 0.024214802, z: 0.000000013213139}
+    stiffness: 8.804251
+    damping: 5.9875
+    mass: 0.03537625
+    gravityInfluence: 0.17375
+    rotationLimit: 26.125
+    parentMotionInfluence: 0.73875
+    velocityResponse: 0.11126374
+    accelerationResponse: 0.3605769
+    angularVelocityResponse: 0.44642857
+    collisionRadius: 0.008375
+  - bone: {fileID: 2432120659929458088}
+    chain: HB1_1_4
+    role: Short skirt panel
+    depth: 1
+    weightedVertices: 8
+    restLocalPosition: {x: -0, y: 0.060364652, z: -0.000000037252903}
+    restLocalRotation: {x: 0.0000004991889, y: 0, z: -0, w: 1}
+    tipLocal: {x: -0, y: 0.0603648, z: 0.000000029802322}
+    stiffness: 11.5
+    damping: 5.7
+    mass: 0.037
+    gravityInfluence: 0.175
+    rotationLimit: 27
+    parentMotionInfluence: 0.6933333
+    velocityResponse: 0.064166665
+    accelerationResponse: 0.21000001
+    angularVelocityResponse: 0.21666667
+    collisionRadius: 0.0085
+  - bone: {fileID: 5411273897015045147}
+    chain: HB1_1_8
+    role: Short skirt panel
+    depth: 1
+    weightedVertices: 8
+    restLocalPosition: {x: 0.00000007072231, y: 0.06300738, z: -0.00000006170012}
+    restLocalRotation: {x: 0.07266687, y: -0.025313914, z: -0.001244469, w: 0.9970342}
+    tipLocal: {x: 0.0000000027939677, y: 0.033887297, z: -0.000000015832484}
+    stiffness: 11.2
+    damping: 5.64
+    mass: 0.036399998
+    gravityInfluence: 0.178
+    rotationLimit: 27.6
+    parentMotionInfluence: 0.676
+    velocityResponse: 0.066
+    accelerationResponse: 0.216
+    angularVelocityResponse: 0.224
+    collisionRadius: 0.0086
+  - bone: {fileID: 6767212051881672420}
+    chain: HB1_2_7
+    role: Short skirt panel
+    depth: 1
+    weightedVertices: 10
+    restLocalPosition: {x: -0.0000000121071935, y: 0.03598111, z: 0.00000004284084}
+    restLocalRotation: {x: 0.026487207, y: -0.007998001, z: 0.00021204092, w: 0.99961716}
+    tipLocal: {x: 0.000000055879354, y: 0.036883198, z: -0.000000024214387}
+    stiffness: 11.2
+    damping: 5.64
+    mass: 0.036399998
+    gravityInfluence: 0.178
+    rotationLimit: 27.6
+    parentMotionInfluence: 0.676
+    velocityResponse: 0.066
+    accelerationResponse: 0.216
+    angularVelocityResponse: 0.224
+    collisionRadius: 0.0086
+  - bone: {fileID: 2991000426623778411}
+    chain: HB1_1_3
+    role: Short skirt panel
+    depth: 1
+    weightedVertices: 4
+    restLocalPosition: {x: -0.000000017695129, y: 0.056014262, z: -0.000000007916242}
+    restLocalRotation: {x: -0.0022764772, y: -0.00085087895, z: 0.0011216376, w: 0.9999964}
+    tipLocal: {x: 0.0000000027939677, y: 0.05600826, z: -0.000000015599653}
+    stiffness: 11.5
+    damping: 5.7
+    mass: 0.037
+    gravityInfluence: 0.175
+    rotationLimit: 27
+    parentMotionInfluence: 0.6933333
+    velocityResponse: 0.064166665
+    accelerationResponse: 0.21000001
+    angularVelocityResponse: 0.21666667
+    collisionRadius: 0.0085
+  - bone: {fileID: 6038982709686963506}
+    chain: HB3_0_1
+    role: Flexible layered strip
+    depth: 1
+    weightedVertices: 146
+    restLocalPosition: {x: -0, y: 0.054923955, z: -0.00000008032657}
+    restLocalRotation: {x: -0.05527804, y: 0.00057456555, z: -0.023968104, w: 0.99818313}
+    tipLocal: {x: 0.000000026077032, y: 0.04994369, z: 0.00000013766112}
+    stiffness: 9.694118
+    damping: 5.9882355
+    mass: 0.038941175
+    gravityInfluence: 0.17294118
+    rotationLimit: 26
+    parentMotionInfluence: 0.7411764
+    velocityResponse: 0.09814879
+    accelerationResponse: 0.32352942
+    angularVelocityResponse: 0.4
+    collisionRadius: 0.008352942
+  - bone: {fileID: 3589817261345425241}
+    chain: HB1_1_2
+    role: Short skirt panel
+    depth: 1
+    weightedVertices: 4
+    restLocalPosition: {x: -0, y: 0.04474882, z: -0.000000092200935}
+    restLocalRotation: {x: -0.0000002924353, y: -0.00000006519258, z: 0.00000010803341, w: 1}
+    tipLocal: {x: 0.0000000037252903, y: 0.04474902, z: 0.000000017695129}
+    stiffness: 11.5
+    damping: 5.7
+    mass: 0.037
+    gravityInfluence: 0.175
+    rotationLimit: 27
+    parentMotionInfluence: 0.6933333
+    velocityResponse: 0.064166665
+    accelerationResponse: 0.21000001
+    angularVelocityResponse: 0.21666667
+    collisionRadius: 0.0085
+  - bone: {fileID: 1280041536418122642}
+    chain: HB2_0_1
+    role: Flexible layered strip
+    depth: 1
+    weightedVertices: 30
+    restLocalPosition: {x: 0.000000009313226, y: 0.060018886, z: 0.00000008707866}
+    restLocalRotation: {x: -0.025061978, y: 0.018777478, z: -0.03064898, w: 0.99903953}
+    tipLocal: {x: 0.000000022351742, y: 0.053747028, z: -0.00000014551915}
+    stiffness: 10.682222
+    damping: 5.9888887
+    mass: 0.042900003
+    gravityInfluence: 0.17222221
+    rotationLimit: 25.88889
+    parentMotionInfluence: 0.7433333
+    velocityResponse: 0.086700335
+    accelerationResponse: 0.29040405
+    angularVelocityResponse: 0.35858586
+    collisionRadius: 0.008333334
+  - bone: {fileID: 6161860744313610782}
+    chain: HB1_1_0
+    role: Short skirt panel
+    depth: 2
+    weightedVertices: 8
+    restLocalPosition: {x: -0.00000010430813, y: 0.033887498, z: 0.000000058673322}
+    restLocalRotation: {x: 0.037070945, y: 0.011878525, z: 0.0025056042, w: 0.9992389}
+    tipLocal: {x: 0.000000044703484, y: 0.037005976, z: -0.000000031664968}
+    stiffness: 9.4
+    damping: 5.2799997
+    mass: 0.0328
+    gravityInfluence: 0.196
+    rotationLimit: 31.2
+    parentMotionInfluence: 0.57199997
+    velocityResponse: 0.077
+    accelerationResponse: 0.252
+    angularVelocityResponse: 0.268
+    collisionRadius: 0.0092
+  - bone: {fileID: 9061808408128529701}
+    chain: HB1_2_1
+    role: Short skirt panel
+    depth: 2
+    weightedVertices: 6
+    restLocalPosition: {x: 0.00000008195639, y: 0.036882892, z: -0.000000026077032}
+    restLocalRotation: {x: 0.021975543, y: 0.0059898384, z: 0.00085777754, w: 0.99974024}
+    tipLocal: {x: 0.00000006891787, y: 0.038252912, z: 0.00000009685755}
+    stiffness: 9.4
+    damping: 5.2799997
+    mass: 0.0328
+    gravityInfluence: 0.196
+    rotationLimit: 31.2
+    parentMotionInfluence: 0.57199997
+    velocityResponse: 0.077
+    accelerationResponse: 0.252
+    angularVelocityResponse: 0.268
+    collisionRadius: 0.0092
+  - bone: {fileID: 8967874599333786241}
+    chain: HB1_1_5
+    role: Short skirt panel
+    depth: 2
+    weightedVertices: 6
+    restLocalPosition: {x: 0.000000008381903, y: 0.056008335, z: 0.0000000060535967}
+    restLocalRotation: {x: -0.002688425, y: 0.0016087655, z: -0.00229033, w: 0.9999925}
+    tipLocal: {x: -9.313226e-10, y: 0.05584322, z: 0.000000011175871}
+    stiffness: 10
+    damping: 5.4
+    mass: 0.033999998
+    gravityInfluence: 0.19
+    rotationLimit: 30
+    parentMotionInfluence: 0.6066666
+    velocityResponse: 0.07333333
+    accelerationResponse: 0.24000001
+    angularVelocityResponse: 0.25333333
+    collisionRadius: 0.009000001
+  - bone: {fileID: 5248402217073120799}
+    chain: HB3_0_1
+    role: Flexible layered strip
+    depth: 2
+    weightedVertices: 142
+    restLocalPosition: {x: 0.000000026077032, y: 0.04994369, z: 0.00000013766112}
+    restLocalRotation: {x: -0.04866117, y: 0.0022449878, z: -0.024818314, w: 0.99850446}
+    tipLocal: {x: -0.000000004656613, y: 0.046814494, z: -0.0000000015133992}
+    stiffness: 9.388235
+    damping: 5.9764705
+    mass: 0.03788235
+    gravityInfluence: 0.18588234
+    rotationLimit: 28
+    parentMotionInfluence: 0.70235294
+    velocityResponse: 0.14465398
+    accelerationResponse: 0.3970588
+    angularVelocityResponse: 0.5
+    collisionRadius: 0.008705882
+  - bone: {fileID: 6497930480499720252}
+    chain: HB2_0_1
+    role: Flexible layered strip
+    depth: 2
+    weightedVertices: 26
+    restLocalPosition: {x: 0.000000022351742, y: 0.053747028, z: -0.00000014551915}
+    restLocalRotation: {x: -0.02445176, y: 0.020392062, z: -0.0335295, w: 0.99893045}
+    tipLocal: {x: -0.0000000012805685, y: 0.04944217, z: -0.00000008780626}
+    stiffness: 10.364445
+    damping: 5.977778
+    mass: 0.0418
+    gravityInfluence: 0.18444444
+    rotationLimit: 27.777779
+    parentMotionInfluence: 0.70666665
+    velocityResponse: 0.12710437
+    accelerationResponse: 0.35353535
+    angularVelocityResponse: 0.44444445
+    collisionRadius: 0.008666667
+  - bone: {fileID: 7557340883459298186}
+    chain: HB4_0_1
+    role: Flexible layered strip
+    depth: 2
+    weightedVertices: 308
+    restLocalPosition: {x: 0.0000000023283064, y: 0.024214802, z: 0.000000013213139}
+    restLocalRotation: {x: -0.089417666, y: -0.009794806, z: 0.011290735, w: 0.99588203}
+    tipLocal: {x: -0.000000018859282, y: 0.029641641, z: -0.00000015420665}
+    stiffness: 8.508501
+    damping: 5.975
+    mass: 0.0343525
+    gravityInfluence: 0.1875
+    rotationLimit: 28.25
+    parentMotionInfluence: 0.6975
+    velocityResponse: 0.16483516
+    accelerationResponse: 0.44642857
+    angularVelocityResponse: 0.56318676
+    collisionRadius: 0.00875
+  - bone: {fileID: 1288569657652618244}
+    chain: HB1_1_2
+    role: Short skirt panel
+    depth: 2
+    weightedVertices: 6
+    restLocalPosition: {x: 0.0000000037252903, y: 0.04474902, z: 0.000000017695129}
+    restLocalRotation: {x: 0.000000006519258, y: -0.000000017695129, z: 0.000000063329935, w: 1}
+    tipLocal: {x: 0.00000005029142, y: 0.04474915, z: -0.000000014901161}
+    stiffness: 10
+    damping: 5.4
+    mass: 0.033999998
+    gravityInfluence: 0.19
+    rotationLimit: 30
+    parentMotionInfluence: 0.6066666
+    velocityResponse: 0.07333333
+    accelerationResponse: 0.24000001
+    angularVelocityResponse: 0.25333333
+    collisionRadius: 0.009000001
+  - bone: {fileID: 8327779349489029394}
+    chain: HB1_2_7
+    role: Short skirt panel
+    depth: 2
+    weightedVertices: 6
+    restLocalPosition: {x: 0.000000055879354, y: 0.036883198, z: -0.000000024214387}
+    restLocalRotation: {x: 0.02197675, y: -0.0059903236, z: -0.0008577999, w: 0.9997402}
+    tipLocal: {x: -0.000000018626451, y: 0.03825298, z: 0.00000010803342}
+    stiffness: 9.4
+    damping: 5.2799997
+    mass: 0.0328
+    gravityInfluence: 0.196
+    rotationLimit: 31.2
+    parentMotionInfluence: 0.57199997
+    velocityResponse: 0.077
+    accelerationResponse: 0.252
+    angularVelocityResponse: 0.268
+    collisionRadius: 0.0092
+  - bone: {fileID: 98587275493298580}
+    chain: HB1_1_3
+    role: Short skirt panel
+    depth: 2
+    weightedVertices: 6
+    restLocalPosition: {x: 0.0000000027939677, y: 0.05600826, z: -0.000000015599653}
+    restLocalRotation: {x: -0.002689261, y: -0.0016088164, z: 0.002290325, w: 0.9999925}
+    tipLocal: {x: 0.000000015832484, y: 0.05584327, z: -0.000000035390258}
+    stiffness: 10
+    damping: 5.4
+    mass: 0.033999998
+    gravityInfluence: 0.19
+    rotationLimit: 30
+    parentMotionInfluence: 0.6066666
+    velocityResponse: 0.07333333
+    accelerationResponse: 0.24000001
+    angularVelocityResponse: 0.25333333
+    collisionRadius: 0.009000001
+  - bone: {fileID: 8629713171250211893}
+    chain: HB1_1_4
+    role: Short skirt panel
+    depth: 2
+    weightedVertices: 8
+    restLocalPosition: {x: -0, y: 0.0603648, z: 0.000000029802322}
+    restLocalRotation: {x: -0.00000013411044, y: 0, z: -0, w: 1}
+    tipLocal: {x: 2.842171e-14, y: 0.060364656, z: 0}
+    stiffness: 10
+    damping: 5.4
+    mass: 0.033999998
+    gravityInfluence: 0.19
+    rotationLimit: 30
+    parentMotionInfluence: 0.6066666
+    velocityResponse: 0.07333333
+    accelerationResponse: 0.24000001
+    angularVelocityResponse: 0.25333333
+    collisionRadius: 0.009000001
+  - bone: {fileID: 2662276963563898322}
+    chain: HB1_1_8
+    role: Short skirt panel
+    depth: 2
+    weightedVertices: 8
+    restLocalPosition: {x: 0.0000000027939677, y: 0.033887297, z: -0.000000015832484}
+    restLocalRotation: {x: 0.037068423, y: -0.011876645, z: -0.0025076843, w: 0.999239}
+    tipLocal: {x: 0.0000000018626451, y: 0.03700634, z: 0.000000033527613}
+    stiffness: 9.4
+    damping: 5.2799997
+    mass: 0.0328
+    gravityInfluence: 0.196
+    rotationLimit: 31.2
+    parentMotionInfluence: 0.57199997
+    velocityResponse: 0.077
+    accelerationResponse: 0.252
+    angularVelocityResponse: 0.268
+    collisionRadius: 0.0092
+  - bone: {fileID: 2204346029418505760}
+    chain: HB1_1_6
+    role: Short skirt panel
+    depth: 2
+    weightedVertices: 6
+    restLocalPosition: {x: 0.000000013038516, y: 0.04474911, z: -0.000000022351742}
+    restLocalRotation: {x: 0.00000038556757, y: -0.00000027753413, z: 0.0000003334135, w: 1}
+    tipLocal: {x: 0.000000037252903, y: 0.044749156, z: 0.0000000055879354}
+    stiffness: 10
+    damping: 5.4
+    mass: 0.033999998
+    gravityInfluence: 0.19
+    rotationLimit: 30
+    parentMotionInfluence: 0.6066666
+    velocityResponse: 0.07333333
+    accelerationResponse: 0.24000001
+    angularVelocityResponse: 0.25333333
+    collisionRadius: 0.009000001
+  - bone: {fileID: 6339508865286458665}
+    chain: HB1_1_8
+    role: Short skirt panel
+    depth: 3
+    weightedVertices: 8
+    restLocalPosition: {x: 0.0000000018626451, y: 0.03700634, z: 0.000000033527613}
+    restLocalRotation: {x: 0.017381921, y: -0.0030785631, z: -0.0061443658, w: 0.9998253}
+    tipLocal: {x: -0, y: 0.039394274, z: 0.000000040978193}
+    stiffness: 7.6
+    damping: 4.92
+    mass: 0.029199999
+    gravityInfluence: 0.214
+    rotationLimit: 34.8
+    parentMotionInfluence: 0.46799996
+    velocityResponse: 0.088
+    accelerationResponse: 0.28800002
+    angularVelocityResponse: 0.312
+    collisionRadius: 0.0098
+  - bone: {fileID: 1311028316823671432}
+    chain: HB1_2_1
+    role: Short skirt panel
+    depth: 3
+    weightedVertices: 14
+    restLocalPosition: {x: 0.00000006891787, y: 0.038252912, z: 0.00000009685755}
+    restLocalRotation: {x: 0.01213469, y: 0.0015378002, z: 0.0034602268, w: 0.99991924}
+    tipLocal: {x: -0.000000014901161, y: 0.0394094, z: -0.000000115484}
+    stiffness: 7.6
+    damping: 4.92
+    mass: 0.029199999
+    gravityInfluence: 0.214
+    rotationLimit: 34.8
+    parentMotionInfluence: 0.46799996
+    velocityResponse: 0.088
+    accelerationResponse: 0.28800002
+    angularVelocityResponse: 0.312
+    collisionRadius: 0.0098
+  - bone: {fileID: 7579723728824619840}
+    chain: HB2_0_1
+    role: Flexible layered strip
+    depth: 3
+    weightedVertices: 32
+    restLocalPosition: {x: -0.0000000012805685, y: 0.04944217, z: -0.00000008780626}
+    restLocalRotation: {x: -0.021269772, y: 0.020842139, z: -0.034303527, w: 0.9989677}
+    tipLocal: {x: -0.0000000121071935, y: 0.046819493, z: -0.00000008638017}
+    stiffness: 10.046667
+    damping: 5.9666667
+    mass: 0.0407
+    gravityInfluence: 0.19666666
+    rotationLimit: 29.666666
+    parentMotionInfluence: 0.66999996
+    velocityResponse: 0.1621212
+    accelerationResponse: 0.41666666
+    angularVelocityResponse: 0.53030306
+    collisionRadius: 0.009000001
+  - bone: {fileID: 3702447481334067859}
+    chain: HB4_0_1
+    role: Flexible layered strip
+    depth: 3
+    weightedVertices: 266
+    restLocalPosition: {x: -0.000000018859282, y: 0.029641641, z: -0.00000015420665}
+    restLocalRotation: {x: -0.05077673, y: -0.005515885, z: 0.006254049, w: 0.9986752}
+    tipLocal: {x: 0.00000002388333, y: 0.033695977, z: -0.000000043216744}
+    stiffness: 8.2127495
+    damping: 5.9625
+    mass: 0.03332875
+    gravityInfluence: 0.20125
+    rotationLimit: 30.375
+    parentMotionInfluence: 0.65625
+    velocityResponse: 0.21016483
+    accelerationResponse: 0.5322802
+    angularVelocityResponse: 0.67994505
+    collisionRadius: 0.009125001
+  - bone: {fileID: 3839970462446615354}
+    chain: HB3_0_1
+    role: Flexible layered strip
+    depth: 3
+    weightedVertices: 136
+    restLocalPosition: {x: -0.000000004656613, y: 0.046814494, z: -0.0000000015133992}
+    restLocalRotation: {x: -0.038383495, y: 0.0041003465, z: -0.023967253, w: 0.99896723}
+    tipLocal: {x: 0.0000000055879354, y: 0.045029994, z: -0.000000052154064}
+    stiffness: 9.082353
+    damping: 5.964706
+    mass: 0.03682353
+    gravityInfluence: 0.19882353
+    rotationLimit: 30
+    parentMotionInfluence: 0.6635294
+    velocityResponse: 0.18451557
+    accelerationResponse: 0.47058824
+    angularVelocityResponse: 0.6
+    collisionRadius: 0.009058824
+  - bone: {fileID: 4079996289600706218}
+    chain: HB1_2_7
+    role: Short skirt panel
+    depth: 3
+    weightedVertices: 14
+    restLocalPosition: {x: -0.000000018626451, y: 0.03825298, z: 0.00000010803342}
+    restLocalRotation: {x: 0.012134963, y: -0.0015378981, z: -0.0034600461, w: 0.99991924}
+    tipLocal: {x: 0.000000033527613, y: 0.03940943, z: -0.00000016391277}
+    stiffness: 7.6
+    damping: 4.92
+    mass: 0.029199999
+    gravityInfluence: 0.214
+    rotationLimit: 34.8
+    parentMotionInfluence: 0.46799996
+    velocityResponse: 0.088
+    accelerationResponse: 0.28800002
+    angularVelocityResponse: 0.312
+    collisionRadius: 0.0098
+  - bone: {fileID: 4055833567271966853}
+    chain: HB1_1_2
+    role: Short skirt panel
+    depth: 3
+    weightedVertices: 6
+    restLocalPosition: {x: 0.00000005029142, y: 0.04474915, z: -0.000000014901161}
+    restLocalRotation: {x: -0.00000010617079, y: 0.00000012200326, z: -0.00000018626453, w: 1}
+    tipLocal: {x: -0.000000035390258, y: 0.044748984, z: 0.000000035390258}
+    stiffness: 8.5
+    damping: 5.1
+    mass: 0.031
+    gravityInfluence: 0.205
+    rotationLimit: 33
+    parentMotionInfluence: 0.52
+    velocityResponse: 0.082499996
+    accelerationResponse: 0.27
+    angularVelocityResponse: 0.29000002
+    collisionRadius: 0.009500001
+  - bone: {fileID: 5920723338834411562}
+    chain: HB1_1_6
+    role: Short skirt panel
+    depth: 3
+    weightedVertices: 6
+    restLocalPosition: {x: 0.000000037252903, y: 0.044749156, z: 0.0000000055879354}
+    restLocalRotation: {x: -0.00000030267984, y: -0.000000020489097, z: 0.00000004842878, w: 1}
+    tipLocal: {x: -0.000000014901161, y: 0.04474888, z: 0}
+    stiffness: 8.5
+    damping: 5.1
+    mass: 0.031
+    gravityInfluence: 0.205
+    rotationLimit: 33
+    parentMotionInfluence: 0.52
+    velocityResponse: 0.082499996
+    accelerationResponse: 0.27
+    angularVelocityResponse: 0.29000002
+    collisionRadius: 0.009500001
+  - bone: {fileID: 5735087992989453071}
+    chain: HB1_1_4
+    role: Short skirt panel
+    depth: 3
+    weightedVertices: 4
+    restLocalPosition: {x: 2.842171e-14, y: 0.060364656, z: 0}
+    restLocalRotation: {x: -0.00000013411045, y: 0, z: -0, w: 1}
+    tipLocal: {x: -0, y: 0.060364738, z: -0.000000074505806}
+    stiffness: 8.5
+    damping: 5.1
+    mass: 0.031
+    gravityInfluence: 0.205
+    rotationLimit: 33
+    parentMotionInfluence: 0.52
+    velocityResponse: 0.082499996
+    accelerationResponse: 0.27
+    angularVelocityResponse: 0.29000002
+    collisionRadius: 0.009500001
+  - bone: {fileID: 3117465499582364374}
+    chain: HB1_1_0
+    role: Short skirt panel
+    depth: 3
+    weightedVertices: 8
+    restLocalPosition: {x: 0.000000044703484, y: 0.037005976, z: -0.000000031664968}
+    restLocalRotation: {x: 0.017380366, y: 0.0030779254, z: 0.006144435, w: 0.99982536}
+    tipLocal: {x: -0.000000048428774, y: 0.039394237, z: -0.000000040978193}
+    stiffness: 7.6
+    damping: 4.92
+    mass: 0.029199999
+    gravityInfluence: 0.214
+    rotationLimit: 34.8
+    parentMotionInfluence: 0.46799996
+    velocityResponse: 0.088
+    accelerationResponse: 0.28800002
+    angularVelocityResponse: 0.312
+    collisionRadius: 0.0098
+  - bone: {fileID: 1483762620073042044}
+    chain: HB1_1_5
+    role: Short skirt panel
+    depth: 3
+    weightedVertices: 6
+    restLocalPosition: {x: -9.313226e-10, y: 0.05584322, z: 0.000000011175871}
+    restLocalRotation: {x: -0.002414785, y: 0.0016708656, z: -0.0024162775, w: 0.9999928}
+    tipLocal: {x: -0.000000011175871, y: 0.055627376, z: 0.000000030733645}
+    stiffness: 8.5
+    damping: 5.1
+    mass: 0.031
+    gravityInfluence: 0.205
+    rotationLimit: 33
+    parentMotionInfluence: 0.52
+    velocityResponse: 0.082499996
+    accelerationResponse: 0.27
+    angularVelocityResponse: 0.29000002
+    collisionRadius: 0.009500001
+  - bone: {fileID: 74582258840847431}
+    chain: HB1_1_3
+    role: Short skirt panel
+    depth: 3
+    weightedVertices: 6
+    restLocalPosition: {x: 0.000000015832484, y: 0.05584327, z: -0.000000035390258}
+    restLocalRotation: {x: -0.0024152396, y: -0.001670952, z: 0.0024163479, w: 0.9999928}
+    tipLocal: {x: -0.000000004656613, y: 0.05562738, z: 0.0000000023283064}
+    stiffness: 8.5
+    damping: 5.1
+    mass: 0.031
+    gravityInfluence: 0.205
+    rotationLimit: 33
+    parentMotionInfluence: 0.52
+    velocityResponse: 0.082499996
+    accelerationResponse: 0.27
+    angularVelocityResponse: 0.29000002
+    collisionRadius: 0.009500001
+  - bone: {fileID: 3928219197073669389}
+    chain: HB4_0_1
+    role: Flexible layered strip
+    depth: 4
+    weightedVertices: 108
+    restLocalPosition: {x: 0.00000002388333, y: 0.033695977, z: -0.000000043216744}
+    restLocalRotation: {x: -0.03302154, y: -0.0033480274, z: 0.0033831457, w: 0.99944335}
+    tipLocal: {x: -0.0000000088475645, y: 0.03625113, z: 0.00000010438089}
+    stiffness: 7.917
+    damping: 5.95
+    mass: 0.032305
+    gravityInfluence: 0.215
+    rotationLimit: 32.5
+    parentMotionInfluence: 0.61499995
+    velocityResponse: 0.24725273
+    accelerationResponse: 0.6181319
+    angularVelocityResponse: 0.7967033
+    collisionRadius: 0.009500001
+  - bone: {fileID: 4241555103614884667}
+    chain: HB1_2_7
+    role: Short skirt panel
+    depth: 4
+    weightedVertices: 10
+    restLocalPosition: {x: 0.000000033527613, y: 0.03940943, z: -0.00000016391277}
+    restLocalRotation: {x: -0.001681612, y: 0.0049414015, z: -0.0077396883, w: 0.9999564}
+    tipLocal: {x: -0.00000010430813, y: 0.039664984, z: 0.000000074505806}
+    stiffness: 5.7999997
+    damping: 4.56
+    mass: 0.0256
+    gravityInfluence: 0.232
+    rotationLimit: 38.4
+    parentMotionInfluence: 0.364
+    velocityResponse: 0.099
+    accelerationResponse: 0.324
+    angularVelocityResponse: 0.356
+    collisionRadius: 0.0104
+  - bone: {fileID: 9028620789147065048}
+    chain: HB1_1_0
+    role: Short skirt panel
+    depth: 4
+    weightedVertices: 6
+    restLocalPosition: {x: -0.000000048428774, y: 0.039394237, z: -0.000000040978193}
+    restLocalRotation: {x: -0.0056640836, y: -0.007868242, z: 0.012372273, w: 0.9998765}
+    tipLocal: {x: -0.000000007450581, y: 0.03952686, z: 0.00000009313226}
+    stiffness: 5.7999997
+    damping: 4.56
+    mass: 0.0256
+    gravityInfluence: 0.232
+    rotationLimit: 38.4
+    parentMotionInfluence: 0.364
+    velocityResponse: 0.099
+    accelerationResponse: 0.324
+    angularVelocityResponse: 0.356
+    collisionRadius: 0.0104
+  - bone: {fileID: 5536799306315448940}
+    chain: HB1_1_4
+    role: Short skirt panel
+    depth: 4
+    weightedVertices: 4
+    restLocalPosition: {x: -0, y: 0.060364738, z: -0.000000074505806}
+    restLocalRotation: {x: 0.00000008940697, y: 0, z: -0, w: 1}
+    tipLocal: {x: -0, y: 0.060364798, z: -0.000000044703484}
+    stiffness: 7
+    damping: 4.7999997
+    mass: 0.027999999
+    gravityInfluence: 0.22
+    rotationLimit: 36
+    parentMotionInfluence: 0.4333333
+    velocityResponse: 0.09166667
+    accelerationResponse: 0.3
+    angularVelocityResponse: 0.32666668
+    collisionRadius: 0.01
+  - bone: {fileID: 5802011317236852390}
+    chain: HB2_0_1
+    role: Flexible layered strip
+    depth: 4
+    weightedVertices: 28
+    restLocalPosition: {x: -0.0000000121071935, y: 0.046819493, z: -0.00000008638017}
+    restLocalRotation: {x: -0.016023042, y: 0.020104937, z: -0.03279248, w: 0.9991315}
+    tipLocal: {x: 0.000000007450581, y: 0.045568906, z: 0.000000017695129}
+    stiffness: 9.7288885
+    damping: 5.9555554
+    mass: 0.0396
+    gravityInfluence: 0.20888889
+    rotationLimit: 31.555555
+    parentMotionInfluence: 0.6333333
+    velocityResponse: 0.19175084
+    accelerationResponse: 0.479798
+    angularVelocityResponse: 0.6161616
+    collisionRadius: 0.009333334
+  - bone: {fileID: 8725122336367796761}
+    chain: HB1_2_1
+    role: Short skirt panel
+    depth: 4
+    weightedVertices: 10
+    restLocalPosition: {x: -0.000000014901161, y: 0.0394094, z: -0.000000115484}
+    restLocalRotation: {x: -0.0016806485, y: -0.0049407445, z: 0.0077388203, w: 0.9999565}
+    tipLocal: {x: -0.000000033527613, y: 0.03966503, z: -0.000000059604645}
+    stiffness: 5.7999997
+    damping: 4.56
+    mass: 0.0256
+    gravityInfluence: 0.232
+    rotationLimit: 38.4
+    parentMotionInfluence: 0.364
+    velocityResponse: 0.099
+    accelerationResponse: 0.324
+    angularVelocityResponse: 0.356
+    collisionRadius: 0.0104
+  - bone: {fileID: 394055528447342352}
+    chain: HB1_1_5
+    role: Short skirt panel
+    depth: 4
+    weightedVertices: 6
+    restLocalPosition: {x: -0.000000011175871, y: 0.055627376, z: 0.000000030733645}
+    restLocalRotation: {x: -0.001441404, y: 0.0010101501, z: -0.0014625156, w: 0.9999974}
+    tipLocal: {x: -0.000000004656613, y: 0.055465855, z: 0.000000044936314}
+    stiffness: 7
+    damping: 4.7999997
+    mass: 0.027999999
+    gravityInfluence: 0.22
+    rotationLimit: 36
+    parentMotionInfluence: 0.4333333
+    velocityResponse: 0.09166667
+    accelerationResponse: 0.3
+    angularVelocityResponse: 0.32666668
+    collisionRadius: 0.01
+  - bone: {fileID: 5048498740051303623}
+    chain: HB1_1_2
+    role: Short skirt panel
+    depth: 4
+    weightedVertices: 12
+    restLocalPosition: {x: -0.000000035390258, y: 0.044748984, z: 0.000000035390258}
+    restLocalRotation: {x: -0.00000077765446, y: -0.00000030361116, z: 0.00000023283066, w: 1}
+    tipLocal: {x: 0.0000000055879354, y: 0.04474908, z: -0.000000033527613}
+    stiffness: 7
+    damping: 4.7999997
+    mass: 0.027999999
+    gravityInfluence: 0.22
+    rotationLimit: 36
+    parentMotionInfluence: 0.4333333
+    velocityResponse: 0.09166667
+    accelerationResponse: 0.3
+    angularVelocityResponse: 0.32666668
+    collisionRadius: 0.01
+  - bone: {fileID: 4194010276044018527}
+    chain: HB3_0_1
+    role: Flexible layered strip
+    depth: 4
+    weightedVertices: 108
+    restLocalPosition: {x: 0.0000000055879354, y: 0.045029994, z: -0.000000052154064}
+    restLocalRotation: {x: -0.026730122, y: 0.0058249133, z: -0.021783208, w: 0.9993884}
+    tipLocal: {x: -0.000000014901161, y: 0.044157766, z: 0.000000103376806}
+    stiffness: 8.77647
+    damping: 5.9529414
+    mass: 0.035764705
+    gravityInfluence: 0.21176471
+    rotationLimit: 32
+    parentMotionInfluence: 0.62470585
+    velocityResponse: 0.21773356
+    accelerationResponse: 0.5441176
+    angularVelocityResponse: 0.7
+    collisionRadius: 0.009411765
+  - bone: {fileID: 768129118699437324}
+    chain: HB1_1_8
+    role: Short skirt panel
+    depth: 4
+    weightedVertices: 6
+    restLocalPosition: {x: -0, y: 0.039394274, z: 0.000000040978193}
+    restLocalRotation: {x: -0.0056644776, y: 0.0078685805, z: -0.012372736, w: 0.9998765}
+    tipLocal: {x: 0.000000011175871, y: 0.039526973, z: -0.000000048428774}
+    stiffness: 5.7999997
+    damping: 4.56
+    mass: 0.0256
+    gravityInfluence: 0.232
+    rotationLimit: 38.4
+    parentMotionInfluence: 0.364
+    velocityResponse: 0.099
+    accelerationResponse: 0.324
+    angularVelocityResponse: 0.356
+    collisionRadius: 0.0104
+  - bone: {fileID: 19619442620170781}
+    chain: HB1_1_6
+    role: Short skirt panel
+    depth: 4
+    weightedVertices: 12
+    restLocalPosition: {x: -0.000000014901161, y: 0.04474888, z: 0}
+    restLocalRotation: {x: 0.0000005811453, y: -0.00000026728958, z: 0.00000027008355, w: 1}
+    tipLocal: {x: -0.000000007450581, y: 0.044748977, z: -0.000000024214387}
+    stiffness: 7
+    damping: 4.7999997
+    mass: 0.027999999
+    gravityInfluence: 0.22
+    rotationLimit: 36
+    parentMotionInfluence: 0.4333333
+    velocityResponse: 0.09166667
+    accelerationResponse: 0.3
+    angularVelocityResponse: 0.32666668
+    collisionRadius: 0.01
+  - bone: {fileID: 8535261071438819556}
+    chain: HB1_1_3
+    role: Short skirt panel
+    depth: 4
+    weightedVertices: 6
+    restLocalPosition: {x: -0.000000004656613, y: 0.05562738, z: 0.0000000023283064}
+    restLocalRotation: {x: -0.0014413579, y: -0.0010102564, z: 0.0014626841, w: 0.9999974}
+    tipLocal: {x: 0.000000004656613, y: 0.05546605, z: -0.0000000121071935}
+    stiffness: 7
+    damping: 4.7999997
+    mass: 0.027999999
+    gravityInfluence: 0.22
+    rotationLimit: 36
+    parentMotionInfluence: 0.4333333
+    velocityResponse: 0.09166667
+    accelerationResponse: 0.3
+    angularVelocityResponse: 0.32666668
+    collisionRadius: 0.01
+  - bone: {fileID: 2317706744552868078}
+    chain: HB1_1_0
+    role: Weighted terminal with virtual tail particle
+    depth: 5
+    weightedVertices: 12
+    restLocalPosition: {x: -0.000000007450581, y: 0.03952686, z: 0.00000009313226}
+    restLocalRotation: {x: -0.038599387, y: -0.025644831, z: 0.026658112, w: 0.9985699}
+    tipLocal: {x: 0, y: 0.039526943, z: 0}
+    stiffness: 4
+    damping: 4.2
+    mass: 0.022
+    gravityInfluence: 0.25
+    rotationLimit: 42
+    parentMotionInfluence: 0.26
+    velocityResponse: 0.11
+    accelerationResponse: 0.36
+    angularVelocityResponse: 0.4
+    collisionRadius: 0.011
+  - bone: {fileID: 8313434176739715361}
+    chain: HB3_0_1
+    role: Flexible layered strip
+    depth: 5
+    weightedVertices: 142
+    restLocalPosition: {x: -0.000000014901161, y: 0.044157766, z: 0.000000103376806}
+    restLocalRotation: {x: -0.015785057, y: 0.0071497005, z: -0.018833125, w: 0.9996725}
+    tipLocal: {x: -0.000000007450581, y: 0.04387355, z: 0.000000022351742}
+    stiffness: 8.470589
+    damping: 5.9411764
+    mass: 0.03470588
+    gravityInfluence: 0.22470587
+    rotationLimit: 34
+    parentMotionInfluence: 0.5858823
+    velocityResponse: 0.24430795
+    accelerationResponse: 0.61764705
+    angularVelocityResponse: 0.8
+    collisionRadius: 0.009764707
+  - bone: {fileID: 5695169697508093883}
+    chain: HB4_0_1
+    role: Flexible layered strip
+    depth: 5
+    weightedVertices: 181
+    restLocalPosition: {x: -0.0000000088475645, y: 0.03625113, z: 0.00000010438089}
+    restLocalRotation: {x: -0.023829106, y: -0.0020652635, z: 0.0015354076, w: 0.99971277}
+    tipLocal: {x: 0.000000008381903, y: 0.037446436, z: -0.00000016530976}
+    stiffness: 7.62125
+    damping: 5.9375
+    mass: 0.03128125
+    gravityInfluence: 0.22874999
+    rotationLimit: 34.625
+    parentMotionInfluence: 0.57374996
+    velocityResponse: 0.27609888
+    accelerationResponse: 0.7039835
+    angularVelocityResponse: 0.9134615
+    collisionRadius: 0.009875
+  - bone: {fileID: 6622434304975122718}
+    chain: HB1_1_2
+    role: Short skirt panel
+    depth: 5
+    weightedVertices: 8
+    restLocalPosition: {x: 0.0000000055879354, y: 0.04474908, z: -0.000000033527613}
+    restLocalRotation: {x: 0.0000011203811, y: 0.00000038277358, z: -0.0000003091991, w: 1}
+    tipLocal: {x: 0.000000009313226, y: 0.04474894, z: 0.00000006519258}
+    stiffness: 5.5
+    damping: 4.5
+    mass: 0.025
+    gravityInfluence: 0.235
+    rotationLimit: 39
+    parentMotionInfluence: 0.34666666
+    velocityResponse: 0.100833334
+    accelerationResponse: 0.33
+    angularVelocityResponse: 0.36333334
+    collisionRadius: 0.0105
+  - bone: {fileID: 1059687794950228454}
+    chain: HB1_1_6
+    role: Short skirt panel
+    depth: 5
+    weightedVertices: 8
+    restLocalPosition: {x: -0.000000007450581, y: 0.044748977, z: -0.000000024214387}
+    restLocalRotation: {x: -0.00000038556757, y: 0.00000034924597, z: -0.00000041350725, w: 1}
+    tipLocal: {x: 0.000000007450581, y: 0.044749014, z: 0.000000033527613}
+    stiffness: 5.5
+    damping: 4.5
+    mass: 0.025
+    gravityInfluence: 0.235
+    rotationLimit: 39
+    parentMotionInfluence: 0.34666666
+    velocityResponse: 0.100833334
+    accelerationResponse: 0.33
+    angularVelocityResponse: 0.36333334
+    collisionRadius: 0.0105
+  - bone: {fileID: 8031296347527819761}
+    chain: HB1_1_4
+    role: Short skirt panel
+    depth: 5
+    weightedVertices: 12
+    restLocalPosition: {x: -0, y: 0.060364798, z: -0.000000044703484}
+    restLocalRotation: {x: 0.00000014156103, y: 0, z: -0, w: 1}
+    tipLocal: {x: -2.842171e-14, y: 0.060364723, z: -0.000000059604645}
+    stiffness: 5.5
+    damping: 4.5
+    mass: 0.025
+    gravityInfluence: 0.235
+    rotationLimit: 39
+    parentMotionInfluence: 0.34666666
+    velocityResponse: 0.100833334
+    accelerationResponse: 0.33
+    angularVelocityResponse: 0.36333334
+    collisionRadius: 0.0105
+  - bone: {fileID: 5482283919983772118}
+    chain: HB1_1_8
+    role: Weighted terminal with virtual tail particle
+    depth: 5
+    weightedVertices: 12
+    restLocalPosition: {x: 0.000000011175871, y: 0.039526973, z: -0.000000048428774}
+    restLocalRotation: {x: -0.038599182, y: 0.02564441, z: -0.026657104, w: 0.99856997}
+    tipLocal: {x: 0, y: 0.039526824, z: 0}
+    stiffness: 4
+    damping: 4.2
+    mass: 0.022
+    gravityInfluence: 0.25
+    rotationLimit: 42
+    parentMotionInfluence: 0.26
+    velocityResponse: 0.11
+    accelerationResponse: 0.36
+    angularVelocityResponse: 0.4
+    collisionRadius: 0.011
+  - bone: {fileID: 8880820525134337439}
+    chain: HB1_1_5
+    role: Short skirt panel
+    depth: 5
+    weightedVertices: 8
+    restLocalPosition: {x: -0.000000004656613, y: 0.055465855, z: 0.000000044936314}
+    restLocalRotation: {x: 0.00024207705, y: -0.00039088, z: 0.0005943508, w: 0.99999976}
+    tipLocal: {x: -0.0000000018626451, y: 0.055462375, z: 0.000000022817403}
+    stiffness: 5.5
+    damping: 4.5
+    mass: 0.025
+    gravityInfluence: 0.235
+    rotationLimit: 39
+    parentMotionInfluence: 0.34666666
+    velocityResponse: 0.100833334
+    accelerationResponse: 0.33
+    angularVelocityResponse: 0.36333334
+    collisionRadius: 0.0105
+  - bone: {fileID: 6371982521253631297}
+    chain: HB1_2_1
+    role: Weighted terminal with virtual tail particle
+    depth: 5
+    weightedVertices: 16
+    restLocalPosition: {x: -0.000000033527613, y: 0.03966503, z: -0.000000059604645}
+    restLocalRotation: {x: -0.020616226, y: -0.014556214, z: 0.015211838, w: 0.9995658}
+    tipLocal: {x: 0, y: 0.03966495, z: 0}
+    stiffness: 4
+    damping: 4.2
+    mass: 0.022
+    gravityInfluence: 0.25
+    rotationLimit: 42
+    parentMotionInfluence: 0.26
+    velocityResponse: 0.11
+    accelerationResponse: 0.36
+    angularVelocityResponse: 0.4
+    collisionRadius: 0.011
+  - bone: {fileID: 4888509083012781498}
+    chain: HB1_1_3
+    role: Short skirt panel
+    depth: 5
+    weightedVertices: 8
+    restLocalPosition: {x: 0.000000004656613, y: 0.05546605, z: -0.0000000121071935}
+    restLocalRotation: {x: 0.00024212258, y: 0.00039089262, z: -0.000594349, w: 0.99999976}
+    tipLocal: {x: 0.0000000037252903, y: 0.055462465, z: 0.000000041443855}
+    stiffness: 5.5
+    damping: 4.5
+    mass: 0.025
+    gravityInfluence: 0.235
+    rotationLimit: 39
+    parentMotionInfluence: 0.34666666
+    velocityResponse: 0.100833334
+    accelerationResponse: 0.33
+    angularVelocityResponse: 0.36333334
+    collisionRadius: 0.0105
+  - bone: {fileID: 1128900217780580769}
+    chain: HB1_2_7
+    role: Weighted terminal with virtual tail particle
+    depth: 5
+    weightedVertices: 16
+    restLocalPosition: {x: -0.00000010430813, y: 0.039664984, z: 0.000000074505806}
+    restLocalRotation: {x: -0.020615442, y: 0.014555748, z: -0.0152113205, w: 0.9995658}
+    tipLocal: {x: 0, y: 0.039664853, z: 0}
+    stiffness: 4
+    damping: 4.2
+    mass: 0.022
+    gravityInfluence: 0.25
+    rotationLimit: 42
+    parentMotionInfluence: 0.26
+    velocityResponse: 0.11
+    accelerationResponse: 0.36
+    angularVelocityResponse: 0.4
+    collisionRadius: 0.011
+  - bone: {fileID: 460482508217372786}
+    chain: HB2_0_1
+    role: Flexible layered strip
+    depth: 5
+    weightedVertices: 30
+    restLocalPosition: {x: 0.000000007450581, y: 0.045568906, z: 0.000000017695129}
+    restLocalRotation: {x: -0.009712716, y: 0.018562669, z: -0.029591398, w: 0.9993425}
+    tipLocal: {x: -0.000000009313226, y: 0.045382693, z: -0.00000006100163}
+    stiffness: 9.411111
+    damping: 5.9444447
+    mass: 0.0385
+    gravityInfluence: 0.2211111
+    rotationLimit: 33.444447
+    parentMotionInfluence: 0.59666663
+    velocityResponse: 0.21599326
+    accelerationResponse: 0.5429293
+    angularVelocityResponse: 0.7020202
+    collisionRadius: 0.009666667
+  - bone: {fileID: 6498597734579180888}
+    chain: HB3_0_1
+    role: Flexible layered strip
+    depth: 6
+    weightedVertices: 16
+    restLocalPosition: {x: -0.000000007450581, y: 0.04387355, z: 0.000000022351742}
+    restLocalRotation: {x: -0.0069005224, y: 0.007920235, z: -0.015665889, w: 0.9998221}
+    tipLocal: {x: -0, y: 0.04395476, z: 0.00000005029142}
+    stiffness: 8.164706
+    damping: 5.929412
+    mass: 0.033647057
+    gravityInfluence: 0.23764706
+    rotationLimit: 36
+    parentMotionInfluence: 0.5470588
+    velocityResponse: 0.26423874
+    accelerationResponse: 0.6911765
+    angularVelocityResponse: 0.90000004
+    collisionRadius: 0.010117647
+  - bone: {fileID: 8500077795993554588}
+    chain: HB1_1_5
+    role: Weighted terminal with virtual tail particle
+    depth: 6
+    weightedVertices: 16
+    restLocalPosition: {x: -0.0000000018626451, y: 0.055462375, z: 0.000000022817403}
+    restLocalRotation: {x: 0.0026285972, y: -0.002505879, z: 0.0037117873, w: 0.9999865}
+    tipLocal: {x: 0, y: 0.055462375, z: 0}
+    stiffness: 4
+    damping: 4.2
+    mass: 0.022
+    gravityInfluence: 0.25
+    rotationLimit: 42
+    parentMotionInfluence: 0.26
+    velocityResponse: 0.11
+    accelerationResponse: 0.36
+    angularVelocityResponse: 0.4
+    collisionRadius: 0.011
+  - bone: {fileID: 8612518973856126951}
+    chain: HB1_1_2
+    role: Weighted terminal with virtual tail particle
+    depth: 6
+    weightedVertices: 20
+    restLocalPosition: {x: 0.000000009313226, y: 0.04474894, z: 0.00000006519258}
+    restLocalRotation: {x: -0.00000014156102, y: -0.00000019930305, z: 0.0000003036111, w: 1}
+    tipLocal: {x: 0, y: 0.044748895, z: 0}
+    stiffness: 4
+    damping: 4.2
+    mass: 0.022
+    gravityInfluence: 0.25
+    rotationLimit: 42
+    parentMotionInfluence: 0.26
+    velocityResponse: 0.11
+    accelerationResponse: 0.36
+    angularVelocityResponse: 0.4
+    collisionRadius: 0.011
+  - bone: {fileID: 8931557179280508144}
+    chain: HB1_1_4
+    role: Weighted terminal with virtual tail particle
+    depth: 6
+    weightedVertices: 24
+    restLocalPosition: {x: -2.842171e-14, y: 0.060364723, z: -0.000000059604645}
+    restLocalRotation: {x: 0.000000104308135, y: 0, z: -0, w: 1}
+    tipLocal: {x: 0, y: 0.060364824, z: 0}
+    stiffness: 4
+    damping: 4.2
+    mass: 0.022
+    gravityInfluence: 0.25
+    rotationLimit: 42
+    parentMotionInfluence: 0.26
+    velocityResponse: 0.11
+    accelerationResponse: 0.36
+    angularVelocityResponse: 0.4
+    collisionRadius: 0.011
+  - bone: {fileID: 2161283162993130013}
+    chain: HB1_1_6
+    role: Weighted terminal with virtual tail particle
+    depth: 6
+    weightedVertices: 20
+    restLocalPosition: {x: 0.000000007450581, y: 0.044749014, z: 0.000000033527613}
+    restLocalRotation: {x: -0.000000038184233, y: 0.00000022258614, z: -0.0000003352762, w: 1}
+    tipLocal: {x: 0, y: 0.044748966, z: 0}
+    stiffness: 4
+    damping: 4.2
+    mass: 0.022
+    gravityInfluence: 0.25
+    rotationLimit: 42
+    parentMotionInfluence: 0.26
+    velocityResponse: 0.11
+    accelerationResponse: 0.36
+    angularVelocityResponse: 0.4
+    collisionRadius: 0.011
+  - bone: {fileID: 2808865283201575762}
+    chain: HB2_0_1
+    role: Flexible layered strip
+    depth: 6
+    weightedVertices: 36
+    restLocalPosition: {x: -0.000000009313226, y: 0.045382693, z: -0.00000006100163}
+    restLocalRotation: {x: -0.0033317592, y: 0.016815927, z: -0.025734227, w: 0.99952185}
+    tipLocal: {x: 4.656613e-10, y: 0.045982905, z: 0.000000009778887}
+    stiffness: 9.093333
+    damping: 5.9333334
+    mass: 0.0374
+    gravityInfluence: 0.23333333
+    rotationLimit: 35.333332
+    parentMotionInfluence: 0.56
+    velocityResponse: 0.23484848
+    accelerationResponse: 0.6060606
+    angularVelocityResponse: 0.78787875
+    collisionRadius: 0.010000001
+  - bone: {fileID: 6830454167534231214}
+    chain: HB1_1_3
+    role: Weighted terminal with virtual tail particle
+    depth: 6
+    weightedVertices: 16
+    restLocalPosition: {x: 0.0000000037252903, y: 0.055462465, z: 0.000000041443855}
+    restLocalRotation: {x: 0.0026294878, y: 0.0025060787, z: -0.0037120504, w: 0.9999865}
+    tipLocal: {x: 0, y: 0.055462707, z: 0}
+    stiffness: 4
+    damping: 4.2
+    mass: 0.022
+    gravityInfluence: 0.25
+    rotationLimit: 42
+    parentMotionInfluence: 0.26
+    velocityResponse: 0.11
+    accelerationResponse: 0.36
+    angularVelocityResponse: 0.4
+    collisionRadius: 0.011
+  - bone: {fileID: 1552594428345539325}
+    chain: HB4_0_1
+    role: Flexible layered strip
+    depth: 6
+    weightedVertices: 261
+    restLocalPosition: {x: 0.000000008381903, y: 0.037446436, z: -0.00000016530976}
+    restLocalRotation: {x: -0.018658947, y: -0.001185603, z: 0.0001622168, w: 0.9998252}
+    tipLocal: {x: -0.000000009313226, y: 0.037508566, z: -0.000000090978574}
+    stiffness: 7.3255005
+    damping: 5.925
+    mass: 0.0302575
+    gravityInfluence: 0.24249999
+    rotationLimit: 36.75
+    parentMotionInfluence: 0.53249997
+    velocityResponse: 0.29670328
+    accelerationResponse: 0.78983516
+    angularVelocityResponse: 1.0302198
+    collisionRadius: 0.01025
+  - bone: {fileID: 8280249477687844541}
+    chain: HB4_0_1
+    role: Flexible layered strip
+    depth: 7
+    weightedVertices: 186
+    restLocalPosition: {x: -0.000000009313226, y: 0.037508566, z: -0.000000090978574}
+    restLocalRotation: {x: -0.015586639, y: -0.0004931686, z: -0.0010021791, w: 0.9998779}
+    tipLocal: {x: -0.000000004656613, y: 0.0367009, z: 0.000000031548552}
+    stiffness: 7.0297503
+    damping: 5.9125
+    mass: 0.02923375
+    gravityInfluence: 0.25625
+    rotationLimit: 38.875
+    parentMotionInfluence: 0.49124998
+    velocityResponse: 0.3090659
+    accelerationResponse: 0.87568676
+    angularVelocityResponse: 1.146978
+    collisionRadius: 0.010625
+  - bone: {fileID: 7110611798693725653}
+    chain: HB2_0_1
+    role: Flexible layered strip
+    depth: 7
+    weightedVertices: 38
+    restLocalPosition: {x: 4.656613e-10, y: 0.045982905, z: 0.000000009778887}
+    restLocalRotation: {x: 0.0025141512, y: 0.015429827, z: -0.022214672, w: 0.999631}
+    tipLocal: {x: -0.000000024214387, y: 0.047134288, z: 0.000000015832484}
+    stiffness: 8.775556
+    damping: 5.922222
+    mass: 0.0363
+    gravityInfluence: 0.24555555
+    rotationLimit: 37.22222
+    parentMotionInfluence: 0.5233333
+    velocityResponse: 0.2483165
+    accelerationResponse: 0.6691919
+    angularVelocityResponse: 0.8737374
+    collisionRadius: 0.010333334
+  - bone: {fileID: 5225105731083082959}
+    chain: HB3_0_1
+    role: Flexible layered strip
+    depth: 7
+    weightedVertices: 180
+    restLocalPosition: {x: -0, y: 0.04395476, z: 0.00000005029142}
+    restLocalRotation: {x: -0.00072149246, y: 0.0081017045, z: -0.012731995, w: 0.99988586}
+    tipLocal: {x: -0.000000052154064, y: 0.044251572, z: -0.000000007450581}
+    stiffness: 7.858824
+    damping: 5.9176474
+    mass: 0.032588236
+    gravityInfluence: 0.25058824
+    rotationLimit: 38
+    parentMotionInfluence: 0.5082353
+    velocityResponse: 0.27752593
+    accelerationResponse: 0.7647059
+    angularVelocityResponse: 1
+    collisionRadius: 0.010470589
+  - bone: {fileID: 6606249656104740330}
+    chain: HB2_0_1
+    role: Flexible layered strip
+    depth: 8
+    weightedVertices: 32
+    restLocalPosition: {x: -0.000000024214387, y: 0.047134288, z: 0.000000015832484}
+    restLocalRotation: {x: 0.0076233847, y: 0.0147746885, z: -0.019698108, w: 0.99966776}
+    tipLocal: {x: -0.000000009313226, y: 0.048645828, z: 0.000000034458935}
+    stiffness: 8.457778
+    damping: 5.9111114
+    mass: 0.0352
+    gravityInfluence: 0.25777778
+    rotationLimit: 39.11111
+    parentMotionInfluence: 0.48666665
+    velocityResponse: 0.2563973
+    accelerationResponse: 0.7323232
+    angularVelocityResponse: 0.959596
+    collisionRadius: 0.0106666675
+  - bone: {fileID: 4553208806311419180}
+    chain: HB3_0_1
+    role: Flexible layered strip
+    depth: 8
+    weightedVertices: 138
+    restLocalPosition: {x: -0.000000052154064, y: 0.044251572, z: -0.000000007450581}
+    restLocalRotation: {x: 0.002573383, y: 0.007742802, z: -0.010376852, w: 0.9999129}
+    tipLocal: {x: 0.00000008940697, y: 0.04465186, z: 0.000000018626451}
+    stiffness: 7.5529413
+    damping: 5.9058824
+    mass: 0.03152941
+    gravityInfluence: 0.26352942
+    rotationLimit: 40
+    parentMotionInfluence: 0.46941176
+    velocityResponse: 0.28416955
+    accelerationResponse: 0.8382353
+    angularVelocityResponse: 1.1
+    collisionRadius: 0.01082353
+  - bone: {fileID: 2848760372393940709}
+    chain: HB4_0_1
+    role: Flexible layered strip
+    depth: 8
+    weightedVertices: 72
+    restLocalPosition: {x: -0.000000004656613, y: 0.0367009, z: 0.000000031548552}
+    restLocalRotation: {x: -0.013662156, y: 0.000118304175, z: -0.0020863917, w: 0.9999045}
+    tipLocal: {x: 0.0000000018626451, y: 0.03530249, z: 0.00000013032695}
+    stiffness: 6.734
+    damping: 5.9
+    mass: 0.028210001
+    gravityInfluence: 0.26999998
+    rotationLimit: 41
+    parentMotionInfluence: 0.45
+    velocityResponse: 0.3131868
+    accelerationResponse: 0.96153843
+    angularVelocityResponse: 1.2637362
+    collisionRadius: 0.011
+  - bone: {fileID: 7739160512001488484}
+    chain: HB4_0_1
+    role: Flexible layered strip
+    depth: 9
+    weightedVertices: 16
+    restLocalPosition: {x: 0.0000000018626451, y: 0.03530249, z: 0.00000013032695}
+    restLocalRotation: {x: -0.01229815, y: 0.00069798937, z: -0.0031300054, w: 0.99991924}
+    tipLocal: {x: 0.000000007450581, y: 0.033600938, z: 0.0000000059371814}
+    stiffness: 6.4382505
+    damping: 5.8875003
+    mass: 0.02718625
+    gravityInfluence: 0.28375
+    rotationLimit: 43.125
+    parentMotionInfluence: 0.40875
+    velocityResponse: 0.3090659
+    accelerationResponse: 1.0473901
+    angularVelocityResponse: 1.3804945
+    collisionRadius: 0.011375001
+  - bone: {fileID: 4486263830885087376}
+    chain: HB2_0_1
+    role: Flexible layered strip
+    depth: 9
+    weightedVertices: 28
+    restLocalPosition: {x: -0.000000009313226, y: 0.048645828, z: 0.000000034458935}
+    restLocalRotation: {x: 0.012086449, y: 0.015017416, z: -0.018497935, w: 0.9996431}
+    tipLocal: {x: 0.000000013969839, y: 0.05036422, z: -0.000000023748726}
+    stiffness: 8.14
+    damping: 5.9
+    mass: 0.0341
+    gravityInfluence: 0.26999998
+    rotationLimit: 41
+    parentMotionInfluence: 0.45
+    velocityResponse: 0.2590909
+    accelerationResponse: 0.7954545
+    angularVelocityResponse: 1.0454545
+    collisionRadius: 0.011
+  - bone: {fileID: 2565403282069310587}
+    chain: HB3_0_1
+    role: Flexible layered strip
+    depth: 9
+    weightedVertices: 114
+    restLocalPosition: {x: 0.00000008940697, y: 0.04465186, z: 0.000000018626451}
+    restLocalRotation: {x: 0.0030498337, y: 0.0069266018, z: -0.00885169, w: 0.9999322}
+    tipLocal: {x: 0.000000059604645, y: 0.04505816, z: -0.000000052154064}
+    stiffness: 7.247059
+    damping: 5.894118
+    mass: 0.030470587
+    gravityInfluence: 0.2764706
+    rotationLimit: 42
+    parentMotionInfluence: 0.43058822
+    velocityResponse: 0.28416955
+    accelerationResponse: 0.91176474
+    angularVelocityResponse: 1.2
+    collisionRadius: 0.011176472
+  - bone: {fileID: 7644598689034553753}
+    chain: HB4_0_1
+    role: Flexible layered strip
+    depth: 10
+    weightedVertices: 17
+    restLocalPosition: {x: 0.000000007450581, y: 0.033600938, z: 0.0000000059371814}
+    restLocalRotation: {x: -0.011042208, y: 0.0012468279, z: -0.004082047, w: 0.99992996}
+    tipLocal: {x: -0.000000007450581, y: 0.031885833, z: -0.000000048079528}
+    stiffness: 6.1425004
+    damping: 5.875
+    mass: 0.0261625
+    gravityInfluence: 0.29749998
+    rotationLimit: 45.25
+    parentMotionInfluence: 0.36749998
+    velocityResponse: 0.29670328
+    accelerationResponse: 1.1332418
+    angularVelocityResponse: 1.4972527
+    collisionRadius: 0.0117500005
+  - bone: {fileID: 5463537088932046451}
+    chain: HB2_0_1
+    role: Flexible layered strip
+    depth: 10
+    weightedVertices: 26
+    restLocalPosition: {x: 0.000000013969839, y: 0.05036422, z: -0.000000023748726}
+    restLocalRotation: {x: 0.016153093, y: 0.016187757, z: -0.018677512, w: 0.999564}
+    tipLocal: {x: 0.000000020489097, y: 0.05217139, z: -0.00000007171184}
+    stiffness: 7.822222
+    damping: 5.888889
+    mass: 0.033
+    gravityInfluence: 0.2822222
+    rotationLimit: 42.88889
+    parentMotionInfluence: 0.4133333
+    velocityResponse: 0.2563973
+    accelerationResponse: 0.8585859
+    angularVelocityResponse: 1.1313132
+    collisionRadius: 0.011333334
+  - bone: {fileID: 8897050187728355241}
+    chain: HB3_0_1
+    role: Flexible layered strip
+    depth: 10
+    weightedVertices: 52
+    restLocalPosition: {x: 0.000000059604645, y: 0.04505816, z: -0.000000052154064}
+    restLocalRotation: {x: 0.00085706596, y: 0.005730601, z: -0.008327695, w: 0.99994856}
+    tipLocal: {x: -0.000000044703484, y: 0.045376696, z: 0.000000026077032}
+    stiffness: 6.9411764
+    damping: 5.882353
+    mass: 0.029411763
+    gravityInfluence: 0.28941175
+    rotationLimit: 44
+    parentMotionInfluence: 0.39176467
+    velocityResponse: 0.27752593
+    accelerationResponse: 0.98529416
+    angularVelocityResponse: 1.3000001
+    collisionRadius: 0.011529412
+  - bone: {fileID: 1940295851687677620}
+    chain: HB2_0_1
+    role: Flexible layered strip
+    depth: 11
+    weightedVertices: 22
+    restLocalPosition: {x: 0.000000020489097, y: 0.05217139, z: -0.00000007171184}
+    restLocalRotation: {x: 0.020143777, y: 0.01825223, z: -0.020163868, w: 0.9994271}
+    tipLocal: {x: 0.000000007450581, y: 0.053983532, z: -0.000000040978193}
+    stiffness: 7.5044446
+    damping: 5.877778
+    mass: 0.0319
+    gravityInfluence: 0.29444444
+    rotationLimit: 44.77778
+    parentMotionInfluence: 0.37666667
+    velocityResponse: 0.2483165
+    accelerationResponse: 0.9217171
+    angularVelocityResponse: 1.2171717
+    collisionRadius: 0.011666667
+  - bone: {fileID: 3489039139951829025}
+    chain: HB4_0_1
+    role: Flexible layered strip
+    depth: 11
+    weightedVertices: 15
+    restLocalPosition: {x: -0.000000007450581, y: 0.031885833, z: -0.000000048079528}
+    restLocalRotation: {x: -0.009456996, y: 0.0017106317, z: -0.0047779554, w: 0.9999424}
+    tipLocal: {x: 0.0000000037252903, y: 0.030449685, z: 0.000000018510036}
+    stiffness: 5.8467503
+    damping: 5.8625
+    mass: 0.02513875
+    gravityInfluence: 0.31125
+    rotationLimit: 47.375
+    parentMotionInfluence: 0.32625
+    velocityResponse: 0.27609888
+    accelerationResponse: 1.2190933
+    angularVelocityResponse: 1.6140109
+    collisionRadius: 0.012125
+  - bone: {fileID: 3235434259506066555}
+    chain: HB3_0_1
+    role: Flexible layered strip
+    depth: 11
+    weightedVertices: 28
+    restLocalPosition: {x: -0.000000044703484, y: 0.045376696, z: 0.000000026077032}
+    restLocalRotation: {x: -0.0039077033, y: 0.004192817, z: -0.008924343, w: 0.9999438}
+    tipLocal: {x: -0, y: 0.045519374, z: 0.000000007450581}
+    stiffness: 6.635294
+    damping: 5.8705883
+    mass: 0.02835294
+    gravityInfluence: 0.30235294
+    rotationLimit: 46
+    parentMotionInfluence: 0.35294116
+    velocityResponse: 0.26423874
+    accelerationResponse: 1.0588236
+    angularVelocityResponse: 1.4000001
+    collisionRadius: 0.011882354
+  - bone: {fileID: 353666036537064704}
+    chain: HB3_0_1
+    role: Flexible layered strip
+    depth: 12
+    weightedVertices: 58
+    restLocalPosition: {x: -0, y: 0.045519374, z: 0.000000007450581}
+    restLocalRotation: {x: -0.011303767, y: 0.0022777428, z: -0.010725648, w: 0.999876}
+    tipLocal: {x: 0.000000014901161, y: 0.045422927, z: -0.000000007450581}
+    stiffness: 6.329412
+    damping: 5.858824
+    mass: 0.027294116
+    gravityInfluence: 0.31529412
+    rotationLimit: 48
+    parentMotionInfluence: 0.3141176
+    velocityResponse: 0.24430795
+    accelerationResponse: 1.132353
+    angularVelocityResponse: 1.5
+    collisionRadius: 0.012235295
+  - bone: {fileID: 4004580548585487321}
+    chain: HB4_0_1
+    role: Flexible layered strip
+    depth: 12
+    weightedVertices: 13
+    restLocalPosition: {x: 0.0000000037252903, y: 0.030449685, z: 0.000000018510036}
+    restLocalRotation: {x: -0.0071646594, y: 0.00197516, z: -0.004942748, w: 0.9999602}
+    tipLocal: {x: 0.000000007450581, y: 0.029582854, z: -0.000000088242814}
+    stiffness: 5.5510006
+    damping: 5.8500004
+    mass: 0.024115
+    gravityInfluence: 0.325
+    rotationLimit: 49.5
+    parentMotionInfluence: 0.285
+    velocityResponse: 0.24725273
+    accelerationResponse: 1.304945
+    angularVelocityResponse: 1.7307693
+    collisionRadius: 0.0125
+  - bone: {fileID: 2296079002968253177}
+    chain: HB2_0_1
+    role: Flexible layered strip
+    depth: 12
+    weightedVertices: 26
+    restLocalPosition: {x: 0.000000007450581, y: 0.053983532, z: -0.000000040978193}
+    restLocalRotation: {x: 0.024411764, y: 0.021159628, z: -0.022807224, w: 0.9992178}
+    tipLocal: {x: -0.000000053551048, y: 0.055760518, z: 0.00000007636845}
+    stiffness: 7.186667
+    damping: 5.866667
+    mass: 0.0308
+    gravityInfluence: 0.30666667
+    rotationLimit: 46.666668
+    parentMotionInfluence: 0.33999997
+    velocityResponse: 0.23484847
+    accelerationResponse: 0.9848485
+    angularVelocityResponse: 1.3030304
+    collisionRadius: 0.012
+  - bone: {fileID: 1551171404898686793}
+    chain: HB3_0_1
+    role: Flexible layered strip
+    depth: 13
+    weightedVertices: 8
+    restLocalPosition: {x: 0.000000014901161, y: 0.045422927, z: -0.000000007450581}
+    restLocalRotation: {x: -0.021603985, y: -0.00014828172, z: -0.013791488, w: 0.9996715}
+    tipLocal: {x: -0.000000029802322, y: 0.045080233, z: -0.000000052154064}
+    stiffness: 6.0235295
+    damping: 5.847059
+    mass: 0.026235294
+    gravityInfluence: 0.3282353
+    rotationLimit: 50
+    parentMotionInfluence: 0.2752941
+    velocityResponse: 0.21773356
+    accelerationResponse: 1.2058823
+    angularVelocityResponse: 1.6
+    collisionRadius: 0.012588236
+  - bone: {fileID: 317422144041541516}
+    chain: HB4_0_1
+    role: Flexible layered strip
+    depth: 13
+    weightedVertices: 13
+    restLocalPosition: {x: 0.000000007450581, y: 0.029582854, z: -0.000000088242814}
+    restLocalRotation: {x: -0.0040056612, y: 0.0018967529, z: -0.004279983, w: 0.99998105}
+    tipLocal: {x: -0, y: 0.029576154, z: 0.000000034226105}
+    stiffness: 5.2552505
+    damping: 5.8375
+    mass: 0.02309125
+    gravityInfluence: 0.33875
+    rotationLimit: 51.625
+    parentMotionInfluence: 0.24374999
+    velocityResponse: 0.21016483
+    accelerationResponse: 1.3907967
+    angularVelocityResponse: 1.8475274
+    collisionRadius: 0.012875
+  - bone: {fileID: 6806995430418032882}
+    chain: HB2_0_1
+    role: Flexible layered strip
+    depth: 13
+    weightedVertices: 22
+    restLocalPosition: {x: -0.000000053551048, y: 0.055760518, z: 0.00000007636845}
+    restLocalRotation: {x: 0.02931324, y: 0.02485831, z: -0.026394011, w: 0.9989125}
+    tipLocal: {x: 0.000000022351742, y: 0.05751885, z: -0.0000000949949}
+    stiffness: 6.8688893
+    damping: 5.8555555
+    mass: 0.029700002
+    gravityInfluence: 0.31888887
+    rotationLimit: 48.555553
+    parentMotionInfluence: 0.30333334
+    velocityResponse: 0.21599326
+    accelerationResponse: 1.0479798
+    angularVelocityResponse: 1.3888888
+    collisionRadius: 0.0123333335
+  - bone: {fileID: 4540665450862505168}
+    chain: HB4_0_1
+    role: Flexible layered strip
+    depth: 14
+    weightedVertices: 11
+    restLocalPosition: {x: -0, y: 0.029576154, z: 0.000000034226105}
+    restLocalRotation: {x: -0.00028471998, y: 0.0013922186, z: -0.0026872281, w: 0.9999954}
+    tipLocal: {x: 0.000000011175871, y: 0.030720878, z: 0.000000015832484}
+    stiffness: 4.9595003
+    damping: 5.8250003
+    mass: 0.022067502
+    gravityInfluence: 0.3525
+    rotationLimit: 53.75
+    parentMotionInfluence: 0.2025
+    velocityResponse: 0.16483516
+    accelerationResponse: 1.4766483
+    angularVelocityResponse: 1.9642857
+    collisionRadius: 0.013250001
+  - bone: {fileID: 8141633102199788106}
+    chain: HB3_0_1
+    role: Flexible layered strip
+    depth: 14
+    weightedVertices: 14
+    restLocalPosition: {x: -0.000000029802322, y: 0.045080233, z: -0.000000052154064}
+    restLocalRotation: {x: -0.03525406, y: -0.0033683032, z: -0.018085405, w: 0.9992091}
+    tipLocal: {x: -0, y: 0.04459357, z: 0.00000008940697}
+    stiffness: 5.717647
+    damping: 5.8352942
+    mass: 0.02517647
+    gravityInfluence: 0.34117648
+    rotationLimit: 52
+    parentMotionInfluence: 0.23647058
+    velocityResponse: 0.18451557
+    accelerationResponse: 1.2794118
+    angularVelocityResponse: 1.7
+    collisionRadius: 0.012941177
+  - bone: {fileID: 7904970098513238840}
+    chain: HB2_0_1
+    role: Flexible layered strip
+    depth: 14
+    weightedVertices: 16
+    restLocalPosition: {x: 0.000000022351742, y: 0.05751885, z: -0.0000000949949}
+    restLocalRotation: {x: 0.035152987, y: 0.02926783, z: -0.03059384, w: 0.9984847}
+    tipLocal: {x: 0.000000026077032, y: 0.059354622, z: -0.0000000037252903}
+    stiffness: 6.551111
+    damping: 5.8444448
+    mass: 0.0286
+    gravityInfluence: 0.3311111
+    rotationLimit: 50.444447
+    parentMotionInfluence: 0.26666665
+    velocityResponse: 0.19175082
+    accelerationResponse: 1.111111
+    angularVelocityResponse: 1.4747475
+    collisionRadius: 0.012666667
+  - bone: {fileID: 7005917290633400623}
+    chain: HB3_0_1
+    role: Flexible layered strip
+    depth: 15
+    weightedVertices: 18
+    restLocalPosition: {x: -0, y: 0.04459357, z: 0.00000008940697}
+    restLocalRotation: {x: -0.052516665, y: -0.007873755, z: -0.023230305, w: 0.9983188}
+    tipLocal: {x: -0, y: 0.044250935, z: 0.00000013411045}
+    stiffness: 5.4117646
+    damping: 5.8235297
+    mass: 0.024117647
+    gravityInfluence: 0.35411763
+    rotationLimit: 54
+    parentMotionInfluence: 0.19764705
+    velocityResponse: 0.14465398
+    accelerationResponse: 1.3529412
+    angularVelocityResponse: 1.8000001
+    collisionRadius: 0.013294118
+  - bone: {fileID: 1664246684806407421}
+    chain: HB4_0_1
+    role: Flexible layered strip
+    depth: 15
+    weightedVertices: 9
+    restLocalPosition: {x: 0.000000011175871, y: 0.030720878, z: 0.000000015832484}
+    restLocalRotation: {x: 0.0032575354, y: 0.0005461921, z: -0.00045605082, w: 0.99999446}
+    tipLocal: {x: 0.000000007450581, y: 0.03331302, z: -0.00000007194467}
+    stiffness: 4.66375
+    damping: 5.8125
+    mass: 0.021043751
+    gravityInfluence: 0.36625
+    rotationLimit: 55.875
+    parentMotionInfluence: 0.16125
+    velocityResponse: 0.11126374
+    accelerationResponse: 1.5625
+    angularVelocityResponse: 2.081044
+    collisionRadius: 0.013625001
+  - bone: {fileID: 2509030209731566591}
+    chain: HB2_0_1
+    role: Flexible layered strip
+    depth: 15
+    weightedVertices: 10
+    restLocalPosition: {x: 0.000000026077032, y: 0.059354622, z: -0.0000000037252903}
+    restLocalRotation: {x: 0.042090267, y: 0.03422818, z: -0.034869596, w: 0.9979183}
+    tipLocal: {x: -0.000000037252903, y: 0.061466794, z: 0.000000074505806}
+    stiffness: 6.2333336
+    damping: 5.8333335
+    mass: 0.027500002
+    gravityInfluence: 0.34333333
+    rotationLimit: 52.333332
+    parentMotionInfluence: 0.23
+    velocityResponse: 0.1621212
+    accelerationResponse: 1.1742424
+    angularVelocityResponse: 1.560606
+    collisionRadius: 0.013
+  - bone: {fileID: 4519057952586805708}
+    chain: HB4_0_1
+    role: Weighted terminal with virtual tail particle
+    depth: 16
+    weightedVertices: 3
+    restLocalPosition: {x: 0.000000007450581, y: 0.03331302, z: -0.00000007194467}
+    restLocalRotation: {x: 0.005800267, y: -0.00039361775, z: 0.0017958785, w: 0.9999815}
+    tipLocal: {x: 0, y: 0.03331313, z: 0}
+    stiffness: 4.3680005
+    damping: 5.8
+    mass: 0.02002
+    gravityInfluence: 0.38
+    rotationLimit: 58
+    parentMotionInfluence: 0.12
+    velocityResponse: 0.04945055
+    accelerationResponse: 1.6483516
+    angularVelocityResponse: 2.197802
+    collisionRadius: 0.014
+  - bone: {fileID: 3950661624831244388}
+    chain: HB3_0_1
+    role: Flexible layered strip
+    depth: 16
+    weightedVertices: 12
+    restLocalPosition: {x: -0, y: 0.044250935, z: 0.00000013411045}
+    restLocalRotation: {x: -0.07249733, y: -0.014421652, z: -0.0279926, w: 0.9968714}
+    tipLocal: {x: 0.000000014901161, y: 0.044614002, z: 0.0000000037252903}
+    stiffness: 5.1058826
+    damping: 5.8117647
+    mass: 0.023058822
+    gravityInfluence: 0.3670588
+    rotationLimit: 56
+    parentMotionInfluence: 0.15882352
+    velocityResponse: 0.098148786
+    accelerationResponse: 1.4264706
+    angularVelocityResponse: 1.9
+    collisionRadius: 0.013647059
+  - bone: {fileID: 2252821492693548906}
+    chain: HB2_0_1
+    role: Flexible layered strip
+    depth: 16
+    weightedVertices: 8
+    restLocalPosition: {x: -0.000000037252903, y: 0.061466794, z: 0.000000074505806}
+    restLocalRotation: {x: 0.04994912, y: 0.039418157, z: -0.038410615, w: 0.99723417}
+    tipLocal: {x: -0.000000007450581, y: 0.06418058, z: -0.000000059604645}
+    stiffness: 5.915556
+    damping: 5.822222
+    mass: 0.026400002
+    gravityInfluence: 0.35555556
+    rotationLimit: 54.22222
+    parentMotionInfluence: 0.19333333
+    velocityResponse: 0.12710437
+    accelerationResponse: 1.2373737
+    angularVelocityResponse: 1.6464646
+    collisionRadius: 0.013333334
+  - bone: {fileID: 30743171551368800}
+    chain: HB2_0_1
+    role: Flexible layered strip
+    depth: 17
+    weightedVertices: 6
+    restLocalPosition: {x: -0.000000007450581, y: 0.06418058, z: -0.000000059604645}
+    restLocalRotation: {x: 0.057998255, y: 0.044291053, z: -0.040181037, w: 0.996524}
+    tipLocal: {x: 0.000000115484, y: 0.06795386, z: -0.000000026077032}
+    stiffness: 5.5977783
+    damping: 5.8111115
+    mass: 0.0253
+    gravityInfluence: 0.36777776
+    rotationLimit: 56.11111
+    parentMotionInfluence: 0.15666668
+    velocityResponse: 0.08670036
+    accelerationResponse: 1.300505
+    angularVelocityResponse: 1.7323232
+    collisionRadius: 0.013666667
+  - bone: {fileID: 7210474814375523762}
+    chain: HB3_0_1
+    role: Weighted terminal with virtual tail particle
+    depth: 17
+    weightedVertices: 6
+    restLocalPosition: {x: 0.000000014901161, y: 0.044614002, z: 0.0000000037252903}
+    restLocalRotation: {x: -0.091549575, y: -0.02393956, z: -0.02980333, w: 0.9950665}
+    tipLocal: {x: 0, y: 0.04461411, z: 0}
+    stiffness: 4.8
+    damping: 5.8
+    mass: 0.022
+    gravityInfluence: 0.38
+    rotationLimit: 58
+    parentMotionInfluence: 0.12
+    velocityResponse: 0.045
+    accelerationResponse: 1.5
+    angularVelocityResponse: 2
+    collisionRadius: 0.014
+  - bone: {fileID: 8026846070518959179}
+    chain: HB2_0_1
+    role: Weighted terminal with virtual tail particle
+    depth: 18
+    weightedVertices: 4
+    restLocalPosition: {x: 0.000000115484, y: 0.06795386, z: -0.000000026077032}
+    restLocalRotation: {x: 0.06489067, y: 0.04810925, z: -0.039252393, w: 0.99595886}
+    tipLocal: {x: 0, y: 0.06795392, z: 0}
+    stiffness: 5.28
+    damping: 5.8
+    mass: 0.0242
+    gravityInfluence: 0.38
+    rotationLimit: 58
+    parentMotionInfluence: 0.12
+    velocityResponse: 0.040909093
+    accelerationResponse: 1.3636364
+    angularVelocityResponse: 1.8181818
+    collisionRadius: 0.014
+  constraintIterations: 12
+  maximumSubsteps: 6
+  aerodynamicScale: 1
+  bodyCollisionScale: 1
+  layerCollisionScale: 1
+  curvatureRetention: 0.65
+  teleportDistance: 1.5
 --- !u!1 &8713147697843832244
 GameObject:
   m_ObjectHideFlags: 0

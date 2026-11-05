@@ -1,7 +1,89 @@
+
+# ==========================================
+# Unity Project .gitignore
+# ==========================================
+
+# Unity 자동 생성 폴더
 [Ll]ibrary/
 [Tt]emp/
 [Oo]bj/
-[Ll]ogs/
-[Uu]serSettings/
 [Bb]uild/
 [Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+[Mm]emoryCaptures/
+[Rr]ecordings/
+
+# Unity Asset Store Tools
+[Aa]ssets/AssetStoreTools*
+
+# Unity 자동 생성 파일
+*.unitypackage
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Visual Studio / VS Code
+.vs/
+.vscode/
+.idea/
+.gradle/
+ExportedObj/
+.consulo/
+
+# IDE 자동 생성 파일
+*.csproj
+*.sln
+*.suo
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+
+# Rider
+*.sln.iml
+*.DotSettings.user
+
+# Unity Cache
+*.pidb.meta
+*.pdb.meta
+*.mdb.meta
+
+# Crash Reports
+sysinfo.txt
+*.stackdump
+
+# Unity Test Runner
+[Aa]ssets/StreamingAssets/aa.meta
+[Aa]ssets/StreamingAssets/aa/*
+
+# Addressables 자동 빌드
+/[Ss]erver[Dd]ata/
+
+# Gradle 빌드 결과물
+.gradle/
+*.apk
+*.aab
+
+# OS 임시 파일
+.DS_Store
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# 로그 파일
+*.log
+
+# ==========================================
+# 반드시 GitHub에 포함해야 하는 폴더
+# Assets/
+# Packages/
+# ProjectSettings/
+# ==========================================

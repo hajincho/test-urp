@@ -61,7 +61,7 @@ namespace Game.ThirdPerson
 
         void ApplyMovementTransition()
         {
-            if (!motor || !motor.Grounded || motor.IsJumping || joints == null || joints.Length < 14) return;
+            if (!motor || !motor.Grounded || motor.IsJumping || motor.IsClimbing || motor.IsSwimming || motor.IsMantling || joints == null || joints.Length < 14) return;
             var state = motor.CurrentTransition;
             if (state == ThirdPersonMotor.Transition.None) return;
             if (lastTransitionSequence != motor.TransitionSequence)
@@ -72,29 +72,33 @@ namespace Game.ThirdPerson
             }
 
             float t = motor.TransitionProgress;
-            float weight = JumpEase(0f, .15f, t) * (1f - JumpEase(.35f, 1f, t));
+            float weight = JumpEase(0f, .12f, t) * (1f - JumpEase(.32f, 1f, t));
             if (weight <= .0001f) return;
 
             bool start = state == ThirdPersonMotor.Transition.SprintStart;
             bool walk = state == ThirdPersonMotor.Transition.WalkStop;
             bool air = state == ThirdPersonMotor.Transition.AirStop;
+            // The reference's low launch is the dash, while an ordinary run starts
+            // with a smaller push-off and remains appreciably more upright.
+            float dashStart = start && motor.IsDashing
+                ? Mathf.Lerp(.3f, 1f, motor.DashBlend) : 0f;
             float strength = walk ? .45f : air ? .55f : 1f;
             weight *= strength;
-            float crouch = start ? .10f : walk ? .025f : air ? .08f : .12f;
+            float crouch = start ? Mathf.Lerp(.025f, .075f, dashStart) : walk ? .018f : air ? .065f : .065f;
             transform.localPosition = Vector3.Lerp(transform.localPosition, restPosition - Vector3.up * crouch, weight);
             transform.localRotation = Quaternion.Slerp(transform.localRotation, restRotation, weight);
 
-            float lean = start ? 53f : walk ? 3f : air ? 6f : Mathf.Lerp(-15f, -3f, JumpEase(.20f, 1f, t));
+            float lean = start ? Mathf.Lerp(20f, 42f, dashStart) : walk ? 2.5f : air ? 7f : Mathf.Lerp(9f, 2f, JumpEase(.20f, 1f, t));
             if (waist)
                 waist.localRotation = Quaternion.Slerp(waist.localRotation,
                     waistRest * Quaternion.AngleAxis(lean, waistPitchAxis), weight);
-            BlendTransitionPitch(0, start ? 12f : walk ? 1f : 7f, weight);
-            BlendTransitionPitch(1, start ? -48f : walk ? 0f : 2f, weight);
+            BlendTransitionPitch(0, start ? Mathf.Lerp(4f, 8f, dashStart) : walk ? 1f : 4f, weight);
+            BlendTransitionPitch(1, start ? Mathf.Lerp(-22f, -41f, dashStart) : walk ? -2f : -5f, weight);
 
-            float leadThigh = start ? -49f : walk ? -11f : air ? -20f : -40f;
-            float leadKnee = start ? 75f : walk ? 14f : air ? 34f : 34f;
-            float rearThigh = start ? 23f : walk ? 4f : air ? -8f : 15f;
-            float rearKnee = start ? 50f : walk ? 9f : air ? 34f : 48f;
+            float leadThigh = start ? Mathf.Lerp(-30f, -46f, dashStart) : walk ? -11f : air ? -20f : -32f;
+            float leadKnee = start ? Mathf.Lerp(44f, 70f, dashStart) : walk ? 14f : air ? 34f : 28f;
+            float rearThigh = start ? Mathf.Lerp(16f, 23f, dashStart) : walk ? 4f : air ? -8f : 15f;
+            float rearKnee = start ? Mathf.Lerp(32f, 49f, dashStart) : walk ? 9f : air ? 34f : 45f;
             for (int hip = 6; hip <= 10; hip += 4)
             {
                 BlendTransitionPitch(hip, transitionLeftLead ? leadThigh : rearThigh, weight);
@@ -102,8 +106,9 @@ namespace Game.ThirdPerson
                 BlendTransitionPitch(hip + 2, transitionLeftLead ? leadKnee : rearKnee, weight);
                 BlendTransitionPitch(hip + 3, transitionLeftLead ? rearKnee : leadKnee, weight);
             }
-            TransitionArm(2, 4, leftHand, transitionLeftLead, start, weight);
-            TransitionArm(3, 5, rightHand, !transitionLeftLead, start, weight);
+            float armWeight = weight * (start ? Mathf.Lerp(.55f, 1f, dashStart) : 1f);
+            TransitionArm(2, 4, leftHand, transitionLeftLead, start, armWeight);
+            TransitionArm(3, 5, rightHand, !transitionLeftLead, start, armWeight);
         }
 
         void BlendTransitionPitch(int index, float degrees, float weight)

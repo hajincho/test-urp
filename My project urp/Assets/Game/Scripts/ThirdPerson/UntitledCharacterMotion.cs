@@ -19,6 +19,8 @@ namespace Game.ThirdPerson
         public Joint[] joints;
         public float walkingAmplitude = 32f;
         public float breathingAmplitude = .008f;
+        [Min(0f)] public float runBounceHeight = .032f;
+        [Min(0f)] public float walkBounceHeight = .012f;
         [SerializeField] float currentSpeed;
         [SerializeField] float motionPhase;
         sealed class FingerJoint
@@ -70,7 +72,7 @@ namespace Game.ThirdPerson
         }
 
         public float GaitPhase => motionPhase;
-        public float GroundStrideWeight => movement * (1f - airBlend);
+        public float GroundStrideWeight => motor && (motor.IsClimbing || motor.IsSwimming) ? 0f : movement * (1f - airBlend);
         public float ContactHalfCycle => Mathf.Lerp(.25f, .16f, runBlend);
         Vector3 restPosition;
         Quaternion restRotation;
@@ -107,10 +109,13 @@ namespace Game.ThirdPerson
             lastYaw = transform.parent ? transform.parent.eulerAngles.y : transform.eulerAngles.y;
             turnLean = 0f;
             CacheSprintCycle();
+            ConfigureReferenceGroundCycle();
+            ResetReferenceGroundMotion();
             CacheUpperBody();
             groundPose = GetComponent<CharacterGroundAndLook>();
             CacheCloth();
             CacheWalkDetails();
+            CacheSecondaryReference();
             CacheBlink();
         }
         void CacheUpperBody()
@@ -300,17 +305,20 @@ namespace Game.ThirdPerson
             // At full walking speed one left-to-left cycle takes 80 frames of the 60 Hz reference.
             float walkDistance = (motor ? motor.walkSpeed : 1.2f) * (80f / 60f);
             float characterScale = motor ? Mathf.Abs(motor.transform.lossyScale.y) : 1f;
-            float cycleDistance = Mathf.Lerp(Mathf.Max(.1f, walkDistance), 2.57f * characterScale, runBlend);
+            float cycleDistance = Mathf.Lerp(Mathf.Max(.1f, walkDistance), (motor ? motor.sprintSpeed : 5.5f) * (40f / 60f) * characterScale, runBlend);
             motionPhase = Mathf.Repeat(motionPhase + currentSpeed * dt * (2f * Mathf.PI / cycleDistance), 2f * Mathf.PI);
             MotionState=!grounded ? (motor.VerticalSpeed>0f ? "Jump" : "Fall") :
                 currentSpeed<.08f ? "Idle" : run>.65f ? "Run" : run>.15f ? "Jog" : "Walk";
             ApplyLocomotion(clock,motionPhase,movement,runBlend,airBlend,motor ? motor.VerticalSpeed : 0f,landing);
             ApplyReferenceJump(dt);
             ApplyMovementTransition();
+            ApplyReferenceGroundPose(dt, motor ? motor.DashBlend : 0f);
+            ApplyTraversalPose(dt);
             SmoothBrakingPose(dt);
             ApplyClothWind(dt);
             ApplyWalkDetails(dt);
             AnimateHairTips();
+            ApplySecondaryReference(dt);
             if (!groundPose || !groundPose.isActiveAndEnabled) OpenCapeForStride();
             UpdateIdleBlink(dt);
         }
@@ -351,16 +359,16 @@ namespace Game.ThirdPerson
             float torsoSway=Mathf.Sin(phase-.15f)*amount*grounded*walkStability;
             float idle=1f-amount;
             transform.localPosition=restPosition+Vector3.up*(
-                breath*breathingAmplitude*.55f*idle+Mathf.Lerp(-bodyBounce*.002f,bodyBounce*.018f,run)*amount*grounded-.095f*run*amount*grounded-.065f*land);
+                breath*breathingAmplitude*.55f*idle+Mathf.Lerp((.5f-bodyBounce)*walkBounceHeight,bodyBounce*runBounceHeight,run)*amount*grounded-.095f*run*amount*grounded-.065f*land);
             // The stylized run leans forward, recovers upright in air, and banks gently into turns.
             transform.localRotation=restRotation*Quaternion.Euler(4f*air+bodyBounce*1.1f*amount*grounded*walkStability, counterTwist*3.2f, sway*.3f*idle+turnLean*Mathf.Lerp(.15f,.6f,run)+torsoSway*1.4f);
             foreach(var j in joints) if(j.bone) j.bone.localRotation=j.rest;
             float sprintPose = run * amount * grounded;
             float climbPose = uphillBlend * weight;
             float climbLean = Mathf.Lerp(14f, 7f, run) * climbPose;
-            if (waist) waist.localRotation = waistRest * Quaternion.AngleAxis(45.5f * sprintPose + climbLean, waistPitchAxis);
-            Rotate(0,breath*.7f+18f*sprintPose+5f*land+bodyBounce*1.4f*amount*grounded*walkStability,counterTwist*2.7f+sway*.3f*idle);
-            Rotate(1,-breath*.12f-51.5f*sprintPose-.65f*climbLean-bodyBounce*1.6f*amount*grounded*walkStability,-sway*.1f*idle-counterTwist*2.7f-torsoSway*1.4f);
+            if (waist) waist.localRotation = waistRest * Quaternion.AngleAxis(25f * sprintPose + climbLean, waistPitchAxis);
+            Rotate(0,breath*.7f+8f*sprintPose+5f*land+bodyBounce*1.4f*amount*grounded*walkStability,counterTwist*2.7f+sway*.3f*idle);
+            Rotate(1,-breath*.12f-29f*sprintPose-.65f*climbLean-bodyBounce*1.6f*amount*grounded*walkStability,-sway*.1f*idle-counterTwist*2.7f-torsoSway*1.4f);
             Rotate(2,-wave*arms-15f*air,-joints[2].side*(Mathf.Lerp(28f, 35f, amount)-breath*.8f-7f*air));
             Rotate(3,wave*arms-15f*air,-joints[3].side*(Mathf.Lerp(28f, 35f, amount)-breath*.8f-7f*air));
             Rotate(4,-8f-38f*run*amount-20f*air-recoveryR*amount*12f+wave*4f*amount*grounded,0f);
@@ -421,6 +429,9 @@ namespace Game.ThirdPerson
         }
         void OnDisable()
         {
+            ResetReferenceGroundMotion();
+            ResetSecondaryReference();
+            ResetTraversalPose();
             SetBlinkWeight(0f);
             RestoreWalkDetails();
             trackingJump = false;
