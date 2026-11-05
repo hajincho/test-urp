@@ -11,7 +11,7 @@ public static class GroundPlantCollisions
     static bool PlantName(string name)
     {
         string n = name.ToLowerInvariant();
-        return n.Contains("village_scatter") || n.Contains("grass") || n.Contains("fern") || n.Contains("weed") || n.Contains("bush") || n.Contains("leaves_cluster");
+        return n.Contains("waterlily") || n.Contains("water plants") || n.Contains("village_scatter") || n.Contains("grass") || n.Contains("fern") || n.Contains("weed") || n.Contains("bush") || n.Contains("leaves_cluster");
     }
     static bool IsGroundPlant(Collider collider)
     {
@@ -56,4 +56,5 @@ public static class GroundPlantCollisions
         Debug.Log("GROUND_PLANTS_REMOVED removed=" + plants.Length + " remainingPlantColliders=0 protectedColliders=" + protectedCount + " scene=" + scene.path);
     }
 }
+
 

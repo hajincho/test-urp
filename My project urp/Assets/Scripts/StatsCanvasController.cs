@@ -19,6 +19,10 @@ namespace Unity.FantasyKingdom
         public TextMeshProUGUI Draws, Verts, FPS, CPU, GPU;
 
         UniversalRenderPipelineAsset urp;
+        GPUResidentDrawerMode originalDrawer;
+        float originalScale;
+        bool initialized;
+        static readonly List<ProfilerRecorderSample> frameSamples = new List<ProfilerRecorderSample>(30);
 
         IInputProvider inputProvider;
 
@@ -40,6 +44,7 @@ namespace Unity.FantasyKingdom
         private void Start()
         {
             urp = GraphicsSettings.currentRenderPipeline as UniversalRenderPipelineAsset;
+            originalDrawer = urp.gpuResidentDrawerMode; originalScale = urp.renderScale; initialized = true;
             Panel.SetActive(false);
             inputProvider = InputProviderObject.GetComponent<IInputProvider>();
             drawCallsRecorder = ProfilerRecorder.StartNew(ProfilerCategory.Render, "Draw Calls Count");
@@ -117,7 +122,7 @@ namespace Unity.FantasyKingdom
                 return 0;
 
             double r = 0;
-            var samples = new List<ProfilerRecorderSample>(samplesCount);
+            var samples = frameSamples; samples.Clear();
             recorder.CopyTo(samples);
             for (var i = 0; i < samples.Count; ++i)
                 r += samples[i].Value;
@@ -143,13 +148,14 @@ namespace Unity.FantasyKingdom
 
         private void OnDestroy()
         {
-            urp.gpuResidentDrawerMode = GPUResidentDrawerMode.InstancedDrawing;
-            urp.renderScale = renderScale;
+            if (initialized && urp) { urp.gpuResidentDrawerMode = originalDrawer; urp.renderScale = originalScale; }
             drawCallsRecorder.Dispose();
             verticesRecorder.Dispose();
             cpuMainThreaTimeRecorder.Dispose();
             gpuFrameTimeRecorder.Dispose();
+            mainThreadTimeRecorder.Dispose();
         }
     }
     }
+
 

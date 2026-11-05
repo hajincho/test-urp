@@ -2391,6 +2391,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3115438542201334782}
   - component: {fileID: 4125861350871672725}
+  - component: {fileID: 8782958688706489967}
   m_Layer: 0
   m_Name: Furina
   m_TagString: Untagged
@@ -2427,6 +2428,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48549da66ab0ddd418aecfca339cb983, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Game.ThirdPerson.BlenderCharacterRetarget
+--- !u!114 &8782958688706489967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 969073464790663328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a28f95ef58b23d34c955f45037ced838, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Game.ThirdPerson.AhogeMotion
+  head: {fileID: 7436245840747894488}
+  joints:
+  - {fileID: 5145836945750161296}
+  - {fileID: 2948097509630797290}
+  - {fileID: 8029400279989841841}
+  - {fileID: 1326319476672673682}
+  - {fileID: 7162474133352578719}
+  - {fileID: 2908725554421882473}
+  movementResponse: 1
+  breezeStrength: 0.75
+  maximumSwayDegrees: 7
+  maximumCurlDegreesPerJoint: 3.25
+  wind: {fileID: 0}
+  ambientWindDirection: {x: 0.8, y: 0, z: 0.35}
+  restLocalRotations:
+  - {x: -0.019743882, y: -0.55698276, z: -0.55698264, w: 0.61575216}
+  - {x: 0.04921878, y: 0.035832655, z: -0.053785354, w: 0.9966949}
+  - {x: 0.080896705, y: 0.32261255, z: 0.12731285, w: 0.9344348}
+  - {x: -0.2408966, y: 0.37507755, z: 0.39747167, w: 0.8020611}
+  - {x: -0.45636076, y: 0.14698507, z: 0.15236877, w: 0.8642419}
+  - {x: -0.48851696, y: 0.14855991, z: 0.13101117, w: 0.8497748}
 --- !u!1 &974018888545916281
 GameObject:
   m_ObjectHideFlags: 0
@@ -3044,6 +3078,7 @@ GameObject:
   - component: {fileID: 8812579480761752200}
   - component: {fileID: 2353024772469552909}
   - component: {fileID: 8958087767709027977}
+  - component: {fileID: 3317981774208755468}
   m_Layer: 0
   m_Name: FurinaPlayer
   m_TagString: Player
@@ -3154,6 +3189,18 @@ MonoBehaviour:
   useWaterLevel: 1
   waterLevel: -32.45
   waterSurfaceMesh: {fileID: 4300000, guid: 0c071ba752563fa489ac3b936773fd57, type: 2}
+--- !u!114 &3317981774208755468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1230665310434775834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75475f253cfd5244b9cdcd4a870b37d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Game.ThirdPerson.CharacterDetailSettings
 --- !u!1 &1237212717130723895
 GameObject:
   m_ObjectHideFlags: 0
@@ -18806,9 +18853,9 @@ SkinnedMeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8843458164496281124}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 2
   m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
+  m_DynamicOccludee: 0
   m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
@@ -18851,7 +18898,7 @@ SkinnedMeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   serializedVersion: 2
-  m_Quality: 0
+  m_Quality: 4
   m_UpdateWhenOffscreen: 1
   m_SkinnedMotionVectors: 1
   m_Mesh: {fileID: 2959467708922500008, guid: dd959a4e456e30b4e9c1ad6e85d1b1e3, type: 3}

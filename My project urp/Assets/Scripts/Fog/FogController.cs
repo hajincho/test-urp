@@ -24,6 +24,8 @@ namespace Unity.FantasyKingdom
         private Volume[] volumes;
         private int currentZoomLevel = 0;
         private int currentSettings;
+        private Game.ThirdPerson.ThirdPersonMotor thirdPerson;
+        private bool ThirdPersonActive => thirdPerson && thirdPerson.gameObject.activeInHierarchy;
 
         public float LerpTime = 1;
 
@@ -45,6 +47,7 @@ namespace Unity.FantasyKingdom
 
         void OnEnable()
         {
+            thirdPerson = UnityEngine.Object.FindAnyObjectByType<Game.ThirdPerson.ThirdPersonMotor>();
             urp = (UniversalRenderPipelineAsset)GraphicsSettings.currentRenderPipeline;
             lodSettingsDict = new();
             lodSettingsDict.Add(QualitySettings.GetQualityLevel(), new Tuple<int, float>(QualitySettings.maximumLODLevel, QualitySettings.lodBias));
@@ -97,6 +100,7 @@ namespace Unity.FantasyKingdom
         }
         private void HandleZoomLerp(object sender,OnZoomHandledEventArgs args)
         {
+            if (ThirdPersonActive) return;
             float t = args.zoomDelta;
             HeightPass.passMaterial.Lerp(args.prevHeight, args.height,t);
             CubePass.passMaterial.Lerp(args.prevCube, args.cube, t);
@@ -115,6 +119,7 @@ namespace Unity.FantasyKingdom
         }
         private void ZoomDone(object sender, OnZoomDoneEventArgs args)
         {
+            if (ThirdPersonActive) return;
             int targetZoomLevel = args.zoomLevel;
             if (targetZoomLevel > currentZoomLevel)
                 volumes[targetZoomLevel].weight = 1;
@@ -128,6 +133,7 @@ namespace Unity.FantasyKingdom
         
         private void StartLerpFog(object sender, OnCameraSettingsChangedEventArgs args)
         {
+            if (ThirdPersonActive) return;
             if(lerpRoutine != null)
             {
                 StopCoroutine(LerpFogMaterialsForFreeCam(args.prevHeightFog, args.prevCubeFog, args.heightFog, args.CubeFog,
@@ -193,11 +199,17 @@ namespace Unity.FantasyKingdom
 
         private bool ShouldChangeLODSettings()
         {
+            if (ThirdPersonActive) return false;
             return qualityController.currentQualityLevelName.Contains("Desktop") || qualityController.currentQualityLevelName.Contains("High");
         }
 
         private void OnDisable()
         {
+            if (camController) {
+                camController.OnZoomHandled -= HandleZoomLerp; camController.OnZoomDone -= ZoomDone;
+                camController.OnZoomMidPoint -= ForceLodsOnZoomMidPoint; camController.OnCameraSettingsChanged -= StartLerpFog;
+            }
+            QualitySettings.activeQualityLevelChanged -= OnQualitySettingsChanged;
             CleanUpFog();
             urp.shadowDistance = originalMaxShadowDist;
             urp.cascade2Split = originalCascade2Split;
@@ -226,3 +238,4 @@ namespace Unity.FantasyKingdom
         }
     }
 }
+

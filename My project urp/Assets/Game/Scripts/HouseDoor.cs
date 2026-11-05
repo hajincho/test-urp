@@ -32,9 +32,12 @@ namespace Game.World
         }
         void FixedUpdate()
         {
-            OpenAmount=Mathf.MoveTowards(OpenAmount,IsOpen?1:0,Time.fixedDeltaTime/.65f);
+            float target = IsOpen ? 1f : 0f;
+            if (Mathf.Approximately(OpenAmount, target)) return;
+            OpenAmount=Mathf.MoveTowards(OpenAmount,target,Time.fixedDeltaTime/.65f);
             var local=closed*Quaternion.Euler(0,direction*swing*Mathf.SmoothStep(0,1,OpenAmount),0);
             if(body)body.MoveRotation(transform.rotation*local);else leaf.localRotation=local;
         }
     }
 }
+
