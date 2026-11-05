@@ -87,6 +87,13 @@ namespace Game.ThirdPerson
         {
             float dt = Time.deltaTime;
             if (dt <= 0f || !playerRoot) return;
+            if (motor && (motor.IsClimbing || motor.IsSwimming))
+            {
+                groundedBlend = stanceWeight = pelvisDrop = 0f;
+                hasStableHeadRotation = false;
+                if (pelvis) pelvis.localPosition = pelvisRest;
+                return;
+            }
             float k = 1f - Mathf.Exp(-12f * dt);
             groundedBlend = Mathf.Lerp(groundedBlend, !motor || motor.Grounded ? 1f : 0f, k);
             PrepareSlopeStance(dt);

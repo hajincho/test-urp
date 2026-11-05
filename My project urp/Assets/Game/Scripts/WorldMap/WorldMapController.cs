@@ -31,6 +31,7 @@ namespace Game.World
         public bool useWaterLevel;
         public float waterLevel;
         public Mesh waterSurfaceMesh;
+        public bool unrestrictedTeleport = true;
         public bool IsOpen { get; private set; }
         public string LastStatus { get; private set; }
 
@@ -148,7 +149,7 @@ namespace Game.World
 
         public bool TryTeleport(Vector2 uv)
         {
-            if (!TryResolveLanding(uv, out var destination)) { SetStatus("이곳은 이동하기 어렵습니다. 가까운 빈 땅을 선택하세요.", true); return false; }
+            if (!TryResolveLanding(uv, out var destination)) { SetStatus("지도 안의 위치를 선택하세요.", true); return false; }
             Teleport(destination); return true;
         }
         public bool WarpToVillage(int index)
@@ -156,8 +157,11 @@ namespace Game.World
             Cache();
             if (villages == null || index < 0 || index >= villages.Length || villages[index] == null) return false;
             var waypoint = villages[index];
-            if (!ResolveNearby(new Vector2(waypoint.position.x, waypoint.position.z), waypoint.position.y, out var destination))
-            { SetStatus("광장의 안전한 도착 지점을 찾지 못했습니다.", true); return false; }
+            Vector3 destination;
+            bool resolved = unrestrictedTeleport
+                ? TryResolveLanding(WorldToMap(waypoint.position), out destination)
+                : ResolveNearby(new Vector2(waypoint.position.x, waypoint.position.z), waypoint.position.y, out destination);
+            if (!resolved) { SetStatus("광장의 지도 위치를 확인하세요.", true); return false; }
             Teleport(destination); return true;
         }
         void Teleport(Vector3 destination)
@@ -171,7 +175,42 @@ namespace Game.World
             Cache(); destination = default;
             if (uv.x < 0f || uv.y < 0f || uv.x > 1f || uv.y > 1f || float.IsNaN(uv.x) || float.IsNaN(uv.y) || float.IsInfinity(uv.x) || float.IsInfinity(uv.y)) return false;
             var point = MapToWorld(uv);
+            if (unrestrictedTeleport) return ResolveUnrestricted(new Vector2(point.x, point.z), out destination);
             return ResolveNearby(new Vector2(point.x, point.z), float.NaN, out destination);
+        }
+        public float GetWaterHeight(Vector3 position)
+        {
+            return Mathf.Max(useWaterLevel ? waterLevel : float.NegativeInfinity, WaterSurfaceAt(new Vector2(position.x, position.z)));
+        }
+        bool ResolveUnrestricted(Vector2 xz, out Vector3 destination)
+        {
+            float top = Mathf.Max(rayHeight, transform.position.y + 250f);
+            var origin = new Vector3(xz.x, top, xz.y);
+            float surface = float.NegativeInfinity;
+            foreach (var hit in Physics.RaycastAll(origin, Vector3.down, Mathf.Max(10f, maxDrop), groundMask, QueryTriggerInteraction.Ignore))
+            {
+                var collider = hit.collider;
+                if (!collider || collider.transform.IsChildOf(transform)) continue;
+                string label = ColliderLabel(collider);
+                if (IsWater(label) || HasAny(label, "foliage", "grass", "bush", "scatter", "leaf", "leaves", "flower", "particle", "fog", "sky")) continue;
+                surface = Mathf.Max(surface, hit.point.y);
+            }
+            if (float.IsNegativeInfinity(surface))
+            {
+                var terrain = Terrain.activeTerrain;
+                if (terrain && terrain.terrainData)
+                    surface = terrain.SampleHeight(new Vector3(xz.x, terrain.transform.position.y, xz.y)) + terrain.transform.position.y;
+            }
+            surface = Mathf.Max(surface, GetWaterHeight(new Vector3(xz.x, 0f, xz.y)));
+            float rootY = transform.position.y;
+            if (!float.IsNaN(surface) && !float.IsInfinity(surface))
+            {
+                float bottomOffset = capsule ? transform.TransformVector(capsule.center).y - capsule.height * Mathf.Abs(transform.lossyScale.y) * .5f : 0f;
+                rootY = surface + .045f - bottomOffset;
+            }
+            // Unrestricted mode never searches nearby: the selected horizontal position stays exact.
+            destination = new Vector3(xz.x, rootY, xz.y);
+            return true;
         }
         bool ResolveNearby(Vector2 xz, float preferredY, out Vector3 destination)
         {
@@ -417,7 +456,7 @@ namespace Game.World
             var arrowText = Label("Arrow", playerMarker, "▲", 30, Cyan, TextAnchor.MiddleCenter); Stretch(arrowText.rectTransform, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero);
             var arrowShadow = arrowText.gameObject.AddComponent<UnityEngine.UI.Shadow>(); arrowShadow.effectColor = Color.black; arrowShadow.effectDistance = new Vector2(1, -1);
             var you = Label("Player label", playerMarker, "현재 위치", 15, Cyan, TextAnchor.UpperCenter); Anchor(you.rectTransform, new Vector2(.5f, 0), new Vector2(0, -4), new Vector2(110, 30), new Vector2(.5f, 1));
-            var tip = Label("Map instructions", sidebar, "원하는 곳으로 이동\n\n지도 위 빈 땅을 클릭하세요.\n물·급경사·건물 위는 피해서\n안전한 땅에 도착합니다.", 17, Muted, TextAnchor.UpperLeft); Anchor(tip.rectTransform, new Vector2(0, 0), new Vector2(24, 28), new Vector2(310, 176), Vector2.zero);
+            var tip = Label("Map instructions", sidebar, "어디든 순간이동\n\n지도에서 원하는 곳을\n클릭하세요. 물 위와 지붕도\n선택한 위치로 이동합니다.", 17, Muted, TextAnchor.UpperLeft); Anchor(tip.rectTransform, new Vector2(0, 0), new Vector2(24, 28), new Vector2(310, 176), Vector2.zero);
             status = Label("Map status", panel, "", 17, Muted, TextAnchor.MiddleLeft); Anchor(status.rectTransform, new Vector2(0, 0), new Vector2(26, 40), new Vector2(930, 28), new Vector2(0, .5f));
             coordinates = Label("Map coordinates", panel, "", 15, Brass, TextAnchor.MiddleRight); Anchor(coordinates.rectTransform, new Vector2(1, 0), new Vector2(-26, 38), new Vector2(420, 28), new Vector2(1, .5f));
             var footer = Label("Map keyboard hint", overlay.transform, "[ M ] / [ Esc ]  닫기    ·    지도 클릭 순간이동", 17, Cream, TextAnchor.MiddleCenter); Anchor(footer.rectTransform, new Vector2(.5f, 0), new Vector2(0, 22), new Vector2(900, 30), new Vector2(.5f, .5f));

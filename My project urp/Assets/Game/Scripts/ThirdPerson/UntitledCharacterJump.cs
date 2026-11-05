@@ -17,6 +17,8 @@ namespace Game.ThirdPerson
         void ApplyReferenceJump(float dt)
         {
             if (!motor || joints == null || joints.Length < 14) return;
+            if (motor.IsClimbing || motor.IsSwimming || motor.IsMantling)
+            { trackingJump = false; jumpFollow = 0f; return; }
             float phase, compression = 0f, weight;
             if (motor.IsJumping)
             {
@@ -28,7 +30,7 @@ namespace Game.ThirdPerson
                 trackingJump = true;
                 timeOnGround = -1f;
                 phase = motor.JumpProgress;
-                weight = JumpEase(0f, .15f, phase);
+                weight = JumpEase(0f, .09f, phase);
             }
             else if (trackingJump && motor.Grounded)
             {
@@ -51,7 +53,7 @@ namespace Game.ThirdPerson
             float desiredFlare = (opening + .18f * compression) * weight;
             jumpFollow = Mathf.Lerp(jumpFollow, desiredFlare, 1f - Mathf.Exp(-14f * dt));
 
-            float crouch = Mathf.Lerp(.16f, .115f, travelAtTakeoff) * compression;
+            float crouch = Mathf.Lerp(.13f, .10f, travelAtTakeoff) * compression;
             transform.localPosition = Vector3.Lerp(transform.localPosition, restPosition - Vector3.up * crouch, weight);
             transform.localRotation = Quaternion.Slerp(transform.localRotation, restRotation, weight);
             float lean = Mathf.Lerp(3f, 17f, travelAtTakeoff) + 14f * compression;
@@ -98,13 +100,13 @@ namespace Game.ThirdPerson
             float travel = travelAtTakeoff;
             float swing = (sameSideAsRaisedKnee ? -25f : 24f) * travel;
             float upperPitch = Mathf.Lerp(3f + swing * (.45f + .55f * lift), 10f, compression) * Mathf.Deg2Rad;
-            float foreLift = Mathf.Lerp(82f, 22f, travel) * opening;
+            float foreLift = Mathf.Lerp(66f, 24f, travel) * opening;
             float forePitch = Mathf.Lerp(30f + foreLift + swing * (1f + lift), 18f, compression) * Mathf.Deg2Rad;
-            float spread = (.20f + .32f * opening) * (1f - .62f * travel) * (1f - .65f * compression);
+            float spread = (.18f + .25f * opening) * (1f - .62f * travel) * (1f - .65f * compression);
             AimSegment(upper.bone, lower,
                 new Vector3(upper.side * spread, -Mathf.Cos(upperPitch), Mathf.Sin(upperPitch)), weight);
             AimSegment(lower, hand,
-                new Vector3(upper.side * (spread + (1f - travel) * opening), -Mathf.Cos(forePitch), Mathf.Sin(forePitch)), weight);
+                new Vector3(upper.side * (spread + .55f * (1f - travel) * opening), -Mathf.Cos(forePitch), Mathf.Sin(forePitch)), weight);
         }
     }
 }

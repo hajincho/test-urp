@@ -26,10 +26,10 @@ namespace Game.ThirdPerson
             if (walkThigh != null) return;
             // Left mid-stance is phase zero. The trailing foot lifts, passes the support
             // leg with a soft knee, then extends for the next heel strike.
-            walkThigh = MakeCycle(-4, 11, 20, 6, -16, -31, -29, -18);
-            walkKnee = MakeCycle(7, 9, 24, 49, 43, 24, 7, 12);
-            walkUpperArm = MakeCycle(4, 16, 22, 11, -5, -19, -24, -12);
-            walkForearm = MakeCycle(17, 28, 31, 20, 7, -10, -16, 1);
+            walkThigh = MakeCycle(-6, 12, 25, 13, -14, -29, -27, -16);
+            walkKnee = MakeCycle(5, 8, 23, 40, 37, 19, 7, 5);
+            walkUpperArm = MakeCycle(4, 14, 19, 10, -4, -17, -21, -9);
+            walkForearm = MakeCycle(16, 25, 31, 24, 10, -7, -12, 1);
             // Free-end offsets digitized against the nearby anchor over two profile cycles.
             // Rotated two bins from the sampled image sequence to left mid-stance.
             hairTrace = MakeCycle(-.5f, -2.9f, .45f, 1.5f, 1.45f, -1.65f, .05f, 1.5f);

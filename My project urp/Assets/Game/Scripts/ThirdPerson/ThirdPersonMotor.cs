@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 namespace Game.ThirdPerson
 {
     [RequireComponent(typeof(CharacterController))]
-    public class ThirdPersonMotor : MonoBehaviour
+    public partial class ThirdPersonMotor : MonoBehaviour
     {
         public Transform cameraTransform;
         public Transform visualRoot;
@@ -76,7 +76,7 @@ namespace Game.ThirdPerson
         public bool SimulatedSprint { get; set; }
         public bool SimulatedJump { get; set; }
 
-        void Awake() { controller = GetComponent<CharacterController>(); spawn = transform.position; }
+        void Awake() { controller = GetComponent<CharacterController>(); spawn = transform.position; CacheTraversal(); }
         void Update()
         {
             var keyboard = Keyboard.current;
@@ -87,6 +87,7 @@ namespace Game.ThirdPerson
                     (keyboard.wKey.isPressed ? 1 : 0) - (keyboard.sKey.isPressed ? 1 : 0));
             bool sprint = (keyboard != null && keyboard.leftShiftKey.isPressed) || (pad != null && pad.leftStickButton.isPressed);
             bool jump = (keyboard != null && keyboard.spaceKey.wasPressedThisFrame) || (pad != null && pad.buttonSouth.wasPressedThisFrame);
+            ReadTraversalInput(keyboard, input);
             if (SimulationInput) { input = SimulatedMove; sprint = SimulatedSprint; jump = SimulatedJump; SimulatedJump = false; }
             Tick(input, sprint, jump, Time.deltaTime);
         }
@@ -102,12 +103,17 @@ namespace Game.ThirdPerson
             stableGroundNormal = Vector3.up; UphillAngle = 0f;
             lastGrounded = lastJumpPressed = -10f;
             controller.enabled = true;
+            ResetTraversal();
         }
         public void Tick(Vector2 input, bool sprint, bool jump, float dt)
         {
             if (!controller) controller = GetComponent<CharacterController>();
             if (dt <= 0f) return;
+            dt = Mathf.Min(dt, .05f);
             input = Vector2.ClampMagnitude(input, 1f);
+            AdvanceTraversalTimers(dt);
+            if (TickTraversal(input, sprint, jump, dt)) return;
+            sprint |= dashTime > 0f;
             // Camera yaw remains well-defined even when looking straight up.
             float yaw = cameraTransform ? cameraTransform.eulerAngles.y : 0f;
             Vector3 direction = Quaternion.Euler(0f, yaw, 0f) * new Vector3(input.x, 0f, input.y);
@@ -124,7 +130,7 @@ namespace Game.ThirdPerson
                 if (Grounded && sprint && (!previousMove || !previousSprint))
                     BeginTransition(Transition.SprintStart, .24f);
                 else if (Grounded && !sprint && previousSprint && previousMove)
-                    BeginTransition(Transition.SprintStop, .42f);
+                    CurrentTransition = Transition.None;
                 else if (!previousMove && CurrentTransition != Transition.SprintStart)
                     CurrentTransition = Transition.None;
                 airStopped = false;
@@ -132,7 +138,7 @@ namespace Game.ThirdPerson
             else if (previousMove)
             {
                 if (!Grounded || IsJumping) airStopped = true;
-                else if (PlanarSpeed > walkSpeed * 1.35f) BeginTransition(Transition.SprintStop, .48f);
+                else if (previousSprint && PlanarSpeed > .08f) BeginTransition(Transition.SprintStop, .48f);
                 else if (PlanarSpeed > .08f) BeginTransition(Transition.WalkStop, .28f);
             }
             if (moving && (CurrentTransition == Transition.WalkStop || CurrentTransition == Transition.AirStop))
@@ -157,11 +163,12 @@ namespace Game.ThirdPerson
             float verticalDisplacement = (previousVertical + verticalSpeed) * .5f * dt;
             Vector3 before = transform.position;
             float targetSpeed = sprint ? sprintSpeed : walkSpeed;
+            targetSpeed *= 1f + .35f * DashBlend;
             // The reference has a brief push-off before settling into the running cycle.
             if (CurrentTransition == Transition.SprintStart && moving && Grounded)
                 targetSpeed *= 1f + .25f * (1f - Mathf.SmoothStep(0f, 1f, TransitionProgress));
             Vector3 desiredVelocity = direction * targetSpeed;
-            float changeTime = moving ? (sprint ? .075f : .10f)
+            float changeTime = moving ? (sprint ? .13f : .14f)
                 : (!Grounded ? .16f : planarVelocity.magnitude > walkSpeed * 1.35f ? .20f : .11f);
             float referenceSpeed = moving ? targetSpeed
                 : CurrentTransition == Transition.WalkStop ? walkSpeed : sprintSpeed;
@@ -200,6 +207,8 @@ namespace Game.ThirdPerson
             if (targetSlope < 3f) targetSlope = 0f;
             UphillAngle = Mathf.MoveTowards(UphillAngle, targetSlope, 45f * dt);
             Sprinting = sprint && PlanarSpeed > .1f;
+            SetMode(Grounded ? LocomotionMode.Grounded : LocomotionMode.Airborne);
+            TrackTraversalVelocity(before, dt);
             if (direction.sqrMagnitude > .001f && visualRoot)
                 visualRoot.rotation = Quaternion.Slerp(visualRoot.rotation, Quaternion.LookRotation(direction), 1f - Mathf.Exp(-turnSpeed * dt));
             if (transform.position.y < spawn.y - 100f)
