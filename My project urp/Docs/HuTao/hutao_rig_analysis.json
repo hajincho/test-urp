@@ -1,0 +1,7785 @@
+{
+ "source": "Untitled.blend (Blender 5.0 file, zstd-compressed); parsed read-only, original untouched",
+ "armature": "Armature",
+ "total_bones": 305,
+ "weighted_bones": 188,
+ "bones_with_deform_flag": 305,
+ "pose_constraints": 0,
+ "actions": 0,
+ "mesh_objects": 21,
+ "vertex_group_entries": 231,
+ "groups": {
+  "total": {
+   "root_control": 7,
+   "end_tip": 38,
+   "torso": 4,
+   "leg": 8,
+   "secondary_Hem": 54,
+   "leg_deform_D": 8,
+   "head": 7,
+   "secondary_HairFront": 14,
+   "secondary_HairSide": 16,
+   "secondary_Tassel": 7,
+   "secondary_HatStrap": 16,
+   "secondary_HairBack": 34,
+   "arm": 16,
+   "twist_helper": 16,
+   "finger": 40,
+   "secondary_Belt": 14,
+   "ik": 6
+  },
+  "weighted": {
+   "torso": 4,
+   "leg": 1,
+   "secondary_Hem": 38,
+   "leg_deform_D": 8,
+   "head": 6,
+   "secondary_HairFront": 10,
+   "secondary_HairSide": 12,
+   "secondary_Tassel": 5,
+   "secondary_HatStrap": 12,
+   "secondary_HairBack": 30,
+   "arm": 8,
+   "twist_helper": 14,
+   "finger": 30,
+   "secondary_Belt": 10
+  }
+ },
+ "chains": [
+  {
+   "root": "左后摆_0_0",
+   "kind": "Hem",
+   "parent": "下半身",
+   "bones": [
+    "左后摆_0_0",
+    "左后摆_1_0",
+    "左后摆_2_0",
+    "左后摆_3_0",
+    "左后摆_4_0",
+    "左后摆_5_0",
+    "左后摆_6_0",
+    "左后摆_7_0",
+    "左后摆_7_0_end"
+   ],
+   "length": 9,
+   "weighted": [
+    154,
+    73,
+    36,
+    36,
+    36,
+    68,
+    0,
+    0,
+    0
+   ],
+   "chain_length_units": 10.6324
+  },
+  {
+   "root": "左后摆_0_1",
+   "kind": "Hem",
+   "parent": "下半身",
+   "bones": [
+    "左后摆_0_1",
+    "左后摆_1_1",
+    "左后摆_2_1",
+    "左后摆_3_1",
+    "左后摆_4_1",
+    "左后摆_5_1",
+    "左后摆_6_1",
+    "左后摆_7_1",
+    "左后摆_7_1_end"
+   ],
+   "length": 9,
+   "weighted": [
+    314,
+    132,
+    60,
+    48,
+    48,
+    228,
+    0,
+    0,
+    0
+   ],
+   "chain_length_units": 10.7275
+  },
+  {
+   "root": "左后摆_0_2",
+   "kind": "Hem",
+   "parent": "下半身",
+   "bones": [
+    "左后摆_0_2",
+    "左后摆_1_2",
+    "左后摆_2_2",
+    "左后摆_3_2",
+    "左后摆_4_2",
+    "左后摆_5_2",
+    "左后摆_6_2",
+    "左后摆_7_2",
+    "左后摆_7_2_end"
+   ],
+   "length": 9,
+   "weighted": [
+    238,
+    107,
+    36,
+    36,
+    36,
+    394,
+    252,
+    0,
+    0
+   ],
+   "chain_length_units": 10.837
+  },
+  {
+   "root": "右后摆_0_0",
+   "kind": "Hem",
+   "parent": "下半身",
+   "bones": [
+    "右后摆_0_0",
+    "右后摆_1_0",
+    "右后摆_2_0",
+    "右后摆_3_0",
+    "右后摆_4_0",
+    "右后摆_5_0",
+    "右后摆_6_0",
+    "右后摆_7_0",
+    "右后摆_7_0_end"
+   ],
+   "length": 9,
+   "weighted": [
+    154,
+    73,
+    36,
+    36,
+    36,
+    68,
+    0,
+    0,
+    0
+   ],
+   "chain_length_units": 10.6324
+  },
+  {
+   "root": "右后摆_0_1",
+   "kind": "Hem",
+   "parent": "下半身",
+   "bones": [
+    "右后摆_0_1",
+    "右后摆_1_1",
+    "右后摆_2_1",
+    "右后摆_3_1",
+    "右后摆_4_1",
+    "右后摆_5_1",
+    "右后摆_6_1",
+    "右后摆_7_1",
+    "右后摆_7_1_end"
+   ],
+   "length": 9,
+   "weighted": [
+    314,
+    132,
+    60,
+    48,
+    48,
+    228,
+    0,
+    0,
+    0
+   ],
+   "chain_length_units": 10.7275
+  },
+  {
+   "root": "右后摆_0_2",
+   "kind": "Hem",
+   "parent": "下半身",
+   "bones": [
+    "右后摆_0_2",
+    "右后摆_1_2",
+    "右后摆_2_2",
+    "右后摆_3_2",
+    "右后摆_4_2",
+    "右后摆_5_2",
+    "右后摆_6_2",
+    "右后摆_7_2",
+    "右后摆_7_2_end"
+   ],
+   "length": 9,
+   "weighted": [
+    238,
+    107,
+    36,
+    36,
+    36,
+    394,
+    252,
+    0,
+    0
+   ],
+   "chain_length_units": 10.837
+  },
+  {
+   "root": "右发1_0_1",
+   "kind": "HairFront",
+   "parent": "頭",
+   "bones": [
+    "右发1_0_1",
+    "右发1_1_1",
+    "右发1_2_1",
+    "右发1_3_1",
+    "右发1_4_1",
+    "右发1_5_1",
+    "右发1_5_1_end"
+   ],
+   "length": 7,
+   "weighted": [
+    89,
+    87,
+    110,
+    129,
+    137,
+    0,
+    0
+   ],
+   "chain_length_units": 1.3562
+  },
+  {
+   "root": "右侧发2_0_1",
+   "kind": "HairSide",
+   "parent": "頭",
+   "bones": [
+    "右侧发2_0_1",
+    "右侧发2_1_1",
+    "右侧发2_2_1",
+    "右侧发2_3_1",
+    "右侧发2_4_1",
+    "右侧发2_5_1",
+    "右侧发2_6_1",
+    "右侧发2_6_1_end"
+   ],
+   "length": 8,
+   "weighted": [
+    156,
+    162,
+    169,
+    132,
+    138,
+    108,
+    0,
+    0
+   ],
+   "chain_length_units": 3.349
+  },
+  {
+   "root": "帽流苏_0_1",
+   "kind": "Tassel",
+   "parent": "頭",
+   "bones": [
+    "帽流苏_0_1",
+    "帽流苏_1_1",
+    "帽流苏_2_1",
+    "帽流苏_3_1",
+    "帽流苏_4_1",
+    "帽流苏_5_1",
+    "帽流苏_5_1_end"
+   ],
+   "length": 7,
+   "weighted": [
+    372,
+    202,
+    144,
+    150,
+    180,
+    0,
+    0
+   ],
+   "chain_length_units": 1.2368
+  },
+  {
+   "root": "右帽带_0_1",
+   "kind": "HatStrap",
+   "parent": "頭",
+   "bones": [
+    "右帽带_0_1",
+    "右帽带_1_1",
+    "右帽带_2_1",
+    "右帽带_3_1",
+    "右帽带_4_1",
+    "右帽带_5_1",
+    "右帽带_6_1",
+    "右帽带_6_1_end"
+   ],
+   "length": 8,
+   "weighted": [
+    48,
+    48,
+    48,
+    48,
+    56,
+    42,
+    0,
+    0
+   ],
+   "chain_length_units": 5.3571
+  },
+  {
+   "root": "右后发3_0_1",
+   "kind": "HairBack",
+   "parent": "頭",
+   "bones": [
+    "右后发3_0_1",
+    "右后发3_1_1",
+    "右后发3_2_1",
+    "右后发3_3_1",
+    "右后发3_4_1",
+    "右后发3_5_1",
+    "右后发3_6_1",
+    "右后发3_7_1",
+    "右后发3_8_1",
+    "右后发3_9_1",
+    "右后发3_10_1",
+    "右后发3_11_1",
+    "右后发3_12_1",
+    "右后发3_13_1",
+    "右后发3_14_1",
+    "右后发3_15_1",
+    "右后发3_15_1_end"
+   ],
+   "length": 17,
+   "weighted": [
+    143,
+    144,
+    97,
+    175,
+    227,
+    186,
+    264,
+    389,
+    461,
+    658,
+    690,
+    524,
+    325,
+    264,
+    180,
+    0,
+    0
+   ],
+   "chain_length_units": 12.0375
+  },
+  {
+   "root": "左发1_0_1",
+   "kind": "HairFront",
+   "parent": "頭",
+   "bones": [
+    "左发1_0_1",
+    "左发1_1_1",
+    "左发1_2_1",
+    "左发1_3_1",
+    "左发1_4_1",
+    "左发1_5_1",
+    "左发1_5_1_end"
+   ],
+   "length": 7,
+   "weighted": [
+    89,
+    87,
+    110,
+    129,
+    137,
+    0,
+    0
+   ],
+   "chain_length_units": 1.3562
+  },
+  {
+   "root": "左侧发2_0_1",
+   "kind": "HairSide",
+   "parent": "頭",
+   "bones": [
+    "左侧发2_0_1",
+    "左侧发2_1_1",
+    "左侧发2_2_1",
+    "左侧发2_3_1",
+    "左侧发2_4_1",
+    "左侧发2_5_1",
+    "左侧发2_6_1",
+    "左侧发2_6_1_end"
+   ],
+   "length": 8,
+   "weighted": [
+    156,
+    162,
+    169,
+    132,
+    138,
+    108,
+    0,
+    0
+   ],
+   "chain_length_units": 3.349
+  },
+  {
+   "root": "左帽带_0_1",
+   "kind": "HatStrap",
+   "parent": "頭",
+   "bones": [
+    "左帽带_0_1",
+    "左帽带_1_1",
+    "左帽带_2_1",
+    "左帽带_3_1",
+    "左帽带_4_1",
+    "左帽带_5_1",
+    "左帽带_6_1",
+    "左帽带_6_1_end"
+   ],
+   "length": 8,
+   "weighted": [
+    48,
+    48,
+    48,
+    48,
+    56,
+    42,
+    0,
+    0
+   ],
+   "chain_length_units": 5.3571
+  },
+  {
+   "root": "左后发3_0_1",
+   "kind": "HairBack",
+   "parent": "頭",
+   "bones": [
+    "左后发3_0_1",
+    "左后发3_1_1",
+    "左后发3_2_1",
+    "左后发3_3_1",
+    "左后发3_4_1",
+    "左后发3_5_1",
+    "左后发3_6_1",
+    "左后发3_7_1",
+    "左后发3_8_1",
+    "左后发3_9_1",
+    "左后发3_10_1",
+    "左后发3_11_1",
+    "左后发3_12_1",
+    "左后发3_13_1",
+    "左后发3_14_1",
+    "左后发3_15_1",
+    "左后发3_15_1_end"
+   ],
+   "length": 17,
+   "weighted": [
+    143,
+    144,
+    97,
+    175,
+    227,
+    186,
+    264,
+    389,
+    461,
+    658,
+    690,
+    524,
+    325,
+    264,
+    180,
+    0,
+    0
+   ],
+   "chain_length_units": 12.0375
+  },
+  {
+   "root": "右带_0_1",
+   "kind": "Belt",
+   "parent": "上半身",
+   "bones": [
+    "右带_0_1",
+    "右带_1_1",
+    "右带_2_1",
+    "右带_3_1",
+    "右带_4_1",
+    "右带_5_1",
+    "右带_5_1_end"
+   ],
+   "length": 7,
+   "weighted": [
+    48,
+    48,
+    156,
+    204,
+    72,
+    0,
+    0
+   ],
+   "chain_length_units": 3.4858
+  },
+  {
+   "root": "左带_0_1",
+   "kind": "Belt",
+   "parent": "上半身",
+   "bones": [
+    "左带_0_1",
+    "左带_1_1",
+    "左带_2_1",
+    "左带_3_1",
+    "左带_4_1",
+    "左带_5_1",
+    "左带_5_1_end"
+   ],
+   "length": 7,
+   "weighted": [
+    48,
+    48,
+    156,
+    204,
+    72,
+    0,
+    0
+   ],
+   "chain_length_units": 3.4858
+  }
+ ],
+ "meshes": {
+  "Меш.001": {
+   "vertices": 4689,
+   "vertex_groups": 1,
+   "weighted_groups": 1
+  },
+  "Меш.002": {
+   "vertices": 255,
+   "vertex_groups": 1,
+   "weighted_groups": 1
+  },
+  "Меш.003": {
+   "vertices": 468,
+   "vertex_groups": 1,
+   "weighted_groups": 1
+  },
+  "Меш.004": {
+   "vertices": 360,
+   "vertex_groups": 2,
+   "weighted_groups": 2
+  },
+  "Меш.005": {
+   "vertices": 1620,
+   "vertex_groups": 1,
+   "weighted_groups": 1
+  },
+  "Меш.006": {
+   "vertices": 960,
+   "vertex_groups": 1,
+   "weighted_groups": 1
+  },
+  "Меш.007": {
+   "vertices": 198,
+   "vertex_groups": 1,
+   "weighted_groups": 1
+  },
+  "Меш.008": {
+   "vertices": 132,
+   "vertex_groups": 1,
+   "weighted_groups": 1
+  },
+  "Меш.009": {
+   "vertices": 432,
+   "vertex_groups": 2,
+   "weighted_groups": 2
+  },
+  "Меш.010": {
+   "vertices": 192,
+   "vertex_groups": 2,
+   "weighted_groups": 2
+  },
+  "Меш.011": {
+   "vertices": 10020,
+   "vertex_groups": 53,
+   "weighted_groups": 53
+  },
+  "Меш.012": {
+   "vertices": 2532,
+   "vertex_groups": 13,
+   "weighted_groups": 13
+  },
+  "Меш.013": {
+   "vertices": 14400,
+   "vertex_groups": 6,
+   "weighted_groups": 6
+  },
+  "Меш.014": {
+   "vertices": 17331,
+   "vertex_groups": 65,
+   "weighted_groups": 65
+  },
+  "Меш.015": {
+   "vertices": 900,
+   "vertex_groups": 2,
+   "weighted_groups": 2
+  },
+  "Меш.016": {
+   "vertices": 351,
+   "vertex_groups": 9,
+   "weighted_groups": 9
+  },
+  "Меш.017": {
+   "vertices": 60,
+   "vertex_groups": 1,
+   "weighted_groups": 1
+  },
+  "Меш.018": {
+   "vertices": 1392,
+   "vertex_groups": 5,
+   "weighted_groups": 5
+  },
+  "Меш.019": {
+   "vertices": 4782,
+   "vertex_groups": 7,
+   "weighted_groups": 7
+  },
+  "Меш.020": {
+   "vertices": 720,
+   "vertex_groups": 11,
+   "weighted_groups": 11
+  },
+  "Меш.021": {
+   "vertices": 10038,
+   "vertex_groups": 46,
+   "weighted_groups": 46
+  }
+ },
+ "bones": [
+  {
+   "name": "操作中心",
+   "parent": null,
+   "depth": 0,
+   "length": 1.0,
+   "group": "root_control",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "arm_tail": [
+    0.0,
+    1.0,
+    0.0
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "操作中心_end",
+   "parent": "操作中心",
+   "depth": 1,
+   "length": 1.0,
+   "group": "end_tip",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": true,
+   "arm_head": [
+    0.0,
+    1.0,
+    0.0
+   ],
+   "arm_tail": [
+    0.0,
+    2.0,
+    0.0
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "全ての親",
+   "parent": null,
+   "depth": 0,
+   "length": 3.43163,
+   "group": "root_control",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "arm_tail": [
+    0.0,
+    3.4316,
+    0.0
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "センター",
+   "parent": "全ての親",
+   "depth": 1,
+   "length": 0.01,
+   "group": "root_control",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    0.0,
+    8.23,
+    0.0
+   ],
+   "arm_tail": [
+    0.0,
+    8.24,
+    0.0
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "センター2",
+   "parent": "センター",
+   "depth": 2,
+   "length": 0.01,
+   "group": "root_control",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    0.0,
+    8.23,
+    0.0
+   ],
+   "arm_tail": [
+    0.0,
+    8.24,
+    0.0
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "グルーブ",
+   "parent": "センター2",
+   "depth": 3,
+   "length": 0.01,
+   "group": "root_control",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    0.0,
+    8.23,
+    0.0
+   ],
+   "arm_tail": [
+    0.0,
+    8.24,
+    0.0
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "グルーブ2",
+   "parent": "グルーブ",
+   "depth": 4,
+   "length": 3.02921,
+   "group": "root_control",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    0.0,
+    8.23,
+    0.0
+   ],
+   "arm_tail": [
+    0.0,
+    11.2592,
+    0.0
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "腰",
+   "parent": "グルーブ2",
+   "depth": 5,
+   "length": 1.04047,
+   "group": "root_control",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    0.0,
+    11.2485,
+    -0.255
+   ],
+   "arm_tail": [
+    0.0,
+    12.2889,
+    -0.255
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "下半身",
+   "parent": "腰",
+   "depth": 6,
+   "length": 1.45631,
+   "group": "torso",
+   "weighted_vertices": 3846,
+   "meshes": [
+    "Меш.014",
+    "Меш.018",
+    "Меш.021"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    0.0118,
+    11.6818,
+    0.648
+   ],
+   "arm_tail": [
+    0.0118,
+    13.1381,
+    0.648
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左足",
+   "parent": "下半身",
+   "depth": 7,
+   "length": 4.84518,
+   "group": "leg",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    0.9324,
+    10.7124,
+    0.4718
+   ],
+   "arm_tail": [
+    0.9324,
+    15.5576,
+    0.4718
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左ひざ",
+   "parent": "左足",
+   "depth": 8,
+   "length": 5.06969,
+   "group": "leg",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    0.7271,
+    5.8724,
+    0.3828
+   ],
+   "arm_tail": [
+    0.7271,
+    10.9421,
+    0.3828
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左足首",
+   "parent": "左ひざ",
+   "depth": 9,
+   "length": 1.54702,
+   "group": "leg",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    0.5023,
+    0.8342,
+    -0.1354
+   ],
+   "arm_tail": [
+    0.5023,
+    2.3813,
+    -0.1354
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左つま先",
+   "parent": "左足首",
+   "depth": 10,
+   "length": 1.54702,
+   "group": "leg",
+   "weighted_vertices": 84,
+   "meshes": [
+    "Меш.019"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    0.6815,
+    0.1254,
+    1.228
+   ],
+   "arm_tail": [
+    0.6815,
+    1.6725,
+    1.228
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左つま先_end",
+   "parent": "左つま先",
+   "depth": 11,
+   "length": 1.54702,
+   "group": "end_tip",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": true,
+   "arm_head": [
+    0.6815,
+    1.6725,
+    1.228
+   ],
+   "arm_tail": [
+    0.6815,
+    3.2195,
+    1.228
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右足",
+   "parent": "下半身",
+   "depth": 7,
+   "length": 4.84518,
+   "group": "leg",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -0.9324,
+    10.7124,
+    0.4718
+   ],
+   "arm_tail": [
+    -0.9324,
+    15.5576,
+    0.4718
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右ひざ",
+   "parent": "右足",
+   "depth": 8,
+   "length": 5.06969,
+   "group": "leg",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -0.7273,
+    5.8718,
+    0.4259
+   ],
+   "arm_tail": [
+    -0.7273,
+    10.9414,
+    0.4259
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右足首",
+   "parent": "右ひざ",
+   "depth": 9,
+   "length": 1.54702,
+   "group": "leg",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -0.5025,
+    0.8382,
+    -0.1351
+   ],
+   "arm_tail": [
+    -0.5025,
+    2.3852,
+    -0.1351
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右つま先",
+   "parent": "右足首",
+   "depth": 10,
+   "length": 1.54702,
+   "group": "leg",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -0.6814,
+    0.1262,
+    1.2266
+   ],
+   "arm_tail": [
+    -0.6814,
+    1.6732,
+    1.2266
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右つま先_end",
+   "parent": "右つま先",
+   "depth": 11,
+   "length": 1.54702,
+   "group": "end_tip",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": true,
+   "arm_head": [
+    -0.6814,
+    1.6732,
+    1.2266
+   ],
+   "arm_tail": [
+    -0.6814,
+    3.2202,
+    1.2266
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左后摆_0_0",
+   "parent": "下半身",
+   "depth": 7,
+   "length": 1.15435,
+   "group": "secondary_Hem",
+   "weighted_vertices": 154,
+   "meshes": [
+    "Меш.014"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    0.1896,
+    11.3821,
+    -0.7514
+   ],
+   "arm_tail": [
+    0.1896,
+    12.5364,
+    -0.7514
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左后摆_1_0",
+   "parent": "左后摆_0_0",
+   "depth": 8,
+   "length": 1.13857,
+   "group": "secondary_Hem",
+   "weighted_vertices": 73,
+   "meshes": [
+    "Меш.014"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    0.361,
+    10.3459,
+    -1.2304
+   ],
+   "arm_tail": [
+    0.361,
+    11.4844,
+    -1.2304
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左后摆_2_0",
+   "parent": "左后摆_1_0",
+   "depth": 9,
+   "length": 1.13206,
+   "group": "secondary_Hem",
+   "weighted_vertices": 36,
+   "meshes": [
+    "Меш.014"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    0.5238,
+    9.2936,
+    -1.6335
+   ],
+   "arm_tail": [
+    0.5238,
+    10.4256,
+    -1.6335
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左后摆_3_0",
+   "parent": "左后摆_2_0",
+   "depth": 10,
+   "length": 1.13594,
+   "group": "secondary_Hem",
+   "weighted_vertices": 36,
+   "meshes": [
+    "Меш.014"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    0.6924,
+    8.2488,
+    -2.0355
+   ],
+   "arm_tail": [
+    0.6924,
+    9.3848,
+    -2.0355
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左后摆_4_0",
+   "parent": "左后摆_3_0",
+   "depth": 11,
+   "length": 1.15271,
+   "group": "secondary_Hem",
+   "weighted_vertices": 36,
+   "meshes": [
+    "Меш.014"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    0.8732,
+    7.2143,
+    -2.4685
+   ],
+   "arm_tail": [
+    0.8732,
+    8.367,
+    -2.4685
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左后摆_5_0",
+   "parent": "左后摆_4_0",
+   "depth": 12,
+   "length": 1.18355,
+   "group": "secondary_Hem",
+   "weighted_vertices": 68,
+   "meshes": [
+    "Меш.014"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    1.065,
+    6.1715,
+    -2.9208
+   ],
+   "arm_tail": [
+    1.065,
+    7.3551,
+    -2.9208
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左后摆_6_0",
+   "parent": "左后摆_5_0",
+   "depth": 13,
+   "length": 1.24509,
+   "group": "secondary_Hem",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    1.2589,
+    5.081,
+    -3.3377
+   ],
+   "arm_tail": [
+    1.2589,
+    6.326,
+    -3.3377
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左后摆_7_0",
+   "parent": "左后摆_6_0",
+   "depth": 14,
+   "length": 1.24509,
+   "group": "secondary_Hem",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    1.4385,
+    3.8819,
+    -3.6211
+   ],
+   "arm_tail": [
+    1.4385,
+    5.127,
+    -3.6211
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左后摆_7_0_end",
+   "parent": "左后摆_7_0",
+   "depth": 15,
+   "length": 1.24509,
+   "group": "secondary_Hem",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": true,
+   "arm_head": [
+    1.4385,
+    5.127,
+    -3.6211
+   ],
+   "arm_tail": [
+    1.4385,
+    6.3721,
+    -3.6211
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左后摆_0_1",
+   "parent": "下半身",
+   "depth": 7,
+   "length": 1.17972,
+   "group": "secondary_Hem",
+   "weighted_vertices": 314,
+   "meshes": [
+    "Меш.014"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    0.9623,
+    11.3821,
+    -0.2221
+   ],
+   "arm_tail": [
+    0.9623,
+    12.5618,
+    -0.2221
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左后摆_1_1",
+   "parent": "左后摆_0_1",
+   "depth": 8,
+   "length": 1.16423,
+   "group": "secondary_Hem",
+   "weighted_vertices": 132,
+   "meshes": [
+    "Меш.014"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    1.2969,
+    10.3459,
+    -0.6761
+   ],
+   "arm_tail": [
+    1.2969,
+    11.5101,
+    -0.6761
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左后摆_2_1",
+   "parent": "左后摆_1_1",
+   "depth": 9,
+   "length": 1.15183,
+   "group": "secondary_Hem",
+   "weighted_vertices": 60,
+   "meshes": [
+    "Меш.014"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    1.5309,
+    9.2936,
+    -1.1158
+   ],
+   "arm_tail": [
+    1.5309,
+    10.4454,
+    -1.1158
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左后摆_3_1",
+   "parent": "左后摆_2_1",
+   "depth": 10,
+   "length": 1.14491,
+   "group": "secondary_Hem",
+   "weighted_vertices": 48,
+   "meshes": [
+    "Меш.014"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    1.7206,
+    8.2488,
+    -1.5621
+   ],
+   "arm_tail": [
+    1.7206,
+    9.3937,
+    -1.5621
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左后摆_4_1",
+   "parent": "左后摆_3_1",
+   "depth": 11,
+   "length": 1.15103,
+   "group": "secondary_Hem",
+   "weighted_vertices": 48,
+   "meshes": [
+    "Меш.014"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    1.9026,
+    7.2143,
+    -2.0176
+   ],
+   "arm_tail": [
+    1.9026,
+    8.3653,
+    -2.0176
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左后摆_5_1",
+   "parent": "左后摆_4_1",
+   "depth": 12,
+   "length": 1.18039,
+   "group": "secondary_Hem",
+   "weighted_vertices": 228,
+   "meshes": [
+    "Меш.014"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    2.0941,
+    6.1715,
+    -2.4658
+   ],
+   "arm_tail": [
+    2.0941,
+    7.3519,
+    -2.4658
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左后摆_6_1",
+   "parent": "左后摆_5_1",
+   "depth": 13,
+   "length": 1.2518,
+   "group": "secondary_Hem",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    2.2927,
+    5.081,
+    -2.8714
+   ],
+   "arm_tail": [
+    2.2927,
+    6.3328,
+    -2.8714
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左后摆_7_1",
+   "parent": "左后摆_6_1",
+   "depth": 14,
+   "length": 1.2518,
+   "group": "secondary_Hem",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    2.4763,
+    3.8819,
+    -3.1806
+   ],
+   "arm_tail": [
+    2.4763,
+    5.1337,
+    -3.1806
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左后摆_7_1_end",
+   "parent": "左后摆_7_1",
+   "depth": 15,
+   "length": 1.2518,
+   "group": "secondary_Hem",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": true,
+   "arm_head": [
+    2.4763,
+    5.1337,
+    -3.1806
+   ],
+   "arm_tail": [
+    2.4763,
+    6.3855,
+    -3.1806
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左后摆_0_2",
+   "parent": "下半身",
+   "depth": 7,
+   "length": 1.16514,
+   "group": "secondary_Hem",
+   "weighted_vertices": 238,
+   "meshes": [
+    "Меш.014"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    1.7349,
+    11.3821,
+    0.3071
+   ],
+   "arm_tail": [
+    1.7349,
+    12.5472,
+    0.3071
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左后摆_1_2",
+   "parent": "左后摆_0_2",
+   "depth": 8,
+   "length": 1.21997,
+   "group": "secondary_Hem",
+   "weighted_vertices": 107,
+   "meshes": [
+    "Меш.014"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    2.051,
+    10.3459,
+    -0.1218
+   ],
+   "arm_tail": [
+    2.051,
+    11.5659,
+    -0.1218
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左后摆_2_2",
+   "parent": "左后摆_1_2",
+   "depth": 9,
+   "length": 1.19389,
+   "group": "secondary_Hem",
+   "weighted_vertices": 36,
+   "meshes": [
+    "Меш.014"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    2.4436,
+    9.2936,
+    -0.5981
+   ],
+   "arm_tail": [
+    2.4436,
+    10.4874,
+    -0.5981
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左后摆_3_2",
+   "parent": "左后摆_2_2",
+   "depth": 10,
+   "length": 1.15425,
+   "group": "secondary_Hem",
+   "weighted_vertices": 36,
+   "meshes": [
+    "Меш.014"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    2.7488,
+    8.2488,
+    -1.0888
+   ],
+   "arm_tail": [
+    2.7488,
+    9.4031,
+    -1.0888
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左后摆_4_2",
+   "parent": "左后摆_3_2",
+   "depth": 11,
+   "length": 1.14936,
+   "group": "secondary_Hem",
+   "weighted_vertices": 36,
+   "meshes": [
+    "Меш.014"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    2.9321,
+    7.2143,
+    -1.5667
+   ],
+   "arm_tail": [
+    2.9321,
+    8.3636,
+    -1.5667
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左后摆_5_2",
+   "parent": "左后摆_4_2",
+   "depth": 12,
+   "length": 1.17734,
+   "group": "secondary_Hem",
+   "weighted_vertices": 394,
+   "meshes": [
+    "Меш.014"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    3.1233,
+    6.1715,
+    -2.0107
+   ],
+   "arm_tail": [
+    3.1233,
+    7.3489,
+    -2.0107
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左后摆_6_2",
+   "parent": "左后摆_5_2",
+   "depth": 13,
+   "length": 1.25902,
+   "group": "secondary_Hem",
+   "weighted_vertices": 252,
+   "meshes": [
+    "Меш.014"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    3.3265,
+    5.081,
+    -2.4051
+   ],
+   "arm_tail": [
+    3.3265,
+    6.34,
+    -2.4051
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左后摆_7_2",
+   "parent": "左后摆_6_2",
+   "depth": 14,
+   "length": 1.25902,
+   "group": "secondary_Hem",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    3.514,
+    3.8819,
+    -2.7401
+   ],
+   "arm_tail": [
+    3.514,
+    5.1409,
+    -2.7401
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左后摆_7_2_end",
+   "parent": "左后摆_7_2",
+   "depth": 15,
+   "length": 1.25902,
+   "group": "secondary_Hem",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": true,
+   "arm_head": [
+    3.514,
+    5.1409,
+    -2.7401
+   ],
+   "arm_tail": [
+    3.514,
+    6.4,
+    -2.7401
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右后摆_0_0",
+   "parent": "下半身",
+   "depth": 7,
+   "length": 1.15435,
+   "group": "secondary_Hem",
+   "weighted_vertices": 154,
+   "meshes": [
+    "Меш.014"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -0.1896,
+    11.3821,
+    -0.7514
+   ],
+   "arm_tail": [
+    -0.1896,
+    12.5364,
+    -0.7514
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右后摆_1_0",
+   "parent": "右后摆_0_0",
+   "depth": 8,
+   "length": 1.13857,
+   "group": "secondary_Hem",
+   "weighted_vertices": 73,
+   "meshes": [
+    "Меш.014"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -0.361,
+    10.3459,
+    -1.2304
+   ],
+   "arm_tail": [
+    -0.361,
+    11.4844,
+    -1.2304
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右后摆_2_0",
+   "parent": "右后摆_1_0",
+   "depth": 9,
+   "length": 1.13206,
+   "group": "secondary_Hem",
+   "weighted_vertices": 36,
+   "meshes": [
+    "Меш.014"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -0.5238,
+    9.2936,
+    -1.6335
+   ],
+   "arm_tail": [
+    -0.5238,
+    10.4256,
+    -1.6335
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右后摆_3_0",
+   "parent": "右后摆_2_0",
+   "depth": 10,
+   "length": 1.13594,
+   "group": "secondary_Hem",
+   "weighted_vertices": 36,
+   "meshes": [
+    "Меш.014"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -0.6924,
+    8.2488,
+    -2.0355
+   ],
+   "arm_tail": [
+    -0.6924,
+    9.3848,
+    -2.0355
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右后摆_4_0",
+   "parent": "右后摆_3_0",
+   "depth": 11,
+   "length": 1.15271,
+   "group": "secondary_Hem",
+   "weighted_vertices": 36,
+   "meshes": [
+    "Меш.014"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -0.8732,
+    7.2143,
+    -2.4685
+   ],
+   "arm_tail": [
+    -0.8732,
+    8.367,
+    -2.4685
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右后摆_5_0",
+   "parent": "右后摆_4_0",
+   "depth": 12,
+   "length": 1.18355,
+   "group": "secondary_Hem",
+   "weighted_vertices": 68,
+   "meshes": [
+    "Меш.014"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -1.065,
+    6.1715,
+    -2.9208
+   ],
+   "arm_tail": [
+    -1.065,
+    7.3551,
+    -2.9208
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右后摆_6_0",
+   "parent": "右后摆_5_0",
+   "depth": 13,
+   "length": 1.24509,
+   "group": "secondary_Hem",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -1.2589,
+    5.081,
+    -3.3377
+   ],
+   "arm_tail": [
+    -1.2589,
+    6.326,
+    -3.3377
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右后摆_7_0",
+   "parent": "右后摆_6_0",
+   "depth": 14,
+   "length": 1.24509,
+   "group": "secondary_Hem",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -1.4385,
+    3.8819,
+    -3.6211
+   ],
+   "arm_tail": [
+    -1.4385,
+    5.127,
+    -3.6211
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右后摆_7_0_end",
+   "parent": "右后摆_7_0",
+   "depth": 15,
+   "length": 1.24509,
+   "group": "secondary_Hem",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": true,
+   "arm_head": [
+    -1.4385,
+    5.127,
+    -3.6211
+   ],
+   "arm_tail": [
+    -1.4385,
+    6.3721,
+    -3.6211
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右后摆_0_1",
+   "parent": "下半身",
+   "depth": 7,
+   "length": 1.17972,
+   "group": "secondary_Hem",
+   "weighted_vertices": 314,
+   "meshes": [
+    "Меш.014"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -0.9623,
+    11.3821,
+    -0.2221
+   ],
+   "arm_tail": [
+    -0.9623,
+    12.5618,
+    -0.2221
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右后摆_1_1",
+   "parent": "右后摆_0_1",
+   "depth": 8,
+   "length": 1.16423,
+   "group": "secondary_Hem",
+   "weighted_vertices": 132,
+   "meshes": [
+    "Меш.014"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -1.2969,
+    10.3459,
+    -0.6761
+   ],
+   "arm_tail": [
+    -1.2969,
+    11.5101,
+    -0.6761
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右后摆_2_1",
+   "parent": "右后摆_1_1",
+   "depth": 9,
+   "length": 1.15183,
+   "group": "secondary_Hem",
+   "weighted_vertices": 60,
+   "meshes": [
+    "Меш.014"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -1.5309,
+    9.2936,
+    -1.1158
+   ],
+   "arm_tail": [
+    -1.5309,
+    10.4454,
+    -1.1158
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右后摆_3_1",
+   "parent": "右后摆_2_1",
+   "depth": 10,
+   "length": 1.14491,
+   "group": "secondary_Hem",
+   "weighted_vertices": 48,
+   "meshes": [
+    "Меш.014"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -1.7206,
+    8.2488,
+    -1.5621
+   ],
+   "arm_tail": [
+    -1.7206,
+    9.3937,
+    -1.5621
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右后摆_4_1",
+   "parent": "右后摆_3_1",
+   "depth": 11,
+   "length": 1.15103,
+   "group": "secondary_Hem",
+   "weighted_vertices": 48,
+   "meshes": [
+    "Меш.014"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -1.9026,
+    7.2143,
+    -2.0176
+   ],
+   "arm_tail": [
+    -1.9026,
+    8.3653,
+    -2.0176
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右后摆_5_1",
+   "parent": "右后摆_4_1",
+   "depth": 12,
+   "length": 1.18039,
+   "group": "secondary_Hem",
+   "weighted_vertices": 228,
+   "meshes": [
+    "Меш.014"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -2.0941,
+    6.1715,
+    -2.4658
+   ],
+   "arm_tail": [
+    -2.0941,
+    7.3519,
+    -2.4658
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右后摆_6_1",
+   "parent": "右后摆_5_1",
+   "depth": 13,
+   "length": 1.2518,
+   "group": "secondary_Hem",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -2.2927,
+    5.081,
+    -2.8714
+   ],
+   "arm_tail": [
+    -2.2927,
+    6.3328,
+    -2.8714
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右后摆_7_1",
+   "parent": "右后摆_6_1",
+   "depth": 14,
+   "length": 1.2518,
+   "group": "secondary_Hem",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -2.4763,
+    3.8819,
+    -3.1806
+   ],
+   "arm_tail": [
+    -2.4763,
+    5.1337,
+    -3.1806
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右后摆_7_1_end",
+   "parent": "右后摆_7_1",
+   "depth": 15,
+   "length": 1.2518,
+   "group": "secondary_Hem",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": true,
+   "arm_head": [
+    -2.4763,
+    5.1337,
+    -3.1806
+   ],
+   "arm_tail": [
+    -2.4763,
+    6.3855,
+    -3.1806
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右后摆_0_2",
+   "parent": "下半身",
+   "depth": 7,
+   "length": 1.16514,
+   "group": "secondary_Hem",
+   "weighted_vertices": 238,
+   "meshes": [
+    "Меш.014"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -1.7349,
+    11.3821,
+    0.3071
+   ],
+   "arm_tail": [
+    -1.7349,
+    12.5472,
+    0.3071
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右后摆_1_2",
+   "parent": "右后摆_0_2",
+   "depth": 8,
+   "length": 1.21997,
+   "group": "secondary_Hem",
+   "weighted_vertices": 107,
+   "meshes": [
+    "Меш.014"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -2.051,
+    10.3459,
+    -0.1218
+   ],
+   "arm_tail": [
+    -2.051,
+    11.5659,
+    -0.1218
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右后摆_2_2",
+   "parent": "右后摆_1_2",
+   "depth": 9,
+   "length": 1.19389,
+   "group": "secondary_Hem",
+   "weighted_vertices": 36,
+   "meshes": [
+    "Меш.014"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -2.4436,
+    9.2936,
+    -0.5981
+   ],
+   "arm_tail": [
+    -2.4436,
+    10.4874,
+    -0.5981
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右后摆_3_2",
+   "parent": "右后摆_2_2",
+   "depth": 10,
+   "length": 1.15425,
+   "group": "secondary_Hem",
+   "weighted_vertices": 36,
+   "meshes": [
+    "Меш.014"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -2.7488,
+    8.2488,
+    -1.0888
+   ],
+   "arm_tail": [
+    -2.7488,
+    9.4031,
+    -1.0888
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右后摆_4_2",
+   "parent": "右后摆_3_2",
+   "depth": 11,
+   "length": 1.14936,
+   "group": "secondary_Hem",
+   "weighted_vertices": 36,
+   "meshes": [
+    "Меш.014"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -2.9321,
+    7.2143,
+    -1.5667
+   ],
+   "arm_tail": [
+    -2.9321,
+    8.3636,
+    -1.5667
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右后摆_5_2",
+   "parent": "右后摆_4_2",
+   "depth": 12,
+   "length": 1.17734,
+   "group": "secondary_Hem",
+   "weighted_vertices": 394,
+   "meshes": [
+    "Меш.014"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -3.1233,
+    6.1715,
+    -2.0107
+   ],
+   "arm_tail": [
+    -3.1233,
+    7.3489,
+    -2.0107
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右后摆_6_2",
+   "parent": "右后摆_5_2",
+   "depth": 13,
+   "length": 1.25902,
+   "group": "secondary_Hem",
+   "weighted_vertices": 252,
+   "meshes": [
+    "Меш.014"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -3.3265,
+    5.081,
+    -2.4051
+   ],
+   "arm_tail": [
+    -3.3265,
+    6.34,
+    -2.4051
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右后摆_7_2",
+   "parent": "右后摆_6_2",
+   "depth": 14,
+   "length": 1.25902,
+   "group": "secondary_Hem",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -3.514,
+    3.8819,
+    -2.7401
+   ],
+   "arm_tail": [
+    -3.514,
+    5.1409,
+    -2.7401
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右后摆_7_2_end",
+   "parent": "右后摆_7_2",
+   "depth": 15,
+   "length": 1.25902,
+   "group": "secondary_Hem",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": true,
+   "arm_head": [
+    -3.514,
+    5.1409,
+    -2.7401
+   ],
+   "arm_tail": [
+    -3.514,
+    6.4,
+    -2.7401
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右足D",
+   "parent": "下半身",
+   "depth": 7,
+   "length": 4.84518,
+   "group": "leg_deform_D",
+   "weighted_vertices": 1256,
+   "meshes": [
+    "Меш.014",
+    "Меш.018",
+    "Меш.021"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -0.9324,
+    10.7124,
+    0.4718
+   ],
+   "arm_tail": [
+    -0.9324,
+    15.5576,
+    0.4718
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右ひざD",
+   "parent": "右足D",
+   "depth": 8,
+   "length": 5.06969,
+   "group": "leg_deform_D",
+   "weighted_vertices": 1790,
+   "meshes": [
+    "Меш.019",
+    "Меш.021"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -0.7273,
+    5.8718,
+    0.4259
+   ],
+   "arm_tail": [
+    -0.7273,
+    10.9414,
+    0.4259
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右足首D",
+   "parent": "右ひざD",
+   "depth": 9,
+   "length": 1.03135,
+   "group": "leg_deform_D",
+   "weighted_vertices": 1438,
+   "meshes": [
+    "Меш.019"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -0.5025,
+    0.8382,
+    -0.1351
+   ],
+   "arm_tail": [
+    -0.5025,
+    1.8696,
+    -0.1351
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右足先EX",
+   "parent": "右足首D",
+   "depth": 10,
+   "length": 1.03135,
+   "group": "leg_deform_D",
+   "weighted_vertices": 940,
+   "meshes": [
+    "Меш.019"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -0.6217,
+    0.3635,
+    0.7727
+   ],
+   "arm_tail": [
+    -0.6217,
+    1.3949,
+    0.7727
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右足先EX_end",
+   "parent": "右足先EX",
+   "depth": 11,
+   "length": 1.03135,
+   "group": "end_tip",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": true,
+   "arm_head": [
+    -0.6217,
+    1.3949,
+    0.7727
+   ],
+   "arm_tail": [
+    -0.6217,
+    2.4262,
+    0.7727
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左足D",
+   "parent": "下半身",
+   "depth": 7,
+   "length": 4.84518,
+   "group": "leg_deform_D",
+   "weighted_vertices": 1304,
+   "meshes": [
+    "Меш.014",
+    "Меш.018",
+    "Меш.021"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    0.9324,
+    10.7124,
+    0.4718
+   ],
+   "arm_tail": [
+    0.9324,
+    15.5576,
+    0.4718
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左ひざD",
+   "parent": "左足D",
+   "depth": 8,
+   "length": 5.06969,
+   "group": "leg_deform_D",
+   "weighted_vertices": 1779,
+   "meshes": [
+    "Меш.019",
+    "Меш.021"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    0.7271,
+    5.8724,
+    0.3828
+   ],
+   "arm_tail": [
+    0.7271,
+    10.9421,
+    0.3828
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左足首D",
+   "parent": "左ひざD",
+   "depth": 9,
+   "length": 1.03135,
+   "group": "leg_deform_D",
+   "weighted_vertices": 1438,
+   "meshes": [
+    "Меш.019"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    0.5023,
+    0.8342,
+    -0.1354
+   ],
+   "arm_tail": [
+    0.5023,
+    1.8656,
+    -0.1354
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左足先EX",
+   "parent": "左足首D",
+   "depth": 10,
+   "length": 1.03135,
+   "group": "leg_deform_D",
+   "weighted_vertices": 862,
+   "meshes": [
+    "Меш.019"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    0.6218,
+    0.3617,
+    0.7736
+   ],
+   "arm_tail": [
+    0.6218,
+    1.3931,
+    0.7736
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左足先EX_end",
+   "parent": "左足先EX",
+   "depth": 11,
+   "length": 1.03135,
+   "group": "end_tip",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": true,
+   "arm_head": [
+    0.6218,
+    1.3931,
+    0.7736
+   ],
+   "arm_tail": [
+    0.6218,
+    2.4244,
+    0.7736
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "上半身",
+   "parent": "腰",
+   "depth": 6,
+   "length": 0.90541,
+   "group": "torso",
+   "weighted_vertices": 5009,
+   "meshes": [
+    "Меш.014",
+    "Меш.015",
+    "Меш.018",
+    "Меш.020"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    0.0,
+    11.7924,
+    0.6773
+   ],
+   "arm_tail": [
+    0.0,
+    12.6978,
+    0.6773
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "上半身3",
+   "parent": "上半身",
+   "depth": 7,
+   "length": 0.81909,
+   "group": "torso",
+   "weighted_vertices": 4490,
+   "meshes": [
+    "Меш.014",
+    "Меш.015",
+    "Меш.018"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    0.0,
+    12.446,
+    0.7585
+   ],
+   "arm_tail": [
+    0.0,
+    13.2651,
+    0.7585
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "上半身2",
+   "parent": "上半身3",
+   "depth": 8,
+   "length": 2.03573,
+   "group": "torso",
+   "weighted_vertices": 5016,
+   "meshes": [
+    "Меш.014",
+    "Меш.017",
+    "Меш.021"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    0.0,
+    13.2586,
+    0.6554
+   ],
+   "arm_tail": [
+    0.0,
+    15.2943,
+    0.6554
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "首",
+   "parent": "上半身2",
+   "depth": 9,
+   "length": 0.80966,
+   "group": "head",
+   "weighted_vertices": 914,
+   "meshes": [
+    "Меш.014",
+    "Меш.021"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    0.0,
+    15.4597,
+    0.0049
+   ],
+   "arm_tail": [
+    0.0,
+    16.2694,
+    0.0049
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "頭",
+   "parent": "首",
+   "depth": 10,
+   "length": 1.69527,
+   "group": "head",
+   "weighted_vertices": 29324,
+   "meshes": [
+    "Меш.001",
+    "Меш.002",
+    "Меш.003",
+    "Меш.005",
+    "Меш.006",
+    "Меш.007",
+    "Меш.008",
+    "Меш.011",
+    "Меш.012",
+    "Меш.013",
+    "Меш.021"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    0.0,
+    16.2583,
+    0.1383
+   ],
+   "arm_tail": [
+    0.0,
+    17.9536,
+    0.1383
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "齿下",
+   "parent": "頭",
+   "depth": 11,
+   "length": 1.69527,
+   "group": "head",
+   "weighted_vertices": 216,
+   "meshes": [
+    "Меш.009"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    0.0,
+    16.2549,
+    1.2189
+   ],
+   "arm_tail": [
+    0.0,
+    17.9502,
+    1.2189
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "齿下_end",
+   "parent": "齿下",
+   "depth": 12,
+   "length": 1.69527,
+   "group": "end_tip",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": true,
+   "arm_head": [
+    0.0,
+    17.9502,
+    1.2189
+   ],
+   "arm_tail": [
+    0.0,
+    19.6454,
+    1.2189
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "齿上",
+   "parent": "頭",
+   "depth": 11,
+   "length": 1.69527,
+   "group": "head",
+   "weighted_vertices": 216,
+   "meshes": [
+    "Меш.009"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    0.0,
+    16.3291,
+    1.2192
+   ],
+   "arm_tail": [
+    0.0,
+    18.0244,
+    1.2192
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "齿上_end",
+   "parent": "齿上",
+   "depth": 12,
+   "length": 1.69527,
+   "group": "end_tip",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": true,
+   "arm_head": [
+    0.0,
+    18.0244,
+    1.2192
+   ],
+   "arm_tail": [
+    0.0,
+    19.7197,
+    1.2192
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "両目",
+   "parent": "頭",
+   "depth": 11,
+   "length": 1.69527,
+   "group": "head",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    0.0,
+    20.5715,
+    0.0
+   ],
+   "arm_tail": [
+    0.0,
+    22.2668,
+    0.0
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "両目_end",
+   "parent": "両目",
+   "depth": 12,
+   "length": 1.69527,
+   "group": "end_tip",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": true,
+   "arm_head": [
+    0.0,
+    22.2668,
+    0.0
+   ],
+   "arm_tail": [
+    0.0,
+    23.9621,
+    0.0
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右目",
+   "parent": "頭",
+   "depth": 11,
+   "length": 1.69527,
+   "group": "head",
+   "weighted_vertices": 276,
+   "meshes": [
+    "Меш.004",
+    "Меш.010"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -0.4667,
+    16.9187,
+    0.8491
+   ],
+   "arm_tail": [
+    -0.4667,
+    18.614,
+    0.8491
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右目_end",
+   "parent": "右目",
+   "depth": 12,
+   "length": 1.69527,
+   "group": "end_tip",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": true,
+   "arm_head": [
+    -0.4667,
+    18.614,
+    0.8491
+   ],
+   "arm_tail": [
+    -0.4667,
+    20.3092,
+    0.8491
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左目",
+   "parent": "頭",
+   "depth": 11,
+   "length": 1.69527,
+   "group": "head",
+   "weighted_vertices": 276,
+   "meshes": [
+    "Меш.004",
+    "Меш.010"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    0.4667,
+    16.9186,
+    0.849
+   ],
+   "arm_tail": [
+    0.4667,
+    18.6139,
+    0.849
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左目_end",
+   "parent": "左目",
+   "depth": 12,
+   "length": 1.69527,
+   "group": "end_tip",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": true,
+   "arm_head": [
+    0.4667,
+    18.6139,
+    0.849
+   ],
+   "arm_tail": [
+    0.4667,
+    20.3092,
+    0.849
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右发1_0_1",
+   "parent": "頭",
+   "depth": 11,
+   "length": 0.19374,
+   "group": "secondary_HairFront",
+   "weighted_vertices": 89,
+   "meshes": [
+    "Меш.011"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -1.3693,
+    17.2599,
+    0.0936
+   ],
+   "arm_tail": [
+    -1.3693,
+    17.4537,
+    0.0936
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右发1_1_1",
+   "parent": "右发1_0_1",
+   "depth": 12,
+   "length": 0.19374,
+   "group": "secondary_HairFront",
+   "weighted_vertices": 87,
+   "meshes": [
+    "Меш.011"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -1.4187,
+    17.0756,
+    0.06
+   ],
+   "arm_tail": [
+    -1.4187,
+    17.2694,
+    0.06
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右发1_2_1",
+   "parent": "右发1_1_1",
+   "depth": 13,
+   "length": 0.19374,
+   "group": "secondary_HairFront",
+   "weighted_vertices": 110,
+   "meshes": [
+    "Меш.011"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -1.4681,
+    16.8913,
+    0.0263
+   ],
+   "arm_tail": [
+    -1.4681,
+    17.0851,
+    0.0263
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右发1_3_1",
+   "parent": "右发1_2_1",
+   "depth": 14,
+   "length": 0.19373,
+   "group": "secondary_HairFront",
+   "weighted_vertices": 129,
+   "meshes": [
+    "Меш.011"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -1.5174,
+    16.7071,
+    -0.0073
+   ],
+   "arm_tail": [
+    -1.5174,
+    16.9008,
+    -0.0073
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右发1_4_1",
+   "parent": "右发1_3_1",
+   "depth": 15,
+   "length": 0.19374,
+   "group": "secondary_HairFront",
+   "weighted_vertices": 137,
+   "meshes": [
+    "Меш.011"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -1.5668,
+    16.5228,
+    -0.0409
+   ],
+   "arm_tail": [
+    -1.5668,
+    16.7165,
+    -0.0409
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右发1_5_1",
+   "parent": "右发1_4_1",
+   "depth": 16,
+   "length": 0.19374,
+   "group": "secondary_HairFront",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -1.6162,
+    16.3385,
+    -0.0746
+   ],
+   "arm_tail": [
+    -1.6162,
+    16.5322,
+    -0.0746
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右发1_5_1_end",
+   "parent": "右发1_5_1",
+   "depth": 17,
+   "length": 0.19374,
+   "group": "secondary_HairFront",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": true,
+   "arm_head": [
+    -1.6162,
+    16.5322,
+    -0.0746
+   ],
+   "arm_tail": [
+    -1.6162,
+    16.726,
+    -0.0746
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右侧发2_0_1",
+   "parent": "頭",
+   "depth": 11,
+   "length": 0.39492,
+   "group": "secondary_HairSide",
+   "weighted_vertices": 156,
+   "meshes": [
+    "Меш.011"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -0.9509,
+    16.84,
+    0.4771
+   ],
+   "arm_tail": [
+    -0.9509,
+    17.2349,
+    0.4771
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右侧发2_1_1",
+   "parent": "右侧发2_0_1",
+   "depth": 12,
+   "length": 0.46415,
+   "group": "secondary_HairSide",
+   "weighted_vertices": 162,
+   "meshes": [
+    "Меш.011"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -0.9509,
+    16.4456,
+    0.457
+   ],
+   "arm_tail": [
+    -0.9509,
+    16.9098,
+    0.457
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右侧发2_2_1",
+   "parent": "右侧发2_1_1",
+   "depth": 13,
+   "length": 0.43401,
+   "group": "secondary_HairSide",
+   "weighted_vertices": 169,
+   "meshes": [
+    "Меш.011"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -0.9509,
+    15.982,
+    0.4789
+   ],
+   "arm_tail": [
+    -0.9509,
+    16.416,
+    0.4789
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右侧发2_3_1",
+   "parent": "右侧发2_2_1",
+   "depth": 14,
+   "length": 0.38565,
+   "group": "secondary_HairSide",
+   "weighted_vertices": 132,
+   "meshes": [
+    "Меш.011"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -0.9509,
+    15.5587,
+    0.5749
+   ],
+   "arm_tail": [
+    -0.9509,
+    15.9444,
+    0.5749
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右侧发2_4_1",
+   "parent": "右侧发2_3_1",
+   "depth": 15,
+   "length": 0.37904,
+   "group": "secondary_HairSide",
+   "weighted_vertices": 138,
+   "meshes": [
+    "Меш.011"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -0.9509,
+    15.217,
+    0.7537
+   ],
+   "arm_tail": [
+    -0.9509,
+    15.5961,
+    0.7537
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右侧发2_5_1",
+   "parent": "右侧发2_4_1",
+   "depth": 16,
+   "length": 0.4304,
+   "group": "secondary_HairSide",
+   "weighted_vertices": 108,
+   "meshes": [
+    "Меш.011"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -0.9509,
+    14.9297,
+    1.0009
+   ],
+   "arm_tail": [
+    -0.9509,
+    15.3601,
+    1.0009
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右侧发2_6_1",
+   "parent": "右侧发2_5_1",
+   "depth": 17,
+   "length": 0.4304,
+   "group": "secondary_HairSide",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -0.9509,
+    14.6011,
+    1.279
+   ],
+   "arm_tail": [
+    -0.9509,
+    15.0315,
+    1.279
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右侧发2_6_1_end",
+   "parent": "右侧发2_6_1",
+   "depth": 18,
+   "length": 0.4304,
+   "group": "secondary_HairSide",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": true,
+   "arm_head": [
+    -0.9509,
+    15.0315,
+    1.279
+   ],
+   "arm_tail": [
+    -0.9509,
+    15.4619,
+    1.279
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "帽流苏_0_1",
+   "parent": "頭",
+   "depth": 11,
+   "length": 0.17669,
+   "group": "secondary_Tassel",
+   "weighted_vertices": 372,
+   "meshes": [
+    "Меш.013"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    1.7486,
+    17.5218,
+    0.8472
+   ],
+   "arm_tail": [
+    1.7486,
+    17.6985,
+    0.8472
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "帽流苏_1_1",
+   "parent": "帽流苏_0_1",
+   "depth": 12,
+   "length": 0.17669,
+   "group": "secondary_Tassel",
+   "weighted_vertices": 202,
+   "meshes": [
+    "Меш.013"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    1.7486,
+    17.3451,
+    0.8472
+   ],
+   "arm_tail": [
+    1.7486,
+    17.5218,
+    0.8472
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "帽流苏_2_1",
+   "parent": "帽流苏_1_1",
+   "depth": 13,
+   "length": 0.17669,
+   "group": "secondary_Tassel",
+   "weighted_vertices": 144,
+   "meshes": [
+    "Меш.013"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    1.7486,
+    17.1684,
+    0.8472
+   ],
+   "arm_tail": [
+    1.7486,
+    17.3451,
+    0.8472
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "帽流苏_3_1",
+   "parent": "帽流苏_2_1",
+   "depth": 14,
+   "length": 0.17669,
+   "group": "secondary_Tassel",
+   "weighted_vertices": 150,
+   "meshes": [
+    "Меш.013"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    1.7486,
+    16.9917,
+    0.8472
+   ],
+   "arm_tail": [
+    1.7486,
+    17.1684,
+    0.8472
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "帽流苏_4_1",
+   "parent": "帽流苏_3_1",
+   "depth": 15,
+   "length": 0.17669,
+   "group": "secondary_Tassel",
+   "weighted_vertices": 180,
+   "meshes": [
+    "Меш.013"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    1.7486,
+    16.815,
+    0.8472
+   ],
+   "arm_tail": [
+    1.7486,
+    16.9917,
+    0.8472
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "帽流苏_5_1",
+   "parent": "帽流苏_4_1",
+   "depth": 16,
+   "length": 0.17669,
+   "group": "secondary_Tassel",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    1.7486,
+    16.6383,
+    0.8472
+   ],
+   "arm_tail": [
+    1.7486,
+    16.815,
+    0.8472
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "帽流苏_5_1_end",
+   "parent": "帽流苏_5_1",
+   "depth": 17,
+   "length": 0.17669,
+   "group": "secondary_Tassel",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": true,
+   "arm_head": [
+    1.7486,
+    16.815,
+    0.8472
+   ],
+   "arm_tail": [
+    1.7486,
+    16.9917,
+    0.8472
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右帽带_0_1",
+   "parent": "頭",
+   "depth": 11,
+   "length": 0.78377,
+   "group": "secondary_HatStrap",
+   "weighted_vertices": 48,
+   "meshes": [
+    "Меш.012"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -0.7406,
+    17.2712,
+    -1.3232
+   ],
+   "arm_tail": [
+    -0.7406,
+    18.055,
+    -1.3232
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右帽带_1_1",
+   "parent": "右帽带_0_1",
+   "depth": 12,
+   "length": 0.65332,
+   "group": "secondary_HatStrap",
+   "weighted_vertices": 48,
+   "meshes": [
+    "Меш.012"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -1.2007,
+    16.6564,
+    -1.4797
+   ],
+   "arm_tail": [
+    -1.2007,
+    17.3097,
+    -1.4797
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右帽带_2_1",
+   "parent": "右帽带_1_1",
+   "depth": 13,
+   "length": 0.65333,
+   "group": "secondary_HatStrap",
+   "weighted_vertices": 48,
+   "meshes": [
+    "Меш.012"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -1.5827,
+    16.2115,
+    -1.7679
+   ],
+   "arm_tail": [
+    -1.5827,
+    16.8648,
+    -1.7679
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右帽带_3_1",
+   "parent": "右帽带_2_1",
+   "depth": 14,
+   "length": 0.65333,
+   "group": "secondary_HatStrap",
+   "weighted_vertices": 48,
+   "meshes": [
+    "Меш.012"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -1.9647,
+    15.7667,
+    -2.056
+   ],
+   "arm_tail": [
+    -1.9647,
+    16.42,
+    -2.056
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右帽带_4_1",
+   "parent": "右帽带_3_1",
+   "depth": 15,
+   "length": 0.65333,
+   "group": "secondary_HatStrap",
+   "weighted_vertices": 56,
+   "meshes": [
+    "Меш.012"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -2.3466,
+    15.3218,
+    -2.3442
+   ],
+   "arm_tail": [
+    -2.3466,
+    15.9751,
+    -2.3442
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右帽带_5_1",
+   "parent": "右帽带_4_1",
+   "depth": 16,
+   "length": 0.65333,
+   "group": "secondary_HatStrap",
+   "weighted_vertices": 42,
+   "meshes": [
+    "Меш.012"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -2.7286,
+    14.8769,
+    -2.6324
+   ],
+   "arm_tail": [
+    -2.7286,
+    15.5303,
+    -2.6324
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右帽带_6_1",
+   "parent": "右帽带_5_1",
+   "depth": 17,
+   "length": 0.65333,
+   "group": "secondary_HatStrap",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -3.1106,
+    14.4321,
+    -2.9205
+   ],
+   "arm_tail": [
+    -3.1106,
+    15.0854,
+    -2.9205
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右帽带_6_1_end",
+   "parent": "右帽带_6_1",
+   "depth": 18,
+   "length": 0.65333,
+   "group": "secondary_HatStrap",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": true,
+   "arm_head": [
+    -3.1106,
+    15.0854,
+    -2.9205
+   ],
+   "arm_tail": [
+    -3.1106,
+    15.7387,
+    -2.9205
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右后发3_0_1",
+   "parent": "頭",
+   "depth": 11,
+   "length": 0.70809,
+   "group": "secondary_HairBack",
+   "weighted_vertices": 143,
+   "meshes": [
+    "Меш.011"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -0.8262,
+    17.2953,
+    -0.8043
+   ],
+   "arm_tail": [
+    -0.8262,
+    18.0034,
+    -0.8043
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右后发3_1_1",
+   "parent": "右后发3_0_1",
+   "depth": 12,
+   "length": 0.70809,
+   "group": "secondary_HairBack",
+   "weighted_vertices": 144,
+   "meshes": [
+    "Меш.011"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -1.0048,
+    16.6289,
+    -0.9636
+   ],
+   "arm_tail": [
+    -1.0048,
+    17.337,
+    -0.9636
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右后发3_2_1",
+   "parent": "右后发3_1_1",
+   "depth": 13,
+   "length": 0.70809,
+   "group": "secondary_HairBack",
+   "weighted_vertices": 97,
+   "meshes": [
+    "Меш.011"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -1.1834,
+    15.9625,
+    -1.1229
+   ],
+   "arm_tail": [
+    -1.1834,
+    16.6705,
+    -1.1229
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右后发3_3_1",
+   "parent": "右后发3_2_1",
+   "depth": 14,
+   "length": 0.70809,
+   "group": "secondary_HairBack",
+   "weighted_vertices": 175,
+   "meshes": [
+    "Меш.011"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -1.3619,
+    15.296,
+    -1.2821
+   ],
+   "arm_tail": [
+    -1.3619,
+    16.0041,
+    -1.2821
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右后发3_4_1",
+   "parent": "右后发3_3_1",
+   "depth": 15,
+   "length": 0.70809,
+   "group": "secondary_HairBack",
+   "weighted_vertices": 227,
+   "meshes": [
+    "Меш.011"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -1.5405,
+    14.6296,
+    -1.4414
+   ],
+   "arm_tail": [
+    -1.5405,
+    15.3377,
+    -1.4414
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右后发3_5_1",
+   "parent": "右后发3_4_1",
+   "depth": 16,
+   "length": 0.70809,
+   "group": "secondary_HairBack",
+   "weighted_vertices": 186,
+   "meshes": [
+    "Меш.011"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -1.7191,
+    13.9632,
+    -1.6007
+   ],
+   "arm_tail": [
+    -1.7191,
+    14.6712,
+    -1.6007
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右后发3_6_1",
+   "parent": "右后发3_5_1",
+   "depth": 17,
+   "length": 0.70809,
+   "group": "secondary_HairBack",
+   "weighted_vertices": 264,
+   "meshes": [
+    "Меш.011"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -1.8977,
+    13.2967,
+    -1.76
+   ],
+   "arm_tail": [
+    -1.8977,
+    14.0048,
+    -1.76
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右后发3_7_1",
+   "parent": "右后发3_6_1",
+   "depth": 18,
+   "length": 0.70809,
+   "group": "secondary_HairBack",
+   "weighted_vertices": 389,
+   "meshes": [
+    "Меш.011"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -2.0762,
+    12.6303,
+    -1.9193
+   ],
+   "arm_tail": [
+    -2.0762,
+    13.3384,
+    -1.9193
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右后发3_8_1",
+   "parent": "右后发3_7_1",
+   "depth": 19,
+   "length": 0.70809,
+   "group": "secondary_HairBack",
+   "weighted_vertices": 461,
+   "meshes": [
+    "Меш.011"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -2.2548,
+    11.9639,
+    -2.0786
+   ],
+   "arm_tail": [
+    -2.2548,
+    12.6719,
+    -2.0786
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右后发3_9_1",
+   "parent": "右后发3_8_1",
+   "depth": 20,
+   "length": 0.70809,
+   "group": "secondary_HairBack",
+   "weighted_vertices": 658,
+   "meshes": [
+    "Меш.011"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -2.4334,
+    11.2974,
+    -2.2379
+   ],
+   "arm_tail": [
+    -2.4334,
+    12.0055,
+    -2.2379
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右后发3_10_1",
+   "parent": "右后发3_9_1",
+   "depth": 21,
+   "length": 0.70809,
+   "group": "secondary_HairBack",
+   "weighted_vertices": 690,
+   "meshes": [
+    "Меш.011"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -2.6119,
+    10.631,
+    -2.3971
+   ],
+   "arm_tail": [
+    -2.6119,
+    11.3391,
+    -2.3971
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右后发3_11_1",
+   "parent": "右后发3_10_1",
+   "depth": 22,
+   "length": 0.70809,
+   "group": "secondary_HairBack",
+   "weighted_vertices": 524,
+   "meshes": [
+    "Меш.011"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -2.7905,
+    9.9646,
+    -2.5564
+   ],
+   "arm_tail": [
+    -2.7905,
+    10.6726,
+    -2.5564
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右后发3_12_1",
+   "parent": "右后发3_11_1",
+   "depth": 23,
+   "length": 0.70809,
+   "group": "secondary_HairBack",
+   "weighted_vertices": 325,
+   "meshes": [
+    "Меш.011"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -2.9691,
+    9.2981,
+    -2.7157
+   ],
+   "arm_tail": [
+    -2.9691,
+    10.0062,
+    -2.7157
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右后发3_13_1",
+   "parent": "右后发3_12_1",
+   "depth": 24,
+   "length": 0.70809,
+   "group": "secondary_HairBack",
+   "weighted_vertices": 264,
+   "meshes": [
+    "Меш.011"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -3.1476,
+    8.6317,
+    -2.875
+   ],
+   "arm_tail": [
+    -3.1476,
+    9.3398,
+    -2.875
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右后发3_14_1",
+   "parent": "右后发3_13_1",
+   "depth": 25,
+   "length": 0.70809,
+   "group": "secondary_HairBack",
+   "weighted_vertices": 180,
+   "meshes": [
+    "Меш.011"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -3.3262,
+    7.9653,
+    -3.0343
+   ],
+   "arm_tail": [
+    -3.3262,
+    8.6733,
+    -3.0343
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右后发3_15_1",
+   "parent": "右后发3_14_1",
+   "depth": 26,
+   "length": 0.70809,
+   "group": "secondary_HairBack",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -3.5048,
+    7.2988,
+    -3.1936
+   ],
+   "arm_tail": [
+    -3.5048,
+    8.0069,
+    -3.1936
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右后发3_15_1_end",
+   "parent": "右后发3_15_1",
+   "depth": 27,
+   "length": 0.70809,
+   "group": "secondary_HairBack",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": true,
+   "arm_head": [
+    -3.5048,
+    8.0069,
+    -3.1936
+   ],
+   "arm_tail": [
+    -3.5048,
+    8.715,
+    -3.1936
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左发1_0_1",
+   "parent": "頭",
+   "depth": 11,
+   "length": 0.19374,
+   "group": "secondary_HairFront",
+   "weighted_vertices": 89,
+   "meshes": [
+    "Меш.011"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    1.3693,
+    17.2599,
+    0.0936
+   ],
+   "arm_tail": [
+    1.3693,
+    17.4537,
+    0.0936
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左发1_1_1",
+   "parent": "左发1_0_1",
+   "depth": 12,
+   "length": 0.19374,
+   "group": "secondary_HairFront",
+   "weighted_vertices": 87,
+   "meshes": [
+    "Меш.011"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    1.4187,
+    17.0756,
+    0.06
+   ],
+   "arm_tail": [
+    1.4187,
+    17.2694,
+    0.06
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左发1_2_1",
+   "parent": "左发1_1_1",
+   "depth": 13,
+   "length": 0.19374,
+   "group": "secondary_HairFront",
+   "weighted_vertices": 110,
+   "meshes": [
+    "Меш.011"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    1.4681,
+    16.8913,
+    0.0263
+   ],
+   "arm_tail": [
+    1.4681,
+    17.0851,
+    0.0263
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左发1_3_1",
+   "parent": "左发1_2_1",
+   "depth": 14,
+   "length": 0.19373,
+   "group": "secondary_HairFront",
+   "weighted_vertices": 129,
+   "meshes": [
+    "Меш.011"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    1.5174,
+    16.7071,
+    -0.0073
+   ],
+   "arm_tail": [
+    1.5174,
+    16.9008,
+    -0.0073
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左发1_4_1",
+   "parent": "左发1_3_1",
+   "depth": 15,
+   "length": 0.19374,
+   "group": "secondary_HairFront",
+   "weighted_vertices": 137,
+   "meshes": [
+    "Меш.011"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    1.5668,
+    16.5228,
+    -0.0409
+   ],
+   "arm_tail": [
+    1.5668,
+    16.7165,
+    -0.0409
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左发1_5_1",
+   "parent": "左发1_4_1",
+   "depth": 16,
+   "length": 0.19374,
+   "group": "secondary_HairFront",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    1.6162,
+    16.3385,
+    -0.0746
+   ],
+   "arm_tail": [
+    1.6162,
+    16.5322,
+    -0.0746
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左发1_5_1_end",
+   "parent": "左发1_5_1",
+   "depth": 17,
+   "length": 0.19374,
+   "group": "secondary_HairFront",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": true,
+   "arm_head": [
+    1.6162,
+    16.5322,
+    -0.0746
+   ],
+   "arm_tail": [
+    1.6162,
+    16.726,
+    -0.0746
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左侧发2_0_1",
+   "parent": "頭",
+   "depth": 11,
+   "length": 0.39492,
+   "group": "secondary_HairSide",
+   "weighted_vertices": 156,
+   "meshes": [
+    "Меш.011"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    0.9509,
+    16.84,
+    0.4771
+   ],
+   "arm_tail": [
+    0.9509,
+    17.2349,
+    0.4771
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左侧发2_1_1",
+   "parent": "左侧发2_0_1",
+   "depth": 12,
+   "length": 0.46415,
+   "group": "secondary_HairSide",
+   "weighted_vertices": 162,
+   "meshes": [
+    "Меш.011"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    0.9509,
+    16.4456,
+    0.457
+   ],
+   "arm_tail": [
+    0.9509,
+    16.9098,
+    0.457
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左侧发2_2_1",
+   "parent": "左侧发2_1_1",
+   "depth": 13,
+   "length": 0.43401,
+   "group": "secondary_HairSide",
+   "weighted_vertices": 169,
+   "meshes": [
+    "Меш.011"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    0.9509,
+    15.982,
+    0.4789
+   ],
+   "arm_tail": [
+    0.9509,
+    16.416,
+    0.4789
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左侧发2_3_1",
+   "parent": "左侧发2_2_1",
+   "depth": 14,
+   "length": 0.38565,
+   "group": "secondary_HairSide",
+   "weighted_vertices": 132,
+   "meshes": [
+    "Меш.011"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    0.9509,
+    15.5587,
+    0.5749
+   ],
+   "arm_tail": [
+    0.9509,
+    15.9444,
+    0.5749
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左侧发2_4_1",
+   "parent": "左侧发2_3_1",
+   "depth": 15,
+   "length": 0.37904,
+   "group": "secondary_HairSide",
+   "weighted_vertices": 138,
+   "meshes": [
+    "Меш.011"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    0.9509,
+    15.217,
+    0.7537
+   ],
+   "arm_tail": [
+    0.9509,
+    15.5961,
+    0.7537
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左侧发2_5_1",
+   "parent": "左侧发2_4_1",
+   "depth": 16,
+   "length": 0.4304,
+   "group": "secondary_HairSide",
+   "weighted_vertices": 108,
+   "meshes": [
+    "Меш.011"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    0.9509,
+    14.9297,
+    1.0009
+   ],
+   "arm_tail": [
+    0.9509,
+    15.3601,
+    1.0009
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左侧发2_6_1",
+   "parent": "左侧发2_5_1",
+   "depth": 17,
+   "length": 0.4304,
+   "group": "secondary_HairSide",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    0.9509,
+    14.6011,
+    1.279
+   ],
+   "arm_tail": [
+    0.9509,
+    15.0315,
+    1.279
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左侧发2_6_1_end",
+   "parent": "左侧发2_6_1",
+   "depth": 18,
+   "length": 0.4304,
+   "group": "secondary_HairSide",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": true,
+   "arm_head": [
+    0.9509,
+    15.0315,
+    1.279
+   ],
+   "arm_tail": [
+    0.9509,
+    15.4619,
+    1.279
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左帽带_0_1",
+   "parent": "頭",
+   "depth": 11,
+   "length": 0.78377,
+   "group": "secondary_HatStrap",
+   "weighted_vertices": 48,
+   "meshes": [
+    "Меш.012"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    0.7406,
+    17.2712,
+    -1.3232
+   ],
+   "arm_tail": [
+    0.7406,
+    18.055,
+    -1.3232
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左帽带_1_1",
+   "parent": "左帽带_0_1",
+   "depth": 12,
+   "length": 0.65332,
+   "group": "secondary_HatStrap",
+   "weighted_vertices": 48,
+   "meshes": [
+    "Меш.012"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    1.2007,
+    16.6564,
+    -1.4797
+   ],
+   "arm_tail": [
+    1.2007,
+    17.3097,
+    -1.4797
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左帽带_2_1",
+   "parent": "左帽带_1_1",
+   "depth": 13,
+   "length": 0.65333,
+   "group": "secondary_HatStrap",
+   "weighted_vertices": 48,
+   "meshes": [
+    "Меш.012"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    1.5827,
+    16.2115,
+    -1.7679
+   ],
+   "arm_tail": [
+    1.5827,
+    16.8648,
+    -1.7679
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左帽带_3_1",
+   "parent": "左帽带_2_1",
+   "depth": 14,
+   "length": 0.65333,
+   "group": "secondary_HatStrap",
+   "weighted_vertices": 48,
+   "meshes": [
+    "Меш.012"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    1.9647,
+    15.7667,
+    -2.056
+   ],
+   "arm_tail": [
+    1.9647,
+    16.42,
+    -2.056
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左帽带_4_1",
+   "parent": "左帽带_3_1",
+   "depth": 15,
+   "length": 0.65333,
+   "group": "secondary_HatStrap",
+   "weighted_vertices": 56,
+   "meshes": [
+    "Меш.012"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    2.3466,
+    15.3218,
+    -2.3442
+   ],
+   "arm_tail": [
+    2.3466,
+    15.9751,
+    -2.3442
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左帽带_5_1",
+   "parent": "左帽带_4_1",
+   "depth": 16,
+   "length": 0.65333,
+   "group": "secondary_HatStrap",
+   "weighted_vertices": 42,
+   "meshes": [
+    "Меш.012"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    2.7286,
+    14.8769,
+    -2.6324
+   ],
+   "arm_tail": [
+    2.7286,
+    15.5303,
+    -2.6324
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左帽带_6_1",
+   "parent": "左帽带_5_1",
+   "depth": 17,
+   "length": 0.65333,
+   "group": "secondary_HatStrap",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    3.1106,
+    14.4321,
+    -2.9205
+   ],
+   "arm_tail": [
+    3.1106,
+    15.0854,
+    -2.9205
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左帽带_6_1_end",
+   "parent": "左帽带_6_1",
+   "depth": 18,
+   "length": 0.65333,
+   "group": "secondary_HatStrap",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": true,
+   "arm_head": [
+    3.1106,
+    15.0854,
+    -2.9205
+   ],
+   "arm_tail": [
+    3.1106,
+    15.7387,
+    -2.9205
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左后发3_0_1",
+   "parent": "頭",
+   "depth": 11,
+   "length": 0.70809,
+   "group": "secondary_HairBack",
+   "weighted_vertices": 143,
+   "meshes": [
+    "Меш.011"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    0.8262,
+    17.2953,
+    -0.8043
+   ],
+   "arm_tail": [
+    0.8262,
+    18.0034,
+    -0.8043
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左后发3_1_1",
+   "parent": "左后发3_0_1",
+   "depth": 12,
+   "length": 0.70809,
+   "group": "secondary_HairBack",
+   "weighted_vertices": 144,
+   "meshes": [
+    "Меш.011"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    1.0048,
+    16.6289,
+    -0.9636
+   ],
+   "arm_tail": [
+    1.0048,
+    17.337,
+    -0.9636
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左后发3_2_1",
+   "parent": "左后发3_1_1",
+   "depth": 13,
+   "length": 0.70809,
+   "group": "secondary_HairBack",
+   "weighted_vertices": 97,
+   "meshes": [
+    "Меш.011"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    1.1834,
+    15.9625,
+    -1.1229
+   ],
+   "arm_tail": [
+    1.1834,
+    16.6705,
+    -1.1229
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左后发3_3_1",
+   "parent": "左后发3_2_1",
+   "depth": 14,
+   "length": 0.70809,
+   "group": "secondary_HairBack",
+   "weighted_vertices": 175,
+   "meshes": [
+    "Меш.011"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    1.3619,
+    15.296,
+    -1.2821
+   ],
+   "arm_tail": [
+    1.3619,
+    16.0041,
+    -1.2821
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左后发3_4_1",
+   "parent": "左后发3_3_1",
+   "depth": 15,
+   "length": 0.70809,
+   "group": "secondary_HairBack",
+   "weighted_vertices": 227,
+   "meshes": [
+    "Меш.011"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    1.5405,
+    14.6296,
+    -1.4414
+   ],
+   "arm_tail": [
+    1.5405,
+    15.3377,
+    -1.4414
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左后发3_5_1",
+   "parent": "左后发3_4_1",
+   "depth": 16,
+   "length": 0.70809,
+   "group": "secondary_HairBack",
+   "weighted_vertices": 186,
+   "meshes": [
+    "Меш.011"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    1.7191,
+    13.9632,
+    -1.6007
+   ],
+   "arm_tail": [
+    1.7191,
+    14.6712,
+    -1.6007
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左后发3_6_1",
+   "parent": "左后发3_5_1",
+   "depth": 17,
+   "length": 0.70809,
+   "group": "secondary_HairBack",
+   "weighted_vertices": 264,
+   "meshes": [
+    "Меш.011"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    1.8977,
+    13.2967,
+    -1.76
+   ],
+   "arm_tail": [
+    1.8977,
+    14.0048,
+    -1.76
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左后发3_7_1",
+   "parent": "左后发3_6_1",
+   "depth": 18,
+   "length": 0.70809,
+   "group": "secondary_HairBack",
+   "weighted_vertices": 389,
+   "meshes": [
+    "Меш.011"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    2.0762,
+    12.6303,
+    -1.9193
+   ],
+   "arm_tail": [
+    2.0762,
+    13.3384,
+    -1.9193
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左后发3_8_1",
+   "parent": "左后发3_7_1",
+   "depth": 19,
+   "length": 0.70809,
+   "group": "secondary_HairBack",
+   "weighted_vertices": 461,
+   "meshes": [
+    "Меш.011"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    2.2548,
+    11.9639,
+    -2.0786
+   ],
+   "arm_tail": [
+    2.2548,
+    12.6719,
+    -2.0786
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左后发3_9_1",
+   "parent": "左后发3_8_1",
+   "depth": 20,
+   "length": 0.70809,
+   "group": "secondary_HairBack",
+   "weighted_vertices": 658,
+   "meshes": [
+    "Меш.011"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    2.4334,
+    11.2974,
+    -2.2379
+   ],
+   "arm_tail": [
+    2.4334,
+    12.0055,
+    -2.2379
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左后发3_10_1",
+   "parent": "左后发3_9_1",
+   "depth": 21,
+   "length": 0.70809,
+   "group": "secondary_HairBack",
+   "weighted_vertices": 690,
+   "meshes": [
+    "Меш.011"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    2.6119,
+    10.631,
+    -2.3971
+   ],
+   "arm_tail": [
+    2.6119,
+    11.3391,
+    -2.3971
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左后发3_11_1",
+   "parent": "左后发3_10_1",
+   "depth": 22,
+   "length": 0.70809,
+   "group": "secondary_HairBack",
+   "weighted_vertices": 524,
+   "meshes": [
+    "Меш.011"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    2.7905,
+    9.9646,
+    -2.5564
+   ],
+   "arm_tail": [
+    2.7905,
+    10.6726,
+    -2.5564
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左后发3_12_1",
+   "parent": "左后发3_11_1",
+   "depth": 23,
+   "length": 0.70809,
+   "group": "secondary_HairBack",
+   "weighted_vertices": 325,
+   "meshes": [
+    "Меш.011"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    2.9691,
+    9.2981,
+    -2.7157
+   ],
+   "arm_tail": [
+    2.9691,
+    10.0062,
+    -2.7157
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左后发3_13_1",
+   "parent": "左后发3_12_1",
+   "depth": 24,
+   "length": 0.70809,
+   "group": "secondary_HairBack",
+   "weighted_vertices": 264,
+   "meshes": [
+    "Меш.011"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    3.1476,
+    8.6317,
+    -2.875
+   ],
+   "arm_tail": [
+    3.1476,
+    9.3398,
+    -2.875
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左后发3_14_1",
+   "parent": "左后发3_13_1",
+   "depth": 25,
+   "length": 0.70809,
+   "group": "secondary_HairBack",
+   "weighted_vertices": 180,
+   "meshes": [
+    "Меш.011"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    3.3262,
+    7.9653,
+    -3.0343
+   ],
+   "arm_tail": [
+    3.3262,
+    8.6733,
+    -3.0343
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左后发3_15_1",
+   "parent": "左后发3_14_1",
+   "depth": 26,
+   "length": 0.70809,
+   "group": "secondary_HairBack",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    3.5048,
+    7.2988,
+    -3.1936
+   ],
+   "arm_tail": [
+    3.5048,
+    8.0069,
+    -3.1936
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左后发3_15_1_end",
+   "parent": "左后发3_15_1",
+   "depth": 27,
+   "length": 0.70809,
+   "group": "secondary_HairBack",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": true,
+   "arm_head": [
+    3.5048,
+    8.0069,
+    -3.1936
+   ],
+   "arm_tail": [
+    3.5048,
+    8.715,
+    -3.1936
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左肩P",
+   "parent": "上半身2",
+   "depth": 9,
+   "length": 0.01,
+   "group": "arm",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    0.2065,
+    15.0326,
+    -0.0102
+   ],
+   "arm_tail": [
+    0.2065,
+    15.0426,
+    -0.0102
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左肩",
+   "parent": "左肩P",
+   "depth": 10,
+   "length": 1.09496,
+   "group": "arm",
+   "weighted_vertices": 741,
+   "meshes": [
+    "Меш.014"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    0.2065,
+    15.0326,
+    -0.0102
+   ],
+   "arm_tail": [
+    0.2065,
+    16.1276,
+    -0.0102
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左肩C",
+   "parent": "左肩",
+   "depth": 11,
+   "length": 0.01,
+   "group": "arm",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    1.2611,
+    14.7426,
+    -0.0622
+   ],
+   "arm_tail": [
+    1.2611,
+    14.7526,
+    -0.0622
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左腕",
+   "parent": "左肩C",
+   "depth": 12,
+   "length": 1.4037,
+   "group": "arm",
+   "weighted_vertices": 226,
+   "meshes": [
+    "Меш.014"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    1.2611,
+    14.7426,
+    -0.0622
+   ],
+   "arm_tail": [
+    1.2611,
+    16.1464,
+    -0.0622
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左腕捩",
+   "parent": "左腕",
+   "depth": 13,
+   "length": 1.04035,
+   "group": "twist_helper",
+   "weighted_vertices": 180,
+   "meshes": [
+    "Меш.014"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    2.4762,
+    13.765,
+    -0.0802
+   ],
+   "arm_tail": [
+    2.4762,
+    14.8054,
+    -0.0802
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左ひじ",
+   "parent": "左腕捩",
+   "depth": 14,
+   "length": 1.43936,
+   "group": "arm",
+   "weighted_vertices": 1123,
+   "meshes": [
+    "Меш.014"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    3.2863,
+    13.1133,
+    -0.1168
+   ],
+   "arm_tail": [
+    3.2863,
+    14.5526,
+    -0.1168
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左手捩",
+   "parent": "左ひじ",
+   "depth": 15,
+   "length": 0.88668,
+   "group": "twist_helper",
+   "weighted_vertices": 505,
+   "meshes": [
+    "Меш.014",
+    "Меш.021"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    4.3214,
+    12.2804,
+    -0.0561
+   ],
+   "arm_tail": [
+    4.3214,
+    13.167,
+    -0.0561
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左手首",
+   "parent": "左手捩",
+   "depth": 16,
+   "length": 0.62416,
+   "group": "arm",
+   "weighted_vertices": 1282,
+   "meshes": [
+    "Меш.016",
+    "Меш.021"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    5.0115,
+    11.7251,
+    -0.0156
+   ],
+   "arm_tail": [
+    5.0115,
+    12.3492,
+    -0.0156
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左ダミー",
+   "parent": "左手首",
+   "depth": 17,
+   "length": 0.62416,
+   "group": "arm",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    5.1992,
+    11.2645,
+    -0.0156
+   ],
+   "arm_tail": [
+    5.1992,
+    11.8887,
+    -0.0156
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左ダミー_end",
+   "parent": "左ダミー",
+   "depth": 18,
+   "length": 0.62416,
+   "group": "end_tip",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": true,
+   "arm_head": [
+    5.1992,
+    11.8887,
+    -0.0156
+   ],
+   "arm_tail": [
+    5.1992,
+    12.5128,
+    -0.0156
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左親指０",
+   "parent": "左手首",
+   "depth": 17,
+   "length": 0.3122,
+   "group": "finger",
+   "weighted_vertices": 350,
+   "meshes": [
+    "Меш.021"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    5.1803,
+    11.4303,
+    0.2552
+   ],
+   "arm_tail": [
+    5.1803,
+    11.7425,
+    0.2552
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左親指１",
+   "parent": "左親指０",
+   "depth": 18,
+   "length": 0.24919,
+   "group": "finger",
+   "weighted_vertices": 289,
+   "meshes": [
+    "Меш.021"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    5.3051,
+    11.2336,
+    0.4631
+   ],
+   "arm_tail": [
+    5.3051,
+    11.4828,
+    0.4631
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左親指２",
+   "parent": "左親指１",
+   "depth": 19,
+   "length": 0.26533,
+   "group": "finger",
+   "weighted_vertices": 270,
+   "meshes": [
+    "Меш.021"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    5.427,
+    11.0561,
+    0.5885
+   ],
+   "arm_tail": [
+    5.427,
+    11.3214,
+    0.5885
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左親指先",
+   "parent": "左親指２",
+   "depth": 20,
+   "length": 0.26533,
+   "group": "finger",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    5.5558,
+    10.8735,
+    0.7315
+   ],
+   "arm_tail": [
+    5.5558,
+    11.1388,
+    0.7315
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左親指先_end",
+   "parent": "左親指先",
+   "depth": 21,
+   "length": 0.26533,
+   "group": "end_tip",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": true,
+   "arm_head": [
+    5.5558,
+    11.1388,
+    0.7315
+   ],
+   "arm_tail": [
+    5.5558,
+    11.4041,
+    0.7315
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左人指１",
+   "parent": "左手首",
+   "depth": 17,
+   "length": 0.30602,
+   "group": "finger",
+   "weighted_vertices": 393,
+   "meshes": [
+    "Меш.016",
+    "Меш.021"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    5.6922,
+    11.1859,
+    0.2075
+   ],
+   "arm_tail": [
+    5.6922,
+    11.4919,
+    0.2075
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左人指２",
+   "parent": "左人指１",
+   "depth": 18,
+   "length": 0.24358,
+   "group": "finger",
+   "weighted_vertices": 288,
+   "meshes": [
+    "Меш.021"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    5.9388,
+    11.005,
+    0.2173
+   ],
+   "arm_tail": [
+    5.9388,
+    11.2486,
+    0.2173
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左人指３",
+   "parent": "左人指２",
+   "depth": 19,
+   "length": 0.21298,
+   "group": "finger",
+   "weighted_vertices": 288,
+   "meshes": [
+    "Меш.021"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    6.1412,
+    10.8697,
+    0.2239
+   ],
+   "arm_tail": [
+    6.1412,
+    11.0827,
+    0.2239
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左人指先",
+   "parent": "左人指３",
+   "depth": 20,
+   "length": 0.21298,
+   "group": "finger",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    6.3298,
+    10.7708,
+    0.2274
+   ],
+   "arm_tail": [
+    6.3298,
+    10.9838,
+    0.2274
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左人指先_end",
+   "parent": "左人指先",
+   "depth": 21,
+   "length": 0.21298,
+   "group": "end_tip",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": true,
+   "arm_head": [
+    6.3298,
+    10.9838,
+    0.2274
+   ],
+   "arm_tail": [
+    6.3298,
+    11.1968,
+    0.2274
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左中指１",
+   "parent": "左手首",
+   "depth": 17,
+   "length": 0.34931,
+   "group": "finger",
+   "weighted_vertices": 399,
+   "meshes": [
+    "Меш.016",
+    "Меш.021"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    5.6924,
+    11.1998,
+    -0.0134
+   ],
+   "arm_tail": [
+    5.6924,
+    11.5491,
+    -0.0134
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左中指２",
+   "parent": "左中指１",
+   "depth": 18,
+   "length": 0.29183,
+   "group": "finger",
+   "weighted_vertices": 288,
+   "meshes": [
+    "Меш.021"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    5.9893,
+    11.0161,
+    -0.0047
+   ],
+   "arm_tail": [
+    5.9893,
+    11.3079,
+    -0.0047
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左中指３",
+   "parent": "左中指２",
+   "depth": 19,
+   "length": 0.25774,
+   "group": "finger",
+   "weighted_vertices": 288,
+   "meshes": [
+    "Меш.021"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    6.2259,
+    10.8453,
+    0.0028
+   ],
+   "arm_tail": [
+    6.2259,
+    11.1031,
+    0.0028
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左中指先",
+   "parent": "左中指３",
+   "depth": 20,
+   "length": 0.25774,
+   "group": "finger",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    6.4489,
+    10.7162,
+    0.0091
+   ],
+   "arm_tail": [
+    6.4489,
+    10.974,
+    0.0091
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左中指先_end",
+   "parent": "左中指先",
+   "depth": 21,
+   "length": 0.25774,
+   "group": "end_tip",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": true,
+   "arm_head": [
+    6.4489,
+    10.974,
+    0.0091
+   ],
+   "arm_tail": [
+    6.4489,
+    11.2317,
+    0.0091
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左薬指１",
+   "parent": "左手首",
+   "depth": 17,
+   "length": 0.34115,
+   "group": "finger",
+   "weighted_vertices": 326,
+   "meshes": [
+    "Меш.021"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    5.6508,
+    11.1943,
+    -0.2172
+   ],
+   "arm_tail": [
+    5.6508,
+    11.5354,
+    -0.2172
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左薬指２",
+   "parent": "左薬指１",
+   "depth": 18,
+   "length": 0.26507,
+   "group": "finger",
+   "weighted_vertices": 303,
+   "meshes": [
+    "Меш.016",
+    "Меш.021"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    5.9432,
+    11.0186,
+    -0.2146
+   ],
+   "arm_tail": [
+    5.9432,
+    11.2836,
+    -0.2146
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左薬指３",
+   "parent": "左薬指２",
+   "depth": 19,
+   "length": 0.25382,
+   "group": "finger",
+   "weighted_vertices": 306,
+   "meshes": [
+    "Меш.021"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    6.1698,
+    10.8811,
+    -0.2126
+   ],
+   "arm_tail": [
+    6.1698,
+    11.1349,
+    -0.2126
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左薬指先",
+   "parent": "左薬指３",
+   "depth": 20,
+   "length": 0.25382,
+   "group": "finger",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    6.3949,
+    10.7639,
+    -0.2105
+   ],
+   "arm_tail": [
+    6.3949,
+    11.0177,
+    -0.2105
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左薬指先_end",
+   "parent": "左薬指先",
+   "depth": 21,
+   "length": 0.25382,
+   "group": "end_tip",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": true,
+   "arm_head": [
+    6.3949,
+    11.0177,
+    -0.2105
+   ],
+   "arm_tail": [
+    6.3949,
+    11.2715,
+    -0.2105
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左小指１",
+   "parent": "左手首",
+   "depth": 17,
+   "length": 0.27105,
+   "group": "finger",
+   "weighted_vertices": 294,
+   "meshes": [
+    "Меш.016",
+    "Меш.021"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    5.5529,
+    11.2102,
+    -0.3676
+   ],
+   "arm_tail": [
+    5.5529,
+    11.4812,
+    -0.3676
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左小指２",
+   "parent": "左小指１",
+   "depth": 18,
+   "length": 0.18271,
+   "group": "finger",
+   "weighted_vertices": 289,
+   "meshes": [
+    "Меш.021"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    5.7707,
+    11.058,
+    -0.4213
+   ],
+   "arm_tail": [
+    5.7707,
+    11.2408,
+    -0.4213
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左小指３",
+   "parent": "左小指２",
+   "depth": 19,
+   "length": 0.19833,
+   "group": "finger",
+   "weighted_vertices": 306,
+   "meshes": [
+    "Меш.021"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    5.9178,
+    10.9513,
+    -0.4398
+   ],
+   "arm_tail": [
+    5.9178,
+    11.1497,
+    -0.4398
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左小指先",
+   "parent": "左小指３",
+   "depth": 20,
+   "length": 0.19833,
+   "group": "finger",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    6.0858,
+    10.848,
+    -0.4604
+   ],
+   "arm_tail": [
+    6.0858,
+    11.0463,
+    -0.4604
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左小指先_end",
+   "parent": "左小指先",
+   "depth": 21,
+   "length": 0.19833,
+   "group": "end_tip",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": true,
+   "arm_head": [
+    6.0858,
+    11.0463,
+    -0.4604
+   ],
+   "arm_tail": [
+    6.0858,
+    11.2446,
+    -0.4604
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "WeaponL",
+   "parent": "左手首",
+   "depth": 17,
+   "length": 0.62416,
+   "group": "arm",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    5.0115,
+    11.7251,
+    -0.0156
+   ],
+   "arm_tail": [
+    5.0115,
+    12.3492,
+    -0.0156
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "WeaponL_end",
+   "parent": "WeaponL",
+   "depth": 18,
+   "length": 0.62416,
+   "group": "end_tip",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": true,
+   "arm_head": [
+    5.0115,
+    12.3492,
+    -0.0156
+   ],
+   "arm_tail": [
+    5.0115,
+    12.9734,
+    -0.0156
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左手捩1",
+   "parent": "左ひじ",
+   "depth": 15,
+   "length": 1.43936,
+   "group": "twist_helper",
+   "weighted_vertices": 1651,
+   "meshes": [
+    "Меш.014",
+    "Меш.021"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    3.9351,
+    12.5912,
+    -0.0787
+   ],
+   "arm_tail": [
+    3.9351,
+    14.0306,
+    -0.0787
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左手捩1_end",
+   "parent": "左手捩1",
+   "depth": 16,
+   "length": 1.43936,
+   "group": "end_tip",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": true,
+   "arm_head": [
+    3.9351,
+    14.0306,
+    -0.0787
+   ],
+   "arm_tail": [
+    3.9351,
+    15.4699,
+    -0.0787
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左手捩2",
+   "parent": "左ひじ",
+   "depth": 15,
+   "length": 1.43936,
+   "group": "twist_helper",
+   "weighted_vertices": 951,
+   "meshes": [
+    "Меш.014",
+    "Меш.021"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    4.4349,
+    12.189,
+    -0.0494
+   ],
+   "arm_tail": [
+    4.4349,
+    13.6284,
+    -0.0494
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左手捩2_end",
+   "parent": "左手捩2",
+   "depth": 16,
+   "length": 1.43936,
+   "group": "end_tip",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": true,
+   "arm_head": [
+    4.4349,
+    13.6284,
+    -0.0494
+   ],
+   "arm_tail": [
+    4.4349,
+    15.0678,
+    -0.0494
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左手捩3",
+   "parent": "左ひじ",
+   "depth": 15,
+   "length": 1.43936,
+   "group": "twist_helper",
+   "weighted_vertices": 407,
+   "meshes": [
+    "Меш.014"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    4.9347,
+    11.7869,
+    -0.0201
+   ],
+   "arm_tail": [
+    4.9347,
+    13.2263,
+    -0.0201
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左手捩3_end",
+   "parent": "左手捩3",
+   "depth": 16,
+   "length": 1.43936,
+   "group": "end_tip",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": true,
+   "arm_head": [
+    4.9347,
+    13.2263,
+    -0.0201
+   ],
+   "arm_tail": [
+    4.9347,
+    14.6656,
+    -0.0201
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左腕捩1",
+   "parent": "左腕",
+   "depth": 13,
+   "length": 1.4037,
+   "group": "twist_helper",
+   "weighted_vertices": 60,
+   "meshes": [
+    "Меш.014"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    1.9092,
+    14.2212,
+    -0.0718
+   ],
+   "arm_tail": [
+    1.9092,
+    15.6249,
+    -0.0718
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左腕捩1_end",
+   "parent": "左腕捩1",
+   "depth": 14,
+   "length": 1.4037,
+   "group": "end_tip",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": true,
+   "arm_head": [
+    1.9092,
+    15.6249,
+    -0.0718
+   ],
+   "arm_tail": [
+    1.9092,
+    17.0287,
+    -0.0718
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左腕捩2",
+   "parent": "左腕",
+   "depth": 13,
+   "length": 1.4037,
+   "group": "twist_helper",
+   "weighted_vertices": 60,
+   "meshes": [
+    "Меш.014"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    2.3142,
+    13.8954,
+    -0.0778
+   ],
+   "arm_tail": [
+    2.3142,
+    15.2991,
+    -0.0778
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左腕捩2_end",
+   "parent": "左腕捩2",
+   "depth": 14,
+   "length": 1.4037,
+   "group": "end_tip",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": true,
+   "arm_head": [
+    2.3142,
+    15.2991,
+    -0.0778
+   ],
+   "arm_tail": [
+    2.3142,
+    16.7028,
+    -0.0778
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左腕捩3",
+   "parent": "左腕",
+   "depth": 13,
+   "length": 1.4037,
+   "group": "twist_helper",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    2.7193,
+    13.5695,
+    -0.0838
+   ],
+   "arm_tail": [
+    2.7193,
+    14.9732,
+    -0.0838
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左腕捩3_end",
+   "parent": "左腕捩3",
+   "depth": 14,
+   "length": 1.4037,
+   "group": "end_tip",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": true,
+   "arm_head": [
+    2.7193,
+    14.9732,
+    -0.0838
+   ],
+   "arm_tail": [
+    2.7193,
+    16.3769,
+    -0.0838
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右肩P",
+   "parent": "上半身2",
+   "depth": 9,
+   "length": 0.01,
+   "group": "arm",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -0.2065,
+    15.0326,
+    -0.0102
+   ],
+   "arm_tail": [
+    -0.2065,
+    15.0426,
+    -0.0102
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右肩",
+   "parent": "右肩P",
+   "depth": 10,
+   "length": 1.09496,
+   "group": "arm",
+   "weighted_vertices": 711,
+   "meshes": [
+    "Меш.014"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -0.2065,
+    15.0326,
+    -0.0102
+   ],
+   "arm_tail": [
+    -0.2065,
+    16.1276,
+    -0.0102
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右肩C",
+   "parent": "右肩",
+   "depth": 11,
+   "length": 0.01,
+   "group": "arm",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -1.2611,
+    14.7427,
+    -0.0622
+   ],
+   "arm_tail": [
+    -1.2611,
+    14.7527,
+    -0.0622
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右腕",
+   "parent": "右肩C",
+   "depth": 12,
+   "length": 1.4037,
+   "group": "arm",
+   "weighted_vertices": 226,
+   "meshes": [
+    "Меш.014"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -1.2611,
+    14.7427,
+    -0.0622
+   ],
+   "arm_tail": [
+    -1.2611,
+    16.1464,
+    -0.0622
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右腕捩",
+   "parent": "右腕",
+   "depth": 13,
+   "length": 1.04035,
+   "group": "twist_helper",
+   "weighted_vertices": 180,
+   "meshes": [
+    "Меш.014"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -2.4762,
+    13.765,
+    -0.0802
+   ],
+   "arm_tail": [
+    -2.4762,
+    14.8054,
+    -0.0802
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右ひじ",
+   "parent": "右腕捩",
+   "depth": 14,
+   "length": 1.43937,
+   "group": "arm",
+   "weighted_vertices": 1123,
+   "meshes": [
+    "Меш.014"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -3.2863,
+    13.1133,
+    -0.1168
+   ],
+   "arm_tail": [
+    -3.2863,
+    14.5527,
+    -0.1168
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右手捩",
+   "parent": "右ひじ",
+   "depth": 15,
+   "length": 0.88668,
+   "group": "twist_helper",
+   "weighted_vertices": 529,
+   "meshes": [
+    "Меш.014",
+    "Меш.021"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -4.3214,
+    12.2804,
+    -0.0561
+   ],
+   "arm_tail": [
+    -4.3214,
+    13.1671,
+    -0.0561
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右手首",
+   "parent": "右手捩",
+   "depth": 16,
+   "length": 0.62416,
+   "group": "arm",
+   "weighted_vertices": 1258,
+   "meshes": [
+    "Меш.021"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -5.0115,
+    11.7251,
+    -0.0156
+   ],
+   "arm_tail": [
+    -5.0115,
+    12.3493,
+    -0.0156
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右ダミー",
+   "parent": "右手首",
+   "depth": 17,
+   "length": 0.62416,
+   "group": "arm",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -5.1992,
+    11.2645,
+    -0.0156
+   ],
+   "arm_tail": [
+    -5.1992,
+    11.8887,
+    -0.0156
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右ダミー_end",
+   "parent": "右ダミー",
+   "depth": 18,
+   "length": 0.62416,
+   "group": "end_tip",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": true,
+   "arm_head": [
+    -5.1992,
+    11.8887,
+    -0.0156
+   ],
+   "arm_tail": [
+    -5.1992,
+    12.5128,
+    -0.0156
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右親指０",
+   "parent": "右手首",
+   "depth": 17,
+   "length": 0.3122,
+   "group": "finger",
+   "weighted_vertices": 319,
+   "meshes": [
+    "Меш.016",
+    "Меш.021"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -5.1803,
+    11.4303,
+    0.2552
+   ],
+   "arm_tail": [
+    -5.1803,
+    11.7425,
+    0.2552
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右親指１",
+   "parent": "右親指０",
+   "depth": 18,
+   "length": 0.24919,
+   "group": "finger",
+   "weighted_vertices": 272,
+   "meshes": [
+    "Меш.016",
+    "Меш.021"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -5.3051,
+    11.2337,
+    0.4631
+   ],
+   "arm_tail": [
+    -5.3051,
+    11.4829,
+    0.4631
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右親指２",
+   "parent": "右親指１",
+   "depth": 19,
+   "length": 0.26533,
+   "group": "finger",
+   "weighted_vertices": 270,
+   "meshes": [
+    "Меш.021"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -5.427,
+    11.0561,
+    0.5885
+   ],
+   "arm_tail": [
+    -5.427,
+    11.3215,
+    0.5885
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右親指先",
+   "parent": "右親指２",
+   "depth": 20,
+   "length": 0.26533,
+   "group": "finger",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -5.5559,
+    10.8735,
+    0.7315
+   ],
+   "arm_tail": [
+    -5.5559,
+    11.1388,
+    0.7315
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右親指先_end",
+   "parent": "右親指先",
+   "depth": 21,
+   "length": 0.26533,
+   "group": "end_tip",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": true,
+   "arm_head": [
+    -5.5559,
+    11.1388,
+    0.7315
+   ],
+   "arm_tail": [
+    -5.5559,
+    11.4042,
+    0.7315
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右人指１",
+   "parent": "右手首",
+   "depth": 17,
+   "length": 0.30602,
+   "group": "finger",
+   "weighted_vertices": 391,
+   "meshes": [
+    "Меш.016",
+    "Меш.021"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -5.6922,
+    11.1859,
+    0.2075
+   ],
+   "arm_tail": [
+    -5.6922,
+    11.492,
+    0.2075
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右人指２",
+   "parent": "右人指１",
+   "depth": 18,
+   "length": 0.24358,
+   "group": "finger",
+   "weighted_vertices": 288,
+   "meshes": [
+    "Меш.021"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -5.9388,
+    11.0051,
+    0.2173
+   ],
+   "arm_tail": [
+    -5.9388,
+    11.2487,
+    0.2173
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右人指３",
+   "parent": "右人指２",
+   "depth": 19,
+   "length": 0.21298,
+   "group": "finger",
+   "weighted_vertices": 288,
+   "meshes": [
+    "Меш.021"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -6.1412,
+    10.8697,
+    0.2239
+   ],
+   "arm_tail": [
+    -6.1412,
+    11.0827,
+    0.2239
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右人指先",
+   "parent": "右人指３",
+   "depth": 20,
+   "length": 0.21298,
+   "group": "finger",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -6.3298,
+    10.7708,
+    0.2274
+   ],
+   "arm_tail": [
+    -6.3298,
+    10.9838,
+    0.2274
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右人指先_end",
+   "parent": "右人指先",
+   "depth": 21,
+   "length": 0.21298,
+   "group": "end_tip",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": true,
+   "arm_head": [
+    -6.3298,
+    10.9838,
+    0.2274
+   ],
+   "arm_tail": [
+    -6.3298,
+    11.1968,
+    0.2274
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右中指１",
+   "parent": "右手首",
+   "depth": 17,
+   "length": 0.34931,
+   "group": "finger",
+   "weighted_vertices": 381,
+   "meshes": [
+    "Меш.016",
+    "Меш.021"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -5.6924,
+    11.1998,
+    -0.0134
+   ],
+   "arm_tail": [
+    -5.6924,
+    11.5492,
+    -0.0134
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右中指２",
+   "parent": "右中指１",
+   "depth": 18,
+   "length": 0.29183,
+   "group": "finger",
+   "weighted_vertices": 288,
+   "meshes": [
+    "Меш.021"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -5.9894,
+    11.0161,
+    -0.0047
+   ],
+   "arm_tail": [
+    -5.9894,
+    11.308,
+    -0.0047
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右中指３",
+   "parent": "右中指２",
+   "depth": 19,
+   "length": 0.25774,
+   "group": "finger",
+   "weighted_vertices": 288,
+   "meshes": [
+    "Меш.021"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -6.2259,
+    10.8454,
+    0.0028
+   ],
+   "arm_tail": [
+    -6.2259,
+    11.1031,
+    0.0028
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右中指先",
+   "parent": "右中指３",
+   "depth": 20,
+   "length": 0.25774,
+   "group": "finger",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -6.4489,
+    10.7163,
+    0.0091
+   ],
+   "arm_tail": [
+    -6.4489,
+    10.974,
+    0.0091
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右中指先_end",
+   "parent": "右中指先",
+   "depth": 21,
+   "length": 0.25774,
+   "group": "end_tip",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": true,
+   "arm_head": [
+    -6.4489,
+    10.974,
+    0.0091
+   ],
+   "arm_tail": [
+    -6.4489,
+    11.2317,
+    0.0091
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右薬指１",
+   "parent": "右手首",
+   "depth": 17,
+   "length": 0.34115,
+   "group": "finger",
+   "weighted_vertices": 333,
+   "meshes": [
+    "Меш.021"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -5.6508,
+    11.1943,
+    -0.2172
+   ],
+   "arm_tail": [
+    -5.6508,
+    11.5355,
+    -0.2172
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右薬指２",
+   "parent": "右薬指１",
+   "depth": 18,
+   "length": 0.26507,
+   "group": "finger",
+   "weighted_vertices": 288,
+   "meshes": [
+    "Меш.021"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -5.9432,
+    11.0186,
+    -0.2146
+   ],
+   "arm_tail": [
+    -5.9432,
+    11.2837,
+    -0.2146
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右薬指３",
+   "parent": "右薬指２",
+   "depth": 19,
+   "length": 0.25382,
+   "group": "finger",
+   "weighted_vertices": 306,
+   "meshes": [
+    "Меш.021"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -6.1698,
+    10.8811,
+    -0.2126
+   ],
+   "arm_tail": [
+    -6.1698,
+    11.1349,
+    -0.2126
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右薬指先",
+   "parent": "右薬指３",
+   "depth": 20,
+   "length": 0.25382,
+   "group": "finger",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -6.3949,
+    10.7639,
+    -0.2105
+   ],
+   "arm_tail": [
+    -6.3949,
+    11.0177,
+    -0.2105
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右薬指先_end",
+   "parent": "右薬指先",
+   "depth": 21,
+   "length": 0.25382,
+   "group": "end_tip",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": true,
+   "arm_head": [
+    -6.3949,
+    11.0177,
+    -0.2105
+   ],
+   "arm_tail": [
+    -6.3949,
+    11.2716,
+    -0.2105
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右小指１",
+   "parent": "右手首",
+   "depth": 17,
+   "length": 0.27105,
+   "group": "finger",
+   "weighted_vertices": 283,
+   "meshes": [
+    "Меш.021"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -5.5529,
+    11.2102,
+    -0.3676
+   ],
+   "arm_tail": [
+    -5.5529,
+    11.4813,
+    -0.3676
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右小指２",
+   "parent": "右小指１",
+   "depth": 18,
+   "length": 0.18272,
+   "group": "finger",
+   "weighted_vertices": 289,
+   "meshes": [
+    "Меш.021"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -5.7707,
+    11.0581,
+    -0.4213
+   ],
+   "arm_tail": [
+    -5.7707,
+    11.2408,
+    -0.4213
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右小指３",
+   "parent": "右小指２",
+   "depth": 19,
+   "length": 0.19832,
+   "group": "finger",
+   "weighted_vertices": 306,
+   "meshes": [
+    "Меш.021"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -5.9178,
+    10.9514,
+    -0.4398
+   ],
+   "arm_tail": [
+    -5.9178,
+    11.1497,
+    -0.4398
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右小指先",
+   "parent": "右小指３",
+   "depth": 20,
+   "length": 0.19833,
+   "group": "finger",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -6.0859,
+    10.848,
+    -0.4604
+   ],
+   "arm_tail": [
+    -6.0859,
+    11.0463,
+    -0.4604
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右小指先_end",
+   "parent": "右小指先",
+   "depth": 21,
+   "length": 0.19833,
+   "group": "end_tip",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": true,
+   "arm_head": [
+    -6.0859,
+    11.0463,
+    -0.4604
+   ],
+   "arm_tail": [
+    -6.0859,
+    11.2447,
+    -0.4604
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "WeaponR",
+   "parent": "右手首",
+   "depth": 17,
+   "length": 0.62416,
+   "group": "arm",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -5.0115,
+    11.7251,
+    -0.0156
+   ],
+   "arm_tail": [
+    -5.0115,
+    12.3493,
+    -0.0156
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "WeaponR_end",
+   "parent": "WeaponR",
+   "depth": 18,
+   "length": 0.62416,
+   "group": "end_tip",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": true,
+   "arm_head": [
+    -5.0115,
+    12.3493,
+    -0.0156
+   ],
+   "arm_tail": [
+    -5.0115,
+    12.9734,
+    -0.0156
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右手捩1",
+   "parent": "右ひじ",
+   "depth": 15,
+   "length": 1.43937,
+   "group": "twist_helper",
+   "weighted_vertices": 1651,
+   "meshes": [
+    "Меш.014",
+    "Меш.021"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -3.9351,
+    12.5912,
+    -0.0787
+   ],
+   "arm_tail": [
+    -3.9351,
+    14.0306,
+    -0.0787
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右手捩1_end",
+   "parent": "右手捩1",
+   "depth": 16,
+   "length": 1.43937,
+   "group": "end_tip",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": true,
+   "arm_head": [
+    -3.9351,
+    14.0306,
+    -0.0787
+   ],
+   "arm_tail": [
+    -3.9351,
+    15.47,
+    -0.0787
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右手捩2",
+   "parent": "右ひじ",
+   "depth": 15,
+   "length": 1.43937,
+   "group": "twist_helper",
+   "weighted_vertices": 1140,
+   "meshes": [
+    "Меш.014",
+    "Меш.021"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -4.4349,
+    12.1891,
+    -0.0494
+   ],
+   "arm_tail": [
+    -4.4349,
+    13.6284,
+    -0.0494
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右手捩2_end",
+   "parent": "右手捩2",
+   "depth": 16,
+   "length": 1.43937,
+   "group": "end_tip",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": true,
+   "arm_head": [
+    -4.4349,
+    13.6284,
+    -0.0494
+   ],
+   "arm_tail": [
+    -4.4349,
+    15.0678,
+    -0.0494
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右手捩3",
+   "parent": "右ひじ",
+   "depth": 15,
+   "length": 1.43937,
+   "group": "twist_helper",
+   "weighted_vertices": 620,
+   "meshes": [
+    "Меш.014"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -4.9347,
+    11.7869,
+    -0.0201
+   ],
+   "arm_tail": [
+    -4.9347,
+    13.2263,
+    -0.0201
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右手捩3_end",
+   "parent": "右手捩3",
+   "depth": 16,
+   "length": 1.43937,
+   "group": "end_tip",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": true,
+   "arm_head": [
+    -4.9347,
+    13.2263,
+    -0.0201
+   ],
+   "arm_tail": [
+    -4.9347,
+    14.6657,
+    -0.0201
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右腕捩1",
+   "parent": "右腕",
+   "depth": 13,
+   "length": 1.4037,
+   "group": "twist_helper",
+   "weighted_vertices": 60,
+   "meshes": [
+    "Меш.014"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -1.9092,
+    14.2213,
+    -0.0718
+   ],
+   "arm_tail": [
+    -1.9092,
+    15.625,
+    -0.0718
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右腕捩1_end",
+   "parent": "右腕捩1",
+   "depth": 14,
+   "length": 1.4037,
+   "group": "end_tip",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": true,
+   "arm_head": [
+    -1.9092,
+    15.625,
+    -0.0718
+   ],
+   "arm_tail": [
+    -1.9092,
+    17.0287,
+    -0.0718
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右腕捩2",
+   "parent": "右腕",
+   "depth": 13,
+   "length": 1.4037,
+   "group": "twist_helper",
+   "weighted_vertices": 60,
+   "meshes": [
+    "Меш.014"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -2.3142,
+    13.8954,
+    -0.0778
+   ],
+   "arm_tail": [
+    -2.3142,
+    15.2991,
+    -0.0778
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右腕捩2_end",
+   "parent": "右腕捩2",
+   "depth": 14,
+   "length": 1.4037,
+   "group": "end_tip",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": true,
+   "arm_head": [
+    -2.3142,
+    15.2991,
+    -0.0778
+   ],
+   "arm_tail": [
+    -2.3142,
+    16.7028,
+    -0.0778
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右腕捩3",
+   "parent": "右腕",
+   "depth": 13,
+   "length": 1.4037,
+   "group": "twist_helper",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -2.7192,
+    13.5695,
+    -0.0838
+   ],
+   "arm_tail": [
+    -2.7192,
+    14.9732,
+    -0.0838
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右腕捩3_end",
+   "parent": "右腕捩3",
+   "depth": 14,
+   "length": 1.4037,
+   "group": "end_tip",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": true,
+   "arm_head": [
+    -2.7192,
+    14.9732,
+    -0.0838
+   ],
+   "arm_tail": [
+    -2.7192,
+    16.3769,
+    -0.0838
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右带_0_1",
+   "parent": "上半身",
+   "depth": 7,
+   "length": 0.49798,
+   "group": "secondary_Belt",
+   "weighted_vertices": 48,
+   "meshes": [
+    "Меш.020"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -0.2183,
+    11.7651,
+    1.6822
+   ],
+   "arm_tail": [
+    -0.2183,
+    12.263,
+    1.6822
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右带_1_1",
+   "parent": "右带_0_1",
+   "depth": 8,
+   "length": 0.49798,
+   "group": "secondary_Belt",
+   "weighted_vertices": 48,
+   "meshes": [
+    "Меш.020"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -0.3381,
+    11.2845,
+    1.7343
+   ],
+   "arm_tail": [
+    -0.3381,
+    11.7825,
+    1.7343
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右带_2_1",
+   "parent": "右带_1_1",
+   "depth": 9,
+   "length": 0.49798,
+   "group": "secondary_Belt",
+   "weighted_vertices": 156,
+   "meshes": [
+    "Меш.020"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -0.4579,
+    10.804,
+    1.7863
+   ],
+   "arm_tail": [
+    -0.4579,
+    11.302,
+    1.7863
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右带_3_1",
+   "parent": "右带_2_1",
+   "depth": 10,
+   "length": 0.49798,
+   "group": "secondary_Belt",
+   "weighted_vertices": 204,
+   "meshes": [
+    "Меш.020"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -0.5777,
+    10.3234,
+    1.8384
+   ],
+   "arm_tail": [
+    -0.5777,
+    10.8214,
+    1.8384
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右带_4_1",
+   "parent": "右带_3_1",
+   "depth": 11,
+   "length": 0.49798,
+   "group": "secondary_Belt",
+   "weighted_vertices": 72,
+   "meshes": [
+    "Меш.020"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -0.6975,
+    9.8429,
+    1.8904
+   ],
+   "arm_tail": [
+    -0.6975,
+    10.3409,
+    1.8904
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右带_5_1",
+   "parent": "右带_4_1",
+   "depth": 12,
+   "length": 0.49798,
+   "group": "secondary_Belt",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -0.8173,
+    9.3624,
+    1.9425
+   ],
+   "arm_tail": [
+    -0.8173,
+    9.8603,
+    1.9425
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右带_5_1_end",
+   "parent": "右带_5_1",
+   "depth": 13,
+   "length": 0.49798,
+   "group": "secondary_Belt",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": true,
+   "arm_head": [
+    -0.8173,
+    9.8603,
+    1.9425
+   ],
+   "arm_tail": [
+    -0.8173,
+    10.3583,
+    1.9425
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左带_0_1",
+   "parent": "上半身",
+   "depth": 7,
+   "length": 0.49798,
+   "group": "secondary_Belt",
+   "weighted_vertices": 48,
+   "meshes": [
+    "Меш.020"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    0.2183,
+    11.7651,
+    1.6822
+   ],
+   "arm_tail": [
+    0.2183,
+    12.263,
+    1.6822
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左带_1_1",
+   "parent": "左带_0_1",
+   "depth": 8,
+   "length": 0.49798,
+   "group": "secondary_Belt",
+   "weighted_vertices": 48,
+   "meshes": [
+    "Меш.020"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    0.3381,
+    11.2845,
+    1.7343
+   ],
+   "arm_tail": [
+    0.3381,
+    11.7825,
+    1.7343
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左带_2_1",
+   "parent": "左带_1_1",
+   "depth": 9,
+   "length": 0.49798,
+   "group": "secondary_Belt",
+   "weighted_vertices": 156,
+   "meshes": [
+    "Меш.020"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    0.4579,
+    10.804,
+    1.7863
+   ],
+   "arm_tail": [
+    0.4579,
+    11.302,
+    1.7863
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左带_3_1",
+   "parent": "左带_2_1",
+   "depth": 10,
+   "length": 0.49798,
+   "group": "secondary_Belt",
+   "weighted_vertices": 204,
+   "meshes": [
+    "Меш.020"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    0.5777,
+    10.3234,
+    1.8384
+   ],
+   "arm_tail": [
+    0.5777,
+    10.8214,
+    1.8384
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左带_4_1",
+   "parent": "左带_3_1",
+   "depth": 11,
+   "length": 0.49798,
+   "group": "secondary_Belt",
+   "weighted_vertices": 72,
+   "meshes": [
+    "Меш.020"
+   ],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    0.6975,
+    9.8429,
+    1.8904
+   ],
+   "arm_tail": [
+    0.6975,
+    10.3409,
+    1.8904
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左带_5_1",
+   "parent": "左带_4_1",
+   "depth": 12,
+   "length": 0.49798,
+   "group": "secondary_Belt",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    0.8173,
+    9.3624,
+    1.9425
+   ],
+   "arm_tail": [
+    0.8173,
+    9.8603,
+    1.9425
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左带_5_1_end",
+   "parent": "左带_5_1",
+   "depth": 13,
+   "length": 0.49798,
+   "group": "secondary_Belt",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": true,
+   "arm_head": [
+    0.8173,
+    9.8603,
+    1.9425
+   ],
+   "arm_tail": [
+    0.8173,
+    10.3583,
+    1.9425
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左足IK親",
+   "parent": "全ての親",
+   "depth": 1,
+   "length": 1.73036,
+   "group": "ik",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    0.5025,
+    -0.8917,
+    -0.1351
+   ],
+   "arm_tail": [
+    0.5025,
+    0.8386,
+    -0.1351
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左足ＩＫ",
+   "parent": "左足IK親",
+   "depth": 2,
+   "length": 1.54702,
+   "group": "ik",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": true,
+   "arm_head": [
+    0.5025,
+    0.8386,
+    -0.1351
+   ],
+   "arm_tail": [
+    0.5025,
+    2.3857,
+    -0.1351
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左つま先ＩＫ",
+   "parent": "左足ＩＫ",
+   "depth": 3,
+   "length": 1.54702,
+   "group": "ik",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    0.6813,
+    0.1262,
+    1.2265
+   ],
+   "arm_tail": [
+    0.6813,
+    1.6733,
+    1.2265
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "左つま先ＩＫ_end",
+   "parent": "左つま先ＩＫ",
+   "depth": 4,
+   "length": 1.54702,
+   "group": "end_tip",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": true,
+   "arm_head": [
+    0.6813,
+    1.6733,
+    1.2265
+   ],
+   "arm_tail": [
+    0.6813,
+    3.2203,
+    1.2265
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右足IK親",
+   "parent": "全ての親",
+   "depth": 1,
+   "length": 1.73036,
+   "group": "ik",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -0.5025,
+    -0.8917,
+    -0.1351
+   ],
+   "arm_tail": [
+    -0.5025,
+    0.8386,
+    -0.1351
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右足ＩＫ",
+   "parent": "右足IK親",
+   "depth": 2,
+   "length": 1.54702,
+   "group": "ik",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": true,
+   "arm_head": [
+    -0.5025,
+    0.8386,
+    -0.1351
+   ],
+   "arm_tail": [
+    -0.5025,
+    2.3857,
+    -0.1351
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右つま先ＩＫ",
+   "parent": "右足ＩＫ",
+   "depth": 3,
+   "length": 1.54702,
+   "group": "ik",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": false,
+   "arm_head": [
+    -0.6813,
+    0.1262,
+    1.2265
+   ],
+   "arm_tail": [
+    -0.6813,
+    1.6733,
+    1.2265
+   ],
+   "roll": 0.0
+  },
+  {
+   "name": "右つま先ＩＫ_end",
+   "parent": "右つま先ＩＫ",
+   "depth": 4,
+   "length": 1.54702,
+   "group": "end_tip",
+   "weighted_vertices": 0,
+   "meshes": [],
+   "deform_flag": true,
+   "connected": true,
+   "arm_head": [
+    -0.6813,
+    1.6733,
+    1.2265
+   ],
+   "arm_tail": [
+    -0.6813,
+    3.2203,
+    1.2265
+   ],
+   "roll": 0.0
+  }
+ ]
+}
