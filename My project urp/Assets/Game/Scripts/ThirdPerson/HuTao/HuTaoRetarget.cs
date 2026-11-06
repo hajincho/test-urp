@@ -38,6 +38,11 @@ namespace Game.ThirdPerson
             public Transform hip, knee, foot, sourceHip, sourceKnee, sourceFoot;
             public Vector3 restCorrection; // root-local, keeps Hu Tao's own stance width
             public float side;             // -1 left, +1 right (root.right)
+            // Ankle reference, captured once in Furina's idle pose right after binding.
+            public bool hasReference;
+            public Vector2 sourceShinTilt, targetShinTilt; // (lateral, forward) shin tilt in degrees, root space
+            public float sourceFootHeight;                 // root-local height of Furina's ankle
+            public Quaternion idleAnkleLocal;              // Hu Tao ankle relative to its shin
         }
 
         readonly List<Link> pose = new List<Link>();
@@ -52,10 +57,17 @@ namespace Game.ThirdPerson
         Vector3 hipOffset;
         Leg left, right;
         ThirdPersonMotor motor;
-        float gaitBlend;
+        float gaitBlend, runBlend;
 
-        [Tooltip("Extra outward foot offset per leg while walking/running (m). Idle stance is unchanged.")]
-        [Range(0f, .08f)] public float gaitWidening = .03f;
+        [Tooltip("Extra outward foot offset per leg while walking (m). Idle stance is unchanged.")]
+        [Range(0f, .15f)] public float gaitWidening = .07f;
+        [Tooltip("Further outward foot offset per leg at full sprint (m), added to gaitWidening.")]
+        [Range(0f, .1f)] public float runWidening = .03f;
+        [Tooltip("The foot turns with the shin when the shin tilts differently from Furina's (wider gait, other " +
+                 "knee bend), so the ankle does not fold. Planted feet keep this much of the turn (sole stays flatter).")]
+        [Range(0f, 1f)] public float plantedAnkleFollow = .5f;
+        [Tooltip("Max deviation of the ankle joint from its idle angle (deg).")]
+        [Range(10f, 60f)] public float maxAnkleBend = 38f;
 
         public bool Ready { get; private set; }
         public int LinkedBones => pose.Count + details.Count + follows.Count;
@@ -115,6 +127,13 @@ namespace Game.ThirdPerson
             if (missing.Count > 0)
                 Debug.LogWarning("[HuTaoRetarget] Unmapped bones: " + string.Join(", ", missing));
             Ready = pose.Count >= 10 && left.hip && right.hip && left.sourceHip && right.sourceHip;
+            if (Ready)
+            {
+                // Hu Tao is built while Furina stands idle: pose once and record the idle ankle/shin relation.
+                Pose();
+                CaptureAnkleReference(ref left);
+                CaptureAnkleReference(ref right);
+            }
             if (!Ready) enabled = false;
             else Debug.Log($"[HuTaoRetarget] fitted: hatless height={HatlessHeight:0.000} (Furina hatless={FurinaHatlessHeight:0.000}) motionScale={MotionScale:0.000}");
         }
@@ -318,7 +337,11 @@ namespace Game.ThirdPerson
 
         void LateUpdate()
         {
-            if (!Ready || !sourcePelvis || !root) return;
+            if (Ready && sourcePelvis && root) Pose();
+        }
+
+        void Pose()
+        {
             pelvis.position = Scaled(sourcePelvis.position) + root.TransformVector(hipOffset);
             for (int i = 0; i < pose.Count; i++)
             {
@@ -334,28 +357,50 @@ namespace Game.ThirdPerson
                 var delta = d.basis * (Quaternion.Inverse(d.fromRest) * d.from.localRotation) * Quaternion.Inverse(d.basis);
                 d.to.localRotation = d.toRest * Quaternion.SlerpUnclamped(Quaternion.identity, delta, d.share);
             }
-            // Hu Tao's thighs are fuller than Furina's: widen the moving gait a little, never the idle stance.
+            // Hu Tao only: widen the moving gait (more at a sprint), never the idle stance.
             float speed = motor ? motor.PlanarSpeed : 0f;
             float walk = motor ? Mathf.Max(.2f, motor.walkSpeed) : 1f;
-            float gaitTarget = motor && motor.Grounded ? Mathf.InverseLerp(.1f, walk, speed) : gaitBlend;
-            gaitBlend = Mathf.Lerp(gaitBlend, gaitTarget, 1f - Mathf.Exp(-6f * Time.deltaTime));
-            FitLeg(left);
-            FitLeg(right);
+            float sprint = motor ? Mathf.Max(walk + .1f, motor.sprintSpeed) : walk + 1f;
+            bool grounded = motor && motor.Grounded;
+            float response = 1f - Mathf.Exp(-6f * Time.deltaTime);
+            gaitBlend = Mathf.Lerp(gaitBlend, grounded ? Mathf.InverseLerp(.1f, walk, speed) : gaitBlend, response);
+            runBlend = Mathf.Lerp(runBlend, grounded ? Mathf.InverseLerp(walk, sprint, speed) : runBlend, response);
+            float widening = gaitWidening * gaitBlend + runWidening * runBlend;
+            FitLeg(ref left, widening);
+            FitLeg(ref right, widening);
             for (int i = 0; i < follows.Count; i++)
                 follows[i].follower.rotation = follows[i].leader.rotation * follows[i].offset;
+        }
+
+        // Shin (knee -> ankle) tilt in root space: x = sideways toward root.right, y = toward root.forward (deg).
+        Vector2 ShinTilt(Transform knee, Transform ankle)
+        {
+            Vector3 d = root.InverseTransformDirection(ankle.position - knee.position);
+            float down = Mathf.Max(1e-4f, -d.y);
+            return new Vector2(Mathf.Atan2(d.x, down), Mathf.Atan2(d.z, down)) * Mathf.Rad2Deg;
+        }
+
+        void CaptureAnkleReference(ref Leg leg)
+        {
+            if (!leg.foot || !leg.knee || !leg.sourceKnee || !leg.sourceFoot) return;
+            leg.sourceShinTilt = ShinTilt(leg.sourceKnee, leg.sourceFoot);
+            leg.targetShinTilt = ShinTilt(leg.knee, leg.foot);
+            leg.sourceFootHeight = root.InverseTransformPoint(leg.sourceFoot.position).y;
+            leg.idleAnkleLocal = leg.foot.localRotation;
+            leg.hasReference = true;
         }
 
         // Two-bone fit. The ankle goal is Hu Tao's own hip plus the source hip->ankle vector scaled by the leg
         // ratio (plus the rest stance correction), so a wider pelvis never pulls the feet across each other.
         // The knee bends in the source leg's bend plane, biased forward so a straight leg never flips inward.
-        void FitLeg(Leg leg)
+        void FitLeg(ref Leg leg, float widening)
         {
             if (!leg.hip || !leg.knee || !leg.foot || !leg.sourceHip || !leg.sourceKnee || !leg.sourceFoot) return;
             var hip = leg.hip.position; var knee = leg.knee.position; var foot = leg.foot.position;
             Vector3 sourceReach = leg.sourceFoot.position - leg.sourceHip.position;
             if (sourceReach.sqrMagnitude < .0000001f) return;
             var goal = hip + sourceReach * MotionScale + root.TransformVector(leg.restCorrection)
-                + root.right * (leg.side * gaitWidening * gaitBlend);
+                + root.right * (leg.side * widening);
             var reach = goal - hip;
             if (reach.sqrMagnitude < .000001f) return;
             var axis = reach.normalized;
@@ -371,6 +416,28 @@ namespace Game.ThirdPerson
             leg.hip.rotation = Quaternion.FromToRotation(knee - hip, newKnee - hip) * leg.hip.rotation;
             leg.knee.rotation = Quaternion.FromToRotation(leg.foot.position - leg.knee.position, hip + axis * dist - leg.knee.position) * leg.knee.rotation;
             leg.foot.rotation = footRotation;
+            FitAnkle(ref leg);
+        }
+
+        // The foot copies Furina's world foot rotation, which only matches Furina's own shin. Wherever Hu Tao's
+        // shin tilts differently (wider gait, different thigh/shin ratio, clamped reach) that difference used to
+        // fold the ankle. Turn the foot by the extra shin tilt instead: fully while the foot is in the air,
+        // partly while it is planted (sole stays near flat), then keep the joint within a natural range.
+        void FitAnkle(ref Leg leg)
+        {
+            if (!leg.hasReference) return;
+            Vector2 extra = (ShinTilt(leg.knee, leg.foot) - leg.targetShinTilt)
+                - (ShinTilt(leg.sourceKnee, leg.sourceFoot) - leg.sourceShinTilt);
+            float scale = Mathf.Max(.01f, Mathf.Abs(root.lossyScale.y));
+            float lift = (root.InverseTransformPoint(leg.sourceFoot.position).y - leg.sourceFootHeight) * Mathf.Abs(root.lossyScale.y);
+            float follow = Mathf.Lerp(plantedAnkleFollow, 1f, Mathf.SmoothStep(0f, 1f, Mathf.InverseLerp(.012f * scale, .05f * scale, lift)));
+            // Sideways tilt rotates about root.forward, forward tilt about root.right (sign: shin bottom -> +axis).
+            leg.foot.rotation = Quaternion.AngleAxis(extra.x * follow, root.forward)
+                * Quaternion.AngleAxis(-extra.y * follow, root.right) * leg.foot.rotation;
+            var local = leg.foot.localRotation;
+            float angle = Quaternion.Angle(leg.idleAnkleLocal, local);
+            if (angle > maxAnkleBend)
+                leg.foot.localRotation = Quaternion.Slerp(leg.idleAnkleLocal, local, maxAnkleBend / angle);
         }
     }
 }

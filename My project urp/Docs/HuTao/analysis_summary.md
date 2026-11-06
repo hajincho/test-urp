@@ -99,3 +99,13 @@
   | 풀림+진행파(달리기) | 3.1cm | 0.85 | 61° | 1.8 |
 
   풀림만으로는 여전히 통째로 흔들리므로 진행파 구동이 필요하다. Play Mode에서 옆·뒤 시점 육안 확인과 `hairStrideWave`·`strideWaveJoints` 튜닝은 남은 작업이다.
+
+## 10. 5차 수정 (2026-11-07) – 이동 중 다리 간격, 발목 꺾임 (`HuTaoRetarget`, Hu Tao 전용)
+- **다리 간격**: 이동 중 발을 바깥으로 미는 양(다리당)을 `gaitWidening` 0.03 → **0.07m**(걷기)로 늘리고, 질주 시 `runWidening` **+0.03m**를 더했다(질주 시 다리당 0.10m, 양발 사이 0.20m 증가). 블렌드는 걷기 `InverseLerp(0.1, walkSpeed)`, 달리기 `InverseLerp(walkSpeed, sprintSpeed)`이며 대기 자세는 변하지 않는다. Furina는 영향 없음.
+- **발목 꺾임**
+  - 원인: 발은 Furina 발의 **월드 회전**을 그대로 복사하는데, 그 회전은 Furina 자신의 정강이에만 맞는다. Hu Tao 정강이가 다르게 기울면(넓힌 보폭, 다른 허벅지·정강이 비율, 다리 길이 초과로 인한 clamp) 그 차이가 모두 발목 관절 꺾임으로 나타났다. 보폭을 넓히면 옆으로 더 꺾이게 되어 있었다.
+  - 수정: 빌드 직후(Furina 대기 자세) 한 번 포즈를 잡고 기준을 기록한다(`CaptureAnkleReference`): 양쪽 정강이 기울기(좌우·앞뒤), Furina 발 높이, Hu Tao 발목 로컬 회전.
+  - 매 프레임 `FitAnkle`이 "Hu Tao 정강이 기울기 변화 − Furina 정강이 기울기 변화"만큼 발을 정강이와 같이 돌린다. 발이 공중에 있으면(Furina 발이 대기 높이보다 1.2~5cm 위) 100%, 디딘 상태에서는 `plantedAnkleFollow`=50%다(발바닥은 거의 평평하게, 발목은 덜 꺾이게).
+  - 마지막으로 발목 관절이 대기 각도에서 `maxAnkleBend`=38° 이상 벗어나지 않게 제한한다.
+  - 회전 부호는 수치로 확인했다(정강이가 옆 8°·앞 5° 기울면 발 아래 방향도 (8.0°, 5.05°)).
+- 검증: tree-sitter 구문 검사 통과. Unity 컴파일·Play Mode 미수행. 옆·정면 시점에서 보폭과 발목을 육안으로 확인해야 하고, 너무 넓거나 좁으면 `gaitWidening`/`runWidening`, 디딘 발이 기울어 보이면 `plantedAnkleFollow`를 조정한다.
