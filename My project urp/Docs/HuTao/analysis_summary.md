@@ -109,3 +109,17 @@
   - 마지막으로 발목 관절이 대기 각도에서 `maxAnkleBend`=38° 이상 벗어나지 않게 제한한다.
   - 회전 부호는 수치로 확인했다(정강이가 옆 8°·앞 5° 기울면 발 아래 방향도 (8.0°, 5.05°)).
 - 검증: tree-sitter 구문 검사 통과. Unity 컴파일·Play Mode 미수행. 옆·정면 시점에서 보폭과 발목을 육안으로 확인해야 하고, 너무 넓거나 좁으면 `gaitWidening`/`runWidening`, 디딘 발이 기울어 보이면 `plantedAnkleFollow`를 조정한다.
+
+## 11. 6차 수정 (2026-11-07) – 바위 세트 속 풀 충돌 제거, 발목 비틀림 보정 강화
+- **풀 충돌**
+  - 원인: 스크린샷의 뾰족한 풀은 별도 오브젝트가 아니라 `Art/Meshes/Compositions/*`(바위·계단·벽 세트) 메시 **안에** 들어 있다. `WorldTraversalFix`가 LOD0 렌더러 메시 전체를 MeshCollider로 구웠기 때문에 풀잎도 벽처럼 막았다. 확인 과정: TerrainData 외부 참조는 지형 레이어 4개뿐(tree prototype 없음), 프리팹 에셋 안 콜라이더 없음, 씬의 활성 MeshCollider 메시는 Compositions/Houses/TreeWood/Town Wall/Doors뿐이었다.
+  - FBX 파싱 + 아틀라스 색 분석: 연결 조각 중 초록·올리브(hue 45~155°, s≥0.25, v≥0.1)이면서 작은 것(최대 1.8m, 160삼각형 이하)은 메시 85개에 4,030개(71,905삼각형, 전체 979,305의 7.3%, 크기 중앙값 0.48m)다. 1.8m를 넘는 초록 구조물 118개(생울타리, 풀 덮인 경사 등)는 충돌을 유지한다.
+  - 도구: `Assets/Game/Editor/CompositionPlantCollision.cs`, 메뉴 **Tools/World/Remove Plant Collision From Compositions**(Demo 씬에서 1회 실행). 같은 기준으로 풀 조각을 뺀 충돌 메시를 `Assets/Game/Collision/CompositionNoPlants/`에 굽고 씬 콜라이더에 할당한 뒤 저장한다(실행 전 `Logs/WorldTraversalBackups/`에 씬 백업). 렌더링 메시는 그대로다. 확인용 메뉴는 `Validate Composition Plant Collision`, 상세 로그는 `Logs/CompositionPlantCollision.txt`.
+  - FBX·아틀라스가 Read/Write off라 빌드 런타임에서는 메시를 읽을 수 없으므로, 기존 `TreeWoodCollisionBaker`와 같은 에디터 굽기 방식을 택했다.
+- **발목 비틀림**(`HuTaoRetarget`)
+  - 발끝 방향 고정: 대기 자세에서 기록한 발끝(足首→つま先) 방향을 몸(root) 기준으로 `footYawLock`=75% 유지한다. Furina는 대기 시 발이 바깥으로 벌어져 있고 걸을 때 발 방향이 흔들려서, Hu Tao 발이 무릎과 다른 쪽을 향했다.
+  - 무릎이 발끝을 따라감: 무릎 pole 바이어스를 root.forward 3%에서 발끝 방향 `kneeTrackToes`=6%로 바꿨다.
+  - 비틀림 제거: 대기 이후 발목 회전을 정강이 축 기준 swing(굽힘)과 twist(비틀림)로 분해해 twist를 `ankleTwistRemoval`=80% 제거하고, swing은 `maxAnkleBend` 38° → **25°**로 제한한다.
+  - `plantedAnkleFollow` 0.5 → **0.85**(디딘 발도 정강이 기울기를 더 많이 따라감).
+  - 분해 수식은 수치로 확인했다(30° 굽힘 + 40° 비틀림 → 30.00°/40.00° 복원).
+- 검증: 두 C# 파일 tree-sitter 구문 오류 0. Unity 컴파일·실행은 미수행. 풀 충돌은 메뉴 실행 후 해당 풀 사이를 지나가 보고, 발목은 정면·옆에서 확인해야 한다.

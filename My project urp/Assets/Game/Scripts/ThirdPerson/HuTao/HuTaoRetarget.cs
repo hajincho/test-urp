@@ -43,6 +43,10 @@ namespace Game.ThirdPerson
             public Vector2 sourceShinTilt, targetShinTilt; // (lateral, forward) shin tilt in degrees, root space
             public float sourceFootHeight;                 // root-local height of Furina's ankle
             public Quaternion idleAnkleLocal;              // Hu Tao ankle relative to its shin
+            public Transform toe;                          // つま先, gives the toe direction
+            public Vector3 toeLocal;                       // ankle -> toe in the ankle frame
+            public Vector3 idleHeading;                    // root-local toe heading in the idle pose
+            public Vector3 shinAxisInAnkle;                // shin axis in the idle ankle frame (twist axis)
         }
 
         readonly List<Link> pose = new List<Link>();
@@ -65,9 +69,15 @@ namespace Game.ThirdPerson
         [Range(0f, .1f)] public float runWidening = .03f;
         [Tooltip("The foot turns with the shin when the shin tilts differently from Furina's (wider gait, other " +
                  "knee bend), so the ankle does not fold. Planted feet keep this much of the turn (sole stays flatter).")]
-        [Range(0f, 1f)] public float plantedAnkleFollow = .5f;
-        [Tooltip("Max deviation of the ankle joint from its idle angle (deg).")]
-        [Range(10f, 60f)] public float maxAnkleBend = 38f;
+        [Range(0f, 1f)] public float plantedAnkleFollow = .85f;
+        [Tooltip("Max bend (swing) of the ankle joint away from its idle angle (deg).")]
+        [Range(10f, 60f)] public float maxAnkleBend = 25f;
+        [Tooltip("How much of the foot's twist about the shin (relative to idle) is removed.")]
+        [Range(0f, 1f)] public float ankleTwistRemoval = .8f;
+        [Tooltip("How strongly the toe heading is held at its idle direction relative to the body.")]
+        [Range(0f, 1f)] public float footYawLock = .75f;
+        [Tooltip("Knee pole bias toward the toe heading (fraction of leg length), so knee and toes face the same way.")]
+        [Range(0f, .2f)] public float kneeTrackToes = .06f;
 
         public bool Ready { get; private set; }
         public int LinkedBones => pose.Count + details.Count + follows.Count;
@@ -251,6 +261,7 @@ namespace Game.ThirdPerson
             AddFollow(side + "つま先", side + "足先EX");
 
             var result = new Leg { side = isLeft ? -1f : 1f };
+            target.TryGetValue(side + "つま先", out result.toe);
             if (target.TryGetValue(side + "足", out result.hip) && target.TryGetValue(side + "ひざ", out result.knee)
                 && target.TryGetValue(side + "足首", out result.foot) && source.TryGetValue(f + "leg", out result.sourceHip)
                 && source.TryGetValue(f + "knee", out result.sourceKnee) && source.TryGetValue(f + "ankle", out result.sourceFoot))
@@ -387,6 +398,16 @@ namespace Game.ThirdPerson
             leg.targetShinTilt = ShinTilt(leg.knee, leg.foot);
             leg.sourceFootHeight = root.InverseTransformPoint(leg.sourceFoot.position).y;
             leg.idleAnkleLocal = leg.foot.localRotation;
+            Vector3 shin = leg.foot.localPosition; // ankle position in the knee frame = shin direction
+            leg.shinAxisInAnkle = shin.sqrMagnitude > 1e-10f
+                ? (Quaternion.Inverse(leg.idleAnkleLocal) * shin).normalized : Vector3.zero;
+            if (leg.toe)
+            {
+                Vector3 toe = leg.toe.position - leg.foot.position;
+                leg.toeLocal = Quaternion.Inverse(leg.foot.rotation) * toe;
+                Vector3 heading = Vector3.ProjectOnPlane(root.InverseTransformDirection(toe), Vector3.up);
+                leg.idleHeading = heading.sqrMagnitude > 1e-10f ? heading.normalized : Vector3.forward;
+            }
             leg.hasReference = true;
         }
 
@@ -399,6 +420,19 @@ namespace Game.ThirdPerson
             var hip = leg.hip.position; var knee = leg.knee.position; var foot = leg.foot.position;
             Vector3 sourceReach = leg.sourceFoot.position - leg.sourceHip.position;
             if (sourceReach.sqrMagnitude < .0000001f) return;
+            // Toe heading: Furina's foot yaw (turned-out idle, swinging while walking) turned Hu Tao's foot away
+            // from her knee. Hold it near its idle heading relative to the body; the knee then tracks the toes.
+            Vector3 heading = root.forward;
+            if (leg.hasReference && leg.toe && leg.toeLocal.sqrMagnitude > 1e-10f)
+            {
+                Vector3 current = Vector3.ProjectOnPlane(leg.foot.rotation * leg.toeLocal, root.up);
+                Vector3 idle = root.TransformDirection(leg.idleHeading);
+                if (current.sqrMagnitude > 1e-10f)
+                    leg.foot.rotation = Quaternion.AngleAxis(Vector3.SignedAngle(current, idle, root.up) * footYawLock, root.up)
+                        * leg.foot.rotation;
+                current = Vector3.ProjectOnPlane(leg.foot.rotation * leg.toeLocal, root.up);
+                if (current.sqrMagnitude > 1e-10f) heading = current.normalized;
+            }
             var goal = hip + sourceReach * MotionScale + root.TransformVector(leg.restCorrection)
                 + root.right * (leg.side * widening);
             var reach = goal - hip;
@@ -408,7 +442,7 @@ namespace Game.ThirdPerson
             float dist = Mathf.Clamp(reach.magnitude, Mathf.Abs(upper - lower) + .0001f, upper + lower - .0001f);
             float along = (upper * upper - lower * lower + dist * dist) / (2f * dist);
             Vector3 sourceBend = Vector3.ProjectOnPlane(leg.sourceKnee.position - leg.sourceHip.position, sourceReach.normalized);
-            var pole = Vector3.ProjectOnPlane(sourceBend + root.forward * (.03f * (upper + lower)), axis);
+            var pole = Vector3.ProjectOnPlane(sourceBend + heading * (kneeTrackToes * (upper + lower)), axis);
             if (pole.sqrMagnitude < .0000001f) pole = Vector3.ProjectOnPlane(knee - hip, axis);
             if (pole.sqrMagnitude < .0000001f) return;
             var newKnee = hip + along * axis + pole.normalized * Mathf.Sqrt(Mathf.Max(0, upper * upper - along * along));
@@ -434,10 +468,22 @@ namespace Game.ThirdPerson
             // Sideways tilt rotates about root.forward, forward tilt about root.right (sign: shin bottom -> +axis).
             leg.foot.rotation = Quaternion.AngleAxis(extra.x * follow, root.forward)
                 * Quaternion.AngleAxis(-extra.y * follow, root.right) * leg.foot.rotation;
-            var local = leg.foot.localRotation;
-            float angle = Quaternion.Angle(leg.idleAnkleLocal, local);
-            if (angle > maxAnkleBend)
-                leg.foot.localRotation = Quaternion.Slerp(leg.idleAnkleLocal, local, maxAnkleBend / angle);
+            // Split the ankle's change since idle into twist (about the shin) and swing (bend). Most of the twist
+            // is removed (a turned ankle), the bend is kept within maxAnkleBend.
+            var delta = Quaternion.Inverse(leg.idleAnkleLocal) * leg.foot.localRotation;
+            if (delta.w < 0f) delta = new Quaternion(-delta.x, -delta.y, -delta.z, -delta.w);
+            var twist = Quaternion.identity;
+            if (leg.shinAxisInAnkle.sqrMagnitude > .5f)
+            {
+                Vector3 projected = Vector3.Project(new Vector3(delta.x, delta.y, delta.z), leg.shinAxisInAnkle);
+                float norm = Mathf.Sqrt(projected.sqrMagnitude + delta.w * delta.w);
+                if (norm > 1e-6f) twist = new Quaternion(projected.x / norm, projected.y / norm, projected.z / norm, delta.w / norm);
+            }
+            var swing = delta * Quaternion.Inverse(twist);
+            float bend = Quaternion.Angle(Quaternion.identity, swing);
+            if (bend > maxAnkleBend) swing = Quaternion.Slerp(Quaternion.identity, swing, maxAnkleBend / bend);
+            twist = Quaternion.Slerp(Quaternion.identity, twist, 1f - ankleTwistRemoval);
+            leg.foot.localRotation = leg.idleAnkleLocal * swing * twist;
         }
     }
 }
