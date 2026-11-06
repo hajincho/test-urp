@@ -110,6 +110,7 @@ namespace Game.ThirdPerson
             Bind("Head", "頭");
             left = BindSide(true);
             right = BindSide(false);
+            BalanceLegCorrection();
 
             if (missing.Count > 0)
                 Debug.LogWarning("[HuTaoRetarget] Unmapped bones: " + string.Join(", ", missing));
@@ -131,9 +132,11 @@ namespace Game.ThirdPerson
                 !target.TryGetValue("頭", out var head) || !target.TryGetValue("左ひざ", out var lk) ||
                 !target.TryGetValue("左足首", out var la) || !target.TryGetValue("右足首", out var ra)) return;
 
-            // Orientation: character-right is 左足 -> 右足, character-up is hips -> head.
+            // Orientation: character-right is 左足 -> 右足, character-up is hips -> head, snapped to the model's
+            // nearest principal axis. The MMD head joint sits ~3.5 deg behind the hips, so using it unsnapped
+            // pitched the whole rig forward: hips and head leaned and both feet stayed toe-down while walking.
             Vector3 mid = (lf.position + rf.position) * .5f;
-            Vector3 up = root.InverseTransformDirection(head.position - mid).normalized;
+            Vector3 up = SnapToAxis(root.InverseTransformDirection(head.position - mid));
             Vector3 side = Vector3.ProjectOnPlane(root.InverseTransformDirection(rf.position - lf.position), up);
             if (up.sqrMagnitude > .5f && side.sqrMagnitude > .000001f)
             {
@@ -158,6 +161,29 @@ namespace Game.ThirdPerson
             // Position: ankles centred on Furina's (scaled) ankles.
             if (source.TryGetValue("Right ankle", out var fr))
                 transform.position += Scaled((fa.position + fr.position) * .5f) - (la.position + ra.position) * .5f;
+        }
+
+        static Vector3 SnapToAxis(Vector3 v)
+        {
+            float x = Mathf.Abs(v.x), y = Mathf.Abs(v.y), z = Mathf.Abs(v.z);
+            if (x >= y && x >= z) return new Vector3(Mathf.Sign(v.x), 0f, 0f);
+            if (y >= z) return new Vector3(0f, Mathf.Sign(v.y), 0f);
+            return new Vector3(0f, 0f, Mathf.Sign(v.z));
+        }
+
+        // The rest correction was a constant root-space vector added to a swinging hip->ankle reach. Its
+        // vertical/forward part (Hu Tao's straight MMD rest leg vs Furina's softly bent idle leg) lengthened the
+        // trailing leg and shortened the leading one, so in side view the knees locked, the back foot was
+        // dragged and the stride was lopsided. That shared part now moves the pelvis instead (same idle foot
+        // placement, Furina's knee bend); only each leg's lateral stance difference stays on the foot goal.
+        void BalanceLegCorrection()
+        {
+            if (!left.hip || !right.hip) return;
+            Vector3 shared = (left.restCorrection + right.restCorrection) * .5f;
+            shared.x = 0f;
+            left.restCorrection -= shared;
+            right.restCorrection -= shared;
+            hipOffset += shared;
         }
 
         Leg BindSide(bool isLeft)

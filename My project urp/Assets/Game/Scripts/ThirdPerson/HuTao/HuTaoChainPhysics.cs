@@ -53,8 +53,13 @@ namespace Game.ThirdPerson
             public float thickness;
             [Tooltip("Max bend between this segment and the next (deg); 0 = automatic. Thick hair gets a tighter limit.")]
             [Range(0f, 60f)] public float bendLimit;
-            [Tooltip("Bend-limit multiplier at full run (thick hair stays visually straight while running).")]
+            [Tooltip("Bend-limit multiplier at full run.")]
             [Range(.2f, 1f)] public float runBendScale = 1f;
+            [Tooltip("How far this joint loosens while walking/running (stiffness, curl retention and bend limit), " +
+                     "so the strand can bend into a wave instead of swinging as one rigid piece.")]
+            [Range(0f, 1f)] public float moveRelease;
+            [Tooltip("Gait-synchronised travelling wave (m/s^2 at walking pace) that runs from the root to the tip.")]
+            [Range(0f, 4f)] public float strideWave;
             [NonSerialized] public float peakDeflection;
         }
 
@@ -103,6 +108,10 @@ namespace Game.ThirdPerson
         [Range(0f, 3f)] public float runFlutter = 1f;
         [Tooltip("Ground speeds (m/s) between which the run-only behaviour blends in.")]
         public Vector2 runSpeedRange = new Vector2(1.6f, 5f);
+        [Tooltip("Global scale of the walking/running wave along the twin tails (0 disables).")]
+        [Range(0f, 3f)] public float hairStrideWave = 1f;
+        [Tooltip("Joints per wavelength of the stride wave. ~9 shows about 1.5 waves along a twin tail.")]
+        [Range(4f, 24f)] public float strideWaveJoints = 9f;
         public RigNaming naming = RigNaming.Auto;
         public bool trackUtilization = true;
         public bool measureErrors = false;
@@ -128,7 +137,9 @@ namespace Game.ThirdPerson
         Vector3 previousActorPosition, actorVelocity, actorAcceleration, angularVelocity;
         Vector3 previousDriverPosition, angularAcceleration;
         Quaternion previousActorRotation;
-        float accumulator, scale = 1f, runBlend;
+        float accumulator, scale = 1f, runBlend, moveBlend;
+        UntitledCharacterMotion gait;
+        float gaitPhase, previousGaitPhase, stepGaitPhase;
         // Not serialized: after a script hot-reload in Play Mode the solver rebuilds its runtime arrays.
         [NonSerialized] bool initialized;
         [NonSerialized] bool needsReset = true;
@@ -145,6 +156,8 @@ namespace Game.ThirdPerson
         public float MaximumBodyPenetration { get; private set; }
         public double LastStepMilliseconds { get; private set; }
         public float RunBlend => runBlend;
+        /// <summary>0 standing, 1 walking or faster on the ground (drives the twin-tail release and wave).</summary>
+        public float MoveBlend => moveBlend;
 
         void Awake() => InitializeRig();
         void OnEnable() => needsReset = true;
@@ -293,6 +306,7 @@ namespace Game.ThirdPerson
                 int chainLength = LongestDepth(root);
                 float free = chainLength > 0 ? Mathf.Clamp01((float)depth / chainLength) : 1f;
                 var profile = ProfileFor(kind);
+                bool twinTail = kind == ChainKind.HairBack && Naming == RigNaming.HuTao;
                 float jitterStiff = Jitter(root.name, 1);
                 float jitterGrav = Jitter(root.name, 2);
                 Transform child = FirstChainChild(bone);
@@ -318,7 +332,11 @@ namespace Game.ThirdPerson
                     breeze = profile.breeze * Mathf.SmoothStep(0f, 1f, free),
                     flutter = Mathf.Lerp(profile.flutterRoot, profile.flutterTip, free * free),
                     runSoftening = Mathf.Lerp(1f, profile.runSoftening, free),
-                    runLimitBoost = Mathf.Lerp(1f, profile.runLimitBoost, free)
+                    runLimitBoost = Mathf.Lerp(1f, profile.runLimitBoost, free),
+                    // Hu Tao's twin tails loosen while moving and carry the stride as a travelling wave;
+                    // the root stays anchored, the free end moves most.
+                    moveRelease = twinTail ? Mathf.Lerp(.3f, .85f, free) : 0f,
+                    strideWave = twinTail ? 3f * Mathf.Lerp(.15f, 1f, Mathf.SmoothStep(0f, 1f, free)) : 0f
                 });
             }
             bones = configured;
@@ -328,8 +346,11 @@ namespace Game.ThirdPerson
             needsReset = true;
         }
 
-        // Thick hair sections bend less per joint (the bend is shared along the strand) and stay straighter
-        // while running, so the bulge never folds like plastic.
+        // Standing: a thick section shares its bend over several joints (tighter per-joint bend limit), so the
+        // bulge does not fold at one joint. Moving: the earlier version also stiffened it and shrank its bend
+        // limit further while running, which turned the whole thick block into one rigid, plastic-looking
+        // piece. Now thick joints get the strongest release while walking/running (see moveRelease), so
+        // the stride wave can bend through them.
         void ApplyThickness()
         {
             var smoother = GetComponent<HairChainSmoother>();
@@ -340,9 +361,10 @@ namespace Game.ThirdPerson
                 setting.thickness = ratio;
                 float thick = HairChainSmoother.Thickness01(ratio);
                 if (thick <= 0f) continue;
-                setting.bendLimit = Mathf.Lerp(18f + setting.depth * 1.1f, 9f, thick);
-                setting.runBendScale = Mathf.Lerp(1f, .45f, thick);
-                setting.stiffness *= 1f + .6f * thick;
+                setting.bendLimit = Mathf.Lerp(18f + setting.depth * 1.1f, 12f, thick);
+                setting.runBendScale = 1f;
+                setting.stiffness *= 1f + .25f * thick;
+                if (setting.moveRelease > 0f) setting.moveRelease = Mathf.Lerp(setting.moveRelease, 1f, thick);
             }
         }
 
@@ -413,6 +435,7 @@ namespace Game.ThirdPerson
 
             motor = GetComponentInParent<ThirdPersonMotor>();
             actor = motor ? motor.transform : transform;
+            gait = motor ? motor.GetComponentInChildren<UntitledCharacterMotion>(true) : null;
             var lookup = new Dictionary<Transform, int>();
             for (int i = 0; i < bones.Count; i++) lookup[bones[i].bone] = i;
             parents = new int[bones.Count];
@@ -590,7 +613,8 @@ namespace Game.ThirdPerson
             previousActorRotation = ActorRotation;
             actorVelocity = actorAcceleration = angularVelocity = Vector3.zero;
             angularAcceleration = Vector3.zero;
-            runBlend = 0f;
+            runBlend = moveBlend = 0f;
+            gaitPhase = previousGaitPhase = stepGaitPhase = gait ? gait.GaitPhase : 0f;
             accumulator = 0f;
             for (int i = 0; i < bodyCapsules.Length; i++)
             {
@@ -636,6 +660,15 @@ namespace Game.ThirdPerson
             float targetRun = Mathf.InverseLerp(runSpeedRange.x, runSpeedRange.y, planar.magnitude);
             // Rises quickly, falls slowly: the hem keeps flying for a moment after a sudden stop.
             runBlend = Mathf.Lerp(runBlend, targetRun, 1f - Mathf.Exp(-(targetRun > runBlend ? 6f : 2.2f) * deltaTime));
+            // Walking already counts as moving for the twin tails (runBlend only starts at a jog).
+            bool onGround = !motor || (motor.Grounded && !motor.IsSwimming && !motor.IsClimbing);
+            float walk = motor ? Mathf.Max(.3f, motor.walkSpeed * .8f) : 1f;
+            float targetMove = onGround ? Mathf.InverseLerp(.12f, walk, planar.magnitude) : 0f;
+            moveBlend = Mathf.Lerp(moveBlend, targetMove, 1f - Mathf.Exp(-(targetMove > moveBlend ? 5f : 2f) * deltaTime));
+            previousGaitPhase = gaitPhase;
+            gaitPhase = gait ? gait.GaitPhase
+                : Mathf.Repeat(gaitPhase + planar.magnitude * deltaTime * (2f * Mathf.PI / 1.6f), 2f * Mathf.PI);
+            float gaitAdvance = Mathf.Repeat(gaitPhase - previousGaitPhase + Mathf.PI, 2f * Mathf.PI) - Mathf.PI;
             previousActorPosition = actor.position;
             previousDriverPosition = driverPosition;
             previousActorRotation = ActorRotation;
@@ -664,6 +697,7 @@ namespace Game.ThirdPerson
                     bodyCapsules[i].start = Vector3.Lerp(bodyCapsules[i].previousStart, bodyCapsules[i].targetStart, fraction);
                     bodyCapsules[i].end = Vector3.Lerp(bodyCapsules[i].previousEnd, bodyCapsules[i].targetEnd, fraction);
                 }
+                stepGaitPhase = previousGaitPhase + gaitAdvance * fraction;
                 SimulateStep();
                 accumulator = Mathf.Max(0f, accumulator - FixedStep);
                 steps++;
@@ -694,6 +728,10 @@ namespace Game.ThirdPerson
             Vector3 planarVelocity = Vector3.ProjectOnPlane(relativeVelocity, Vector3.up);
             float planarSpeed = planarVelocity.magnitude;
             Vector3 flapSide = planarSpeed > .01f ? Vector3.Cross(Vector3.up, planarVelocity / planarSpeed) : Vector3.zero;
+            Transform frame = motor && motor.visualRoot ? motor.visualRoot : actor;
+            Vector3 bodyRight = frame.right, bodyForward = frame.forward;
+            float waveGain = hairStrideWave * moveBlend * (1f - water) * Mathf.Lerp(1f, .85f, runBlend);
+            float waveStep = 2f * Mathf.PI / Mathf.Max(1f, strideWaveJoints);
             for (int i = 0; i < particles.Length; i++)
             {
                 ref Particle particle = ref particles[i];
@@ -707,8 +745,9 @@ namespace Game.ThirdPerson
                 Vector3 transport = (stepTargets[i] - lastStepTargets[i]) * setting.parentMotionInfluence;
                 particle.position += transport;
                 particle.previousPosition += transport;
+                float release = setting.moveRelease * moveBlend;
                 Vector3 inertia = (particle.position - particle.previousPosition)
-                    * Mathf.Exp(-setting.damping * Mathf.Lerp(1f, 2.5f, water) * FixedStep);
+                    * Mathf.Exp(-setting.damping * Mathf.Lerp(1f, .7f, release) * Mathf.Lerp(1f, 2.5f, water) * FixedStep);
                 Vector3 wind = -relativeVelocity * relativeVelocity.magnitude * setting.velocityResponse * aerodynamicScale;
                 Vector3 offset = stepTargets[i] - bodyOrigin;
                 Vector3 turn = (-Vector3.Cross(angularAcceleration, offset)
@@ -738,6 +777,21 @@ namespace Game.ThirdPerson
                     float lateral = Mathf.Sin(time * omega * .63f - depth * .6f + chainPhase[i] * 1.7f);
                     float strength = setting.flutter * runFlutter * planarSpeed * planarSpeed * runBlend;
                     acceleration += (Vector3.up * (wave * gust + .45f) + flapSide * (lateral * .55f)) * (strength * scale);
+                }
+                if (setting.strideWave > 0f && waveGain > .001f)
+                {
+                    // Stride wave: the head sways sideways once per gait cycle and pushes fore/aft on every step.
+                    // Each joint lags its parent by waveStep, so the drive travels root -> tip and the loosened
+                    // strand shows a sine wave along its length instead of swinging as one piece.
+                    Vector3 along = stepTargets[i] - stepTargets[particle.parent];
+                    if (along.sqrMagnitude > .0000001f)
+                    {
+                        along.Normalize();
+                        float phase = stepGaitPhase - (setting.depth + 1) * waveStep + (chainPhase[i] - 6.2831853f) * .5f;
+                        Vector3 sway = Vector3.ProjectOnPlane(bodyRight, along) * Mathf.Sin(phase)
+                            + Vector3.ProjectOnPlane(bodyForward, along) * (.45f * Mathf.Sin(2f * phase + .6f));
+                        acceleration += sway * (setting.strideWave * waveGain * scale);
+                    }
                 }
                 particle.previousPosition = particle.position;
                 particle.position += inertia + Vector3.ClampMagnitude(acceleration, 60f * scale) * (FixedStep * FixedStep);
@@ -771,8 +825,12 @@ namespace Game.ThirdPerson
                 Vector3 baseline = stepTargets[i] - stepTargets[particle.parent];
                 Vector3 current = particle.position - parent.position;
                 if (baseline.sqrMagnitude < .0000001f || current.sqrMagnitude < .0000001f) continue;
-                float stiffness = setting.stiffness * Mathf.Lerp(1f, setting.runSoftening, runBlend);
-                float limit = Mathf.Min(85f, setting.rotationLimit * Mathf.Lerp(1f, setting.runLimitBoost, runBlend));
+                // Released joints (twin tails while walking/running) follow the rest shape loosely, keep less of
+                // their curl and may bend further, so a wave can form through the thick middle section.
+                float release = setting.moveRelease * moveBlend;
+                float stiffness = setting.stiffness * Mathf.Lerp(1f, setting.runSoftening, runBlend) * Mathf.Lerp(1f, .4f, release);
+                float limit = Mathf.Min(85f, setting.rotationLimit * Mathf.Lerp(1f, setting.runLimitBoost, runBlend)
+                    * Mathf.Lerp(1f, 1.3f, release));
                 float spring = 1f - Mathf.Exp(-stiffness * FixedStep / iterations);
                 Vector3 desired = Vector3.Slerp(current.normalized, baseline.normalized, spring);
                 desired = Vector3.RotateTowards(baseline.normalized, desired, limit * Mathf.Deg2Rad, 0f).normalized;
@@ -785,11 +843,12 @@ namespace Game.ThirdPerson
                         Vector3 transported = Quaternion.FromToRotation(restPrevious, baseline) * posedPrevious.normalized;
                         // Keep the strand's intrinsic curl relative to the moving parent so a whole
                         // lock can trail without being ironed straight.
-                        float curvatureRate = Mathf.Lerp(3f, 24f, curvatureRetention);
+                        float curvatureRate = Mathf.Lerp(3f, 24f, curvatureRetention) * Mathf.Lerp(1f, .3f, release);
                         float curvatureSpring = 1f - Mathf.Exp(-stiffness * curvatureRate * FixedStep / iterations);
                         desired = Vector3.Slerp(desired, transported.normalized, curvatureSpring).normalized;
                         float bendBase = 18f + setting.depth * 1.1f;
                         if (setting.bendLimit > 0f) bendBase = Mathf.Min(bendBase, setting.bendLimit);
+                        bendBase = Mathf.Lerp(bendBase, Mathf.Max(bendBase, 28f), release);
                         float bendLimit = Mathf.Min(limit, bendBase * Mathf.Lerp(1f, setting.runLimitBoost * setting.runBendScale, runBlend));
                         desired = Vector3.RotateTowards(transported.normalized, desired,
                             bendLimit * Mathf.Deg2Rad, 0f).normalized;

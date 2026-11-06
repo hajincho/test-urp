@@ -7,7 +7,7 @@ namespace Game.ThirdPerson
     /// Thick hair sections deform like plastic when one joint carries a whole bulge: the inside of the bend collapses.
     /// For the given chains this measures each segment's cross-section (in bind/mesh space) and, where the strand is
     /// thick relative to the joint spacing, re-spreads the chain's skin weight over several neighbouring joints with a
-    /// Gaussian along the strand. The bend is then shared by 3-4 joints instead of one. Thin parts keep their
+    /// Gaussian along the strand. The bend is then shared by ~3 joints instead of one. Thin parts keep their
     /// original weights (blend factor = thickness), non-chain influences are never changed.
     /// The measured thickness (mean cross-section radius / segment length) is exposed for the solver, which also
     /// limits per-joint bending there (<see cref="HuTaoChainPhysics"/>).
@@ -134,7 +134,8 @@ namespace Game.ThirdPerson
                 if (thick <= 0f) continue;
                 var w = weights[v];
                 float chainWeight = ChainWeight(w, boneOf);
-                float sigma = Mathf.Lerp(.45f, 1.4f, thick);
+                // Wide enough to share a bend over ~3 joints, narrow enough not to iron out the stride wave.
+                float sigma = Mathf.Lerp(.45f, 1.0f, thick);
                 float sum = 0f;
                 for (int j = 0; j < n; j++)
                 {
