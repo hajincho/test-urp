@@ -20,7 +20,7 @@ public static class WorldTraversalFix
     static bool Plant(string name)
     {
         var n = name.ToLowerInvariant();
-        return n.Contains("village_scatter") || n.Contains("grass") || n.Contains("fern") || n.Contains("weed") || n.Contains("bush") || n.Contains("leaves_cluster");
+        return n.Contains("waterlily") || n.Contains("water plants") || n.Contains("village_scatter") || n.Contains("grass") || n.Contains("fern") || n.Contains("weed") || n.Contains("bush") || n.Contains("leaves_cluster");
     }
     static bool PlantCollider(Collider c)
     {
@@ -155,3 +155,4 @@ public static class WorldTraversalFix
         Debug.Log("WORLD_TRAVERSAL_VALIDATED " + lines[0]);
     }
 }
+

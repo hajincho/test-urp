@@ -22,6 +22,7 @@ namespace Game.ThirdPerson
         public bool IsFirstPerson => distance <= firstPersonThreshold;
         public float CurrentDistance { get; private set; }
         Renderer[] characterRenderers;
+        RaycastHit[] cameraHits = new RaycastHit[32];
         ShadowCastingMode[] originalShadows;
         bool hidden;
         CursorLockMode oldLock;
@@ -81,8 +82,12 @@ namespace Game.ThirdPerson
             float safeDistance=CurrentDistance;
             if (!first && safeDistance > 0f)
             {
-                foreach (var hit in Physics.SphereCastAll(target.position, .15f, backward, safeDistance, collisionMask, QueryTriggerInteraction.Ignore))
+                int count;
+                while ((count = Physics.SphereCastNonAlloc(target.position, .15f, backward, cameraHits, safeDistance, collisionMask, QueryTriggerInteraction.Ignore)) == cameraHits.Length)
+                    System.Array.Resize(ref cameraHits, cameraHits.Length * 2);
+                for (int i = 0; i < count; i++)
                 {
+                    var hit = cameraHits[i];
                     if (playerRoot && hit.collider.transform.IsChildOf(playerRoot)) continue;
                     safeDistance = Mathf.Min(safeDistance, Mathf.Max(0f, hit.distance-.05f));
                 }

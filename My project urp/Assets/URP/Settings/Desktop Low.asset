@@ -26,7 +26,7 @@ MonoBehaviour:
   m_SupportsHDR: 1
   m_HDRColorBufferPrecision: 0
   m_MSAA: 1
-  m_RenderScale: 0.65
+  m_RenderScale: 0.75
   m_UpscalingFilter: 4
   m_FsrOverrideSharpness: 0
   m_FsrSharpness: 0.92
@@ -43,19 +43,19 @@ MonoBehaviour:
   m_ProbeVolumeSHBands: 1
   m_MainLightRenderingMode: 1
   m_MainLightShadowsSupported: 1
-  m_MainLightShadowmapResolution: 4096
+  m_MainLightShadowmapResolution: 1024
   m_AdditionalLightsRenderingMode: 0
-  m_AdditionalLightsPerObjectLimit: 4
+  m_AdditionalLightsPerObjectLimit: 2
   m_AdditionalLightShadowsSupported: 0
-  m_AdditionalLightsShadowmapResolution: 2048
+  m_AdditionalLightsShadowmapResolution: 512
   m_AdditionalLightsShadowResolutionTierLow: 256
   m_AdditionalLightsShadowResolutionTierMedium: 512
   m_AdditionalLightsShadowResolutionTierHigh: 1024
   m_ReflectionProbeBlending: 1
   m_ReflectionProbeBoxProjection: 0
   m_ReflectionProbeAtlas: 1
-  m_ShadowDistance: 2000
-  m_ShadowCascadeCount: 3
+  m_ShadowDistance: 70
+  m_ShadowCascadeCount: 2
   m_Cascade2Split: 0.25
   m_Cascade3Split: {x: 0.11, y: 0.25}
   m_Cascade4Split: {x: 0.067, y: 0.2, z: 0}
@@ -74,7 +74,6 @@ MonoBehaviour:
   m_MixedLightingSupported: 0
   m_SupportsLightCookies: 0
   m_SupportsLightLayers: 0
-  m_DebugLevel: 0
   m_StoreActionsOptimization: 0
   m_UseAdaptivePerformance: 1
   m_ColorGradingMode: 1
@@ -85,7 +84,8 @@ MonoBehaviour:
   m_SupportScreenSpaceLensFlare: 0
   m_GPUResidentDrawerMode: 1
   m_SmallMeshScreenPercentage: 1
-  m_GPUResidentDrawerEnableOcclusionCullingInCameras: 1
+  m_ShadowSmallMeshScreenPercentages: {x: 0, y: 0, z: 0, w: 0}
+  m_GPUResidentDrawerEnableOcclusionCullingInCameras: 0
   m_ShadowType: 1
   m_LocalShadowsSupported: 0
   m_LocalShadowsAtlasResolution: 256
@@ -107,6 +107,8 @@ MonoBehaviour:
   m_PrefilteringModeForwardPlus: 2
   m_PrefilteringModeDeferredRendering: 0
   m_PrefilteringModeScreenSpaceOcclusion: 0
+  m_PrefilteringModeScreenSpaceReflection: 1
+  m_PrefilterWriteSmoothness: 1
   m_PrefilterDebugKeywords: 1
   m_PrefilterWriteRenderingLayers: 1
   m_PrefilterHDROutput: 1
@@ -136,6 +138,9 @@ MonoBehaviour:
   m_PrefilterReflectionProbeBlending: 0
   m_PrefilterReflectionProbeBoxProjection: 0
   m_PrefilterReflectionProbeAtlas: 0
+  m_PrefilterPointSamplingUpsampling: 0
+  m_Light2DPrefilteringMode: 0
+  m_Light2DKeptVariantCombos: []
   m_ShaderVariantLogLevel: 0
   m_ShadowCascades: 0
   m_Textures:

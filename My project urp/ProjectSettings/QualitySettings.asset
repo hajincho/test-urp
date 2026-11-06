@@ -4,7 +4,7 @@
 QualitySettings:
   m_ObjectHideFlags: 0
   serializedVersion: 5
-  m_CurrentQuality: 4
+  m_CurrentQuality: 3
   m_QualitySettings:
   - serializedVersion: 5
     name: Mobile Low
@@ -204,7 +204,7 @@ QualitySettings:
     realtimeGICPUUsage: 25
     adaptiveVsyncExtraA: 0
     adaptiveVsyncExtraB: 0
-    lodBias: 1
+    lodBias: 0.75
     meshLodThreshold: 1
     maximumLODLevel: 0
     enableLODCrossFade: 1
@@ -263,7 +263,7 @@ QualitySettings:
     realtimeGICPUUsage: 25
     adaptiveVsyncExtraA: 0
     adaptiveVsyncExtraB: 0
-    lodBias: 2.5
+    lodBias: 1
     meshLodThreshold: 1
     maximumLODLevel: 0
     enableLODCrossFade: 1
@@ -280,7 +280,7 @@ QualitySettings:
     resolutionScalingFixedDPIFactor: 1
     customRenderPipeline: {fileID: 11400000, guid: 24e04cb166586494ba56cb3fc3ea3f41, type: 2}
     terrainQualityOverrides: 3
-    terrainPixelError: 4
+    terrainPixelError: 8
     terrainDetailDensityScale: 1
     terrainBasemapDistance: 1000
     terrainDetailDistance: 80

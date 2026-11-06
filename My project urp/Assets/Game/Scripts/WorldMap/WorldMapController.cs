@@ -261,8 +261,8 @@ namespace Game.World
                 bool walkway = HasAny(label, "bridge", "walkway", "stairs", "stair", "paving", "pavement", "plaza", "courtyard", "road", "street", "path");
                 bool ground = HasAny(label, "ground", "terrain", "landscape");
                 bool structure = HasAny(label, "openedfacade", "house", "roof", "church", "tower", "barn", "shelter", "stables", "castle", "windmill", "outhouse");
-                int score = walkway ? 10 : ground && !(hit.collider is TerrainCollider) ? 9 : hit.collider is TerrainCollider ? 3 : 0;
-                if (structure && !walkway && score < 9 && float.IsNaN(preferredY)) continue;
+                // Roofs are valid map destinations when the capsule has stable support and headroom.
+                int score = structure ? 11 : walkway ? 10 : ground && !(hit.collider is TerrainCollider) ? 9 : hit.collider is TerrainCollider ? 3 : 0;
                 if (!float.IsNaN(preferredY) && Mathf.Abs(hit.point.y - preferredY) > 2f) continue;
                 surfaces.Add(new Surface { hit = hit, score = score, structure = structure, walkway = walkway });
             }
@@ -529,3 +529,4 @@ namespace Game.World
         }
     }
 }
+
