@@ -23,7 +23,9 @@ namespace Game.ThirdPerson
         GameObject furina, huTao;
         int current;
         bool buildFailed;
-        float nextBind, boundAt;
+        float nextBind, boundAt, standingSince = -1f;
+        int pendingCharacter = -1;
+        UntitledCharacterMotion motion;
         readonly System.Collections.Generic.List<Renderer> hiddenFurinaRenderers = new System.Collections.Generic.List<Renderer>();
 
         public int CurrentCharacter => current;
@@ -47,10 +49,15 @@ namespace Game.ThirdPerson
                 if (!motor) return;
             }
 
-            // Build Hu Tao while Furina stands idle (after she has been posed for a moment): Hu Tao's arm and
-            // leg links are aligned to that pose.
-            if (!huTao && !buildFailed && current == 0 && Time.time - boundAt > .75f
-                && motor.Grounded && motor.PlanarSpeed < .05f) BuildHuTao();
+            // Hu Tao's links are aligned to Furina's pose at build time, so build only while Furina has been
+            // standing still on the ground for a moment (a build during a step skewed Hu Tao's idle stance).
+            bool settled = FurinaSettled();
+            if (!huTao && !buildFailed && current == 0 && settled) BuildHuTao();
+            if (pendingCharacter == 1 && settled)
+            {
+                pendingCharacter = -1;
+                Activate(1);
+            }
 
             var keyboard = Keyboard.current;
             if (keyboard == null) return;
@@ -64,6 +71,15 @@ namespace Game.ThirdPerson
             }
         }
 
+        bool FurinaSettled()
+        {
+            bool standing = motor.Grounded && !motor.IsJumping && !motor.IsClimbing && !motor.IsSwimming
+                && motor.PlanarSpeed < .05f && (!motion || motion.MotionState == "Idle");
+            if (!standing) { standingSince = -1f; return false; }
+            if (standingSince < 0f) standingSince = Time.time;
+            return Time.time - standingSince > .5f && Time.time - boundAt > .75f;
+        }
+
         void Bind()
         {
             var found = FindAnyObjectByType<ThirdPersonMotor>();
@@ -72,6 +88,9 @@ namespace Game.ThirdPerson
             if (!retarget) return; // Not the Furina player rig; stay inert.
             motor = found;
             furina = retarget.gameObject;
+            motion = found.GetComponentInChildren<UntitledCharacterMotion>(true);
+            standingSince = -1f;
+            pendingCharacter = -1;
             followCamera = FindAnyObjectByType<ThirdPersonFollowCamera>();
             huTao = null;
             buildFailed = false;
@@ -141,8 +160,19 @@ namespace Game.ThirdPerson
 
         void Activate(int index)
         {
-            if (!motor || index == current) return;
-            if (index == 1 && !huTao && !BuildHuTao()) return;
+            if (!motor || index == current) { pendingCharacter = -1; return; }
+            if (index == 1 && !huTao)
+            {
+                if (!FurinaSettled())
+                {
+                    // Switch as soon as Furina stands still; building mid-step would bake that step into Hu Tao.
+                    if (pendingCharacter != 1) Debug.Log("[CharacterSwitcher] Hu Tao will appear once Furina stands still.");
+                    pendingCharacter = 1;
+                    return;
+                }
+                if (!BuildHuTao()) return;
+            }
+            pendingCharacter = -1;
             current = index;
             if (furina && !furina.activeSelf) furina.SetActive(true);
             SetFurinaVisible(index == 0);

@@ -41,8 +41,8 @@ namespace Game.ThirdPerson
             // Ankle reference, captured once in Furina's idle pose right after binding.
             public bool hasReference;
             public Quaternion restFootInRoot;              // Hu Tao's own flat rest foot, relative to the body
-            public float sourceFootHeight;                 // root-local height of Furina's ankle
-            public Quaternion idleAnkleLocal;              // Hu Tao ankle relative to its shin
+            public Vector3 restAnkle;                      // root-local rest ankle (standing stance, feet under the hips)
+            public Quaternion idleAnkleLocal;              // Hu Tao rest ankle relative to its shin
             public Transform toe;                          // つま先, gives the toe direction
             public Vector3 toeLocal;                       // ankle -> toe in the ankle frame
             public Vector3 idleHeading;                    // root-local toe heading in the idle pose
@@ -62,6 +62,7 @@ namespace Game.ThirdPerson
         Leg left, right;
         ThirdPersonMotor motor;
         float gaitBlend, runBlend;
+        float groundAnkle; // root-local height of Furina's planted ankle (lower ankle while standing)
 
         [Tooltip("Extra outward foot offset per leg while walking (m). Idle stance is unchanged.")]
         [Range(0f, .15f)] public float gaitWidening = .07f;
@@ -77,6 +78,8 @@ namespace Game.ThirdPerson
         [Range(0f, 1f)] public float ankleTwistRemoval = .5f;
         [Tooltip("Knee pole bias toward the toe heading (fraction of leg length), so knee and toes face the same way.")]
         [Range(0f, .2f)] public float kneeTrackToes = .06f;
+        [Tooltip("Knee bend while standing (deg). Sets the pelvis height once; independent of Furina's pose.")]
+        [Range(0f, 25f)] public float idleKneeBend = 6f;
         [Tooltip("Pelvis drop while walking (m): soft stance knees instead of straight compass legs.")]
         [Range(0f, .04f)] public float movingPelvisDrop = .008f;
         [Tooltip("Extra foot lift during the swing, as a fraction of Furina's lift (bends the swing knee more).")]
@@ -135,21 +138,18 @@ namespace Game.ThirdPerson
             Bind("Head", "頭");
             left = BindSide(true);
             right = BindSide(false);
-            GroundLegs(ref left);
-            GroundLegs(ref right);
+            SetupGround();
 
             if (missing.Count > 0)
                 Debug.LogWarning("[HuTaoRetarget] Unmapped bones: " + string.Join(", ", missing));
             Ready = pose.Count >= 10 && left.hip && right.hip && left.sourceHip && right.sourceHip;
             if (Ready)
             {
-                // Hu Tao is built while Furina stands idle: pose once, set the pelvis height so her idle knees
-                // bend like Furina's, pose again and record the idle ankle/shin relation.
+                // Pose once, set the pelvis height for the standing knee bend, pose again. The standing stance and
+                // the ankle reference come from Hu Tao's own rest pose, so a build during a step cannot skew them.
                 Pose();
                 FitPelvisHeight();
                 Pose();
-                CaptureAnkleReference(ref left);
-                CaptureAnkleReference(ref right);
             }
             if (!Ready) enabled = false;
             else Debug.Log($"[HuTaoRetarget] fitted: hatless height={HatlessHeight:0.000} (Furina hatless={FurinaHatlessHeight:0.000}) motionScale={MotionScale:0.000}");
@@ -209,18 +209,33 @@ namespace Game.ThirdPerson
 
         float RootScale => Mathf.Max(.0001f, Mathf.Abs(root.lossyScale.y));
 
-        // Foot goals are placed on the ground, not hung from Hu Tao's hip. Before, the goal was "Hu Tao hip +
-        // Furina hip->ankle": lowering the pelvis then lowered the feet too, the knees stayed straight (compass
-        // gait in side view) and the feet floated by the height of Furina's shoe heels. Now the goal is Furina's
-        // ankle on the ground plus Hu Tao's own stance width (x) and the difference of the two ankle-above-sole
-        // heights (y), so Hu Tao's soles touch the same ground and the knee bend comes from the pelvis height.
-        void GroundLegs(ref Leg leg)
+        // Foot goals are placed on the ground, not hung from Hu Tao's hip (a hip-relative goal kept the knees straight
+        // and copied Furina's heel height, so the feet floated).
+        // Standing: each foot sits at Hu Tao's own rest stance (under the hips, feet parallel) at ground height.
+        // Moving: Furina's ankle motion (scaled) plus Hu Tao's stance width; the two blend with the gait.
+        // The ground height is the lower Furina ankle while standing; it is re-measured whenever she stands.
+        void SetupGround()
         {
-            if (!leg.foot || !leg.sourceFoot) return;
-            Vector3 own = root.InverseTransformPoint(leg.foot.position);
-            Vector3 src = root.InverseTransformPoint(leg.sourceFoot.position);
-            leg.restCorrection = new Vector3(own.x - src.x * MotionScale,
-                (HuTaoAnkleAboveSole(leg) - FurinaAnkleAboveGround(leg.sourceFoot)) / RootScale, 0f);
+            if (!left.sourceFoot || !right.sourceFoot) return;
+            Transform lower = LowerSourceAnkle(out groundAnkle);
+            float furina = FurinaAnkleAboveGround(lower);
+            foreach (bool isLeft in new[] { true, false })
+            {
+                var leg = isLeft ? left : right;
+                if (!leg.foot) continue;
+                Vector3 src = root.InverseTransformPoint(leg.sourceFoot.position);
+                leg.restCorrection = new Vector3(leg.restAnkle.x - src.x * MotionScale,
+                    (HuTaoAnkleAboveSole(leg) - furina) / RootScale, 0f);
+                if (isLeft) left = leg; else right = leg;
+            }
+        }
+
+        Transform LowerSourceAnkle(out float height)
+        {
+            float l = root.InverseTransformPoint(left.sourceFoot.position).y;
+            float r = root.InverseTransformPoint(right.sourceFoot.position).y;
+            height = Mathf.Min(l, r);
+            return l <= r ? left.sourceFoot : right.sourceFoot;
         }
 
         float HuTaoAnkleAboveSole(Leg leg)
@@ -240,41 +255,50 @@ namespace Game.ThirdPerson
             float best = float.PositiveInfinity;
             foreach (var hit in Physics.RaycastAll(origin, -up, 2f * RootScale, ~0, QueryTriggerInteraction.Ignore))
                 if (!hit.collider.transform.IsChildOf(motor.transform) && hit.distance < best) best = hit.distance;
-            if (!float.IsInfinity(best)) return Mathf.Max(0f, best - .5f * RootScale);
+            if (!float.IsInfinity(best)) return Mathf.Clamp(best - .5f * RootScale, 0f, .3f * RootScale);
             var controller = motor.GetComponent<CharacterController>();
             Vector3 bottom = controller
                 ? motor.transform.TransformPoint(controller.center - Vector3.up * (controller.height * .5f))
                 : root.position;
-            return Mathf.Max(0f, Vector3.Dot(ankle.position - bottom, up));
+            return Mathf.Clamp(Vector3.Dot(ankle.position - bottom, up), 0f, .3f * RootScale);
         }
+
+        float SourceLift(Leg leg) => Mathf.Max(0f, root.InverseTransformPoint(leg.sourceFoot.position).y - groundAnkle);
 
         Vector3 FootGoal(Leg leg, float widening)
         {
             Vector3 p = root.InverseTransformPoint(leg.sourceFoot.position);
-            float lift = leg.hasReference ? Mathf.Max(0f, p.y - leg.sourceFootHeight) : 0f;
-            return root.TransformPoint(new Vector3(
+            var moving = new Vector3(
                 p.x * MotionScale + leg.restCorrection.x + leg.side * widening / RootScale,
-                p.y + leg.restCorrection.y + lift * swingLiftBoost,
-                p.z * MotionScale));
+                p.y + leg.restCorrection.y + SourceLift(leg) * swingLiftBoost,
+                p.z * MotionScale);
+            var standing = new Vector3(leg.restAnkle.x, groundAnkle + leg.restCorrection.y, leg.restAnkle.z);
+            return root.TransformPoint(Vector3.Lerp(standing, moving, gaitBlend));
         }
 
-        // Pelvis height so that, in Furina's idle pose, Hu Tao's hip->ankle distance has the same ratio to her leg
-        // length as Furina's (same soft knee bend).
+        // Pelvis height for the standing knee bend (idleKneeBend), from Hu Tao's own leg geometry.
         void FitPelvisHeight()
+        {
+            float error = PelvisHeightError();
+            hipOffset += root.InverseTransformVector(root.up * error);
+        }
+
+        /// <summary>World distance along root.up the pelvis must move for the standing knee bend.</summary>
+        float PelvisHeightError()
         {
             float total = 0f; int count = 0;
             foreach (var leg in new[] { left, right })
             {
                 if (!leg.hip || !leg.knee || !leg.foot) continue;
-                float length = Vector3.Distance(leg.hip.position, leg.knee.position) + Vector3.Distance(leg.knee.position, leg.foot.position);
-                float wanted = Mathf.Min((leg.sourceFoot.position - leg.sourceHip.position).magnitude * MotionScale, length * .999f);
+                float a = Vector3.Distance(leg.hip.position, leg.knee.position), b = Vector3.Distance(leg.knee.position, leg.foot.position);
+                float wanted = Mathf.Sqrt(a * a + b * b + 2f * a * b * Mathf.Cos(idleKneeBend * Mathf.Deg2Rad));
                 Vector3 r = leg.hip.position - FootGoal(leg, 0f);
                 float v = Vector3.Dot(r, root.up), h2 = (r - root.up * v).sqrMagnitude;
                 if (wanted * wanted <= h2) continue;
                 total += Mathf.Sqrt(wanted * wanted - h2) - v;
                 count++;
             }
-            if (count > 0) hipOffset += root.InverseTransformVector(root.up * (total / count));
+            return count > 0 ? total / count : 0f;
         }
 
         Leg BindSide(bool isLeft)
@@ -338,6 +362,12 @@ namespace Game.ThirdPerson
                 result.toeLocal = Quaternion.Inverse(result.foot.rotation) * toe;
                 Vector3 heading = Vector3.ProjectOnPlane(root.InverseTransformDirection(toe), Vector3.up);
                 result.idleHeading = heading.sqrMagnitude > 1e-10f ? heading.normalized : Vector3.forward;
+                result.restAnkle = root.InverseTransformPoint(result.foot.position);
+                result.idleAnkleLocal = result.foot.localRotation;
+                Vector3 shin = result.foot.localPosition; // ankle position in the knee frame = shin direction
+                result.shinAxisInAnkle = shin.sqrMagnitude > 1e-10f
+                    ? (Quaternion.Inverse(result.idleAnkleLocal) * shin).normalized : Vector3.zero;
+                result.hasReference = true;
             }
             return result;
         }
@@ -445,24 +475,22 @@ namespace Game.ThirdPerson
                 var delta = d.basis * (Quaternion.Inverse(d.fromRest) * d.from.localRotation) * Quaternion.Inverse(d.basis);
                 d.to.localRotation = d.toRest * Quaternion.SlerpUnclamped(Quaternion.identity, delta, d.share);
             }
+            if (grounded && gaitBlend < .05f && left.sourceFoot && right.sourceFoot)
+            {
+                // Standing: keep re-measuring the ground and the pelvis height, so nothing depends on the pose
+                // Furina happened to have when Hu Tao was built.
+                float settle = 1f - Mathf.Exp(-2f * Time.deltaTime);
+                LowerSourceAnkle(out float standingAnkle);
+                groundAnkle = Mathf.Lerp(groundAnkle, standingAnkle, settle);
+                float correction = PelvisHeightError() * settle;
+                hipOffset += root.InverseTransformVector(root.up * correction);
+                pelvis.position += root.up * correction;
+            }
             float widening = gaitWidening * gaitBlend + runWidening * runBlend;
             FitLeg(ref left, widening);
             FitLeg(ref right, widening);
             for (int i = 0; i < follows.Count; i++)
                 follows[i].follower.rotation = follows[i].leader.rotation * follows[i].offset;
-        }
-
-        void CaptureAnkleReference(ref Leg leg)
-        {
-            if (!leg.foot || !leg.knee || !leg.sourceKnee || !leg.sourceFoot) return;
-            leg.sourceFootHeight = root.InverseTransformPoint(leg.sourceFoot.position).y;
-            // Idle ankle angle = flat rest foot on the idle shin (never Furina's copied foot).
-            if (leg.toe) leg.foot.rotation = root.rotation * leg.restFootInRoot;
-            leg.idleAnkleLocal = leg.foot.localRotation;
-            Vector3 shin = leg.foot.localPosition; // ankle position in the knee frame = shin direction
-            leg.shinAxisInAnkle = shin.sqrMagnitude > 1e-10f
-                ? (Quaternion.Inverse(leg.idleAnkleLocal) * shin).normalized : Vector3.zero;
-            leg.hasReference = leg.toe && leg.toeLocal.sqrMagnitude > 1e-10f;
         }
 
         // Two-bone fit. The ankle goal is Hu Tao's own hip plus the source hip->ankle vector scaled by the leg
@@ -504,7 +532,7 @@ namespace Game.ThirdPerson
         {
             if (!leg.hasReference) return;
             float scale = RootScale;
-            float lift = (root.InverseTransformPoint(leg.sourceFoot.position).y - leg.sourceFootHeight) * scale;
+            float lift = SourceLift(leg) * scale;
             float airborne = Mathf.SmoothStep(0f, 1f, Mathf.InverseLerp(.012f * scale, .05f * scale, lift));
             float length = Vector3.Distance(leg.hip.position, leg.knee.position) + Vector3.Distance(leg.knee.position, leg.foot.position);
             float ahead = Mathf.Clamp(Vector3.Dot(leg.foot.position - leg.hip.position, root.forward) / Mathf.Max(1e-4f, .35f * length), -1f, 1f);
