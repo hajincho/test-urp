@@ -40,14 +40,13 @@ namespace Game.ThirdPerson
             public float side;             // -1 left, +1 right (root.right)
             // Ankle reference, captured once in Furina's idle pose right after binding.
             public bool hasReference;
-            public Vector2 sourceShinTilt, targetShinTilt; // (lateral, forward) shin tilt in degrees, root space
+            public Quaternion restFootInRoot;              // Hu Tao's own flat rest foot, relative to the body
             public float sourceFootHeight;                 // root-local height of Furina's ankle
             public Quaternion idleAnkleLocal;              // Hu Tao ankle relative to its shin
             public Transform toe;                          // つま先, gives the toe direction
             public Vector3 toeLocal;                       // ankle -> toe in the ankle frame
             public Vector3 idleHeading;                    // root-local toe heading in the idle pose
             public Vector3 shinAxisInAnkle;                // shin axis in the idle ankle frame (twist axis)
-            public float idleToeElevation;                 // toe direction above the horizon in the idle pose (deg)
         }
 
         readonly List<Link> pose = new List<Link>();
@@ -68,29 +67,20 @@ namespace Game.ThirdPerson
         [Range(0f, .15f)] public float gaitWidening = .07f;
         [Tooltip("Further outward foot offset per leg at full sprint (m), added to gaitWidening.")]
         [Range(0f, .1f)] public float runWidening = .03f;
-        [Tooltip("The foot turns with the shin when the shin tilts differently from Furina's (wider gait, other " +
-                 "knee bend), so the ankle does not fold. Planted feet keep this much of the turn (sole stays flatter).")]
-        [Range(0f, 1f)] public float plantedAnkleFollow = .25f;
-        [Tooltip("Same while the foot is in the air.")]
-        [Range(0f, 1f)] public float swingAnkleFollow = .6f;
-        [Tooltip("Toe pitch range relative to the idle foot while planted (deg, up and down).")]
-        [Range(0f, 20f)] public float plantedToePitch = 6f;
-        [Tooltip("Max toe-up pitch while the foot is in the air (deg).")]
-        [Range(0f, 40f)] public float maxToeUp = 15f;
-        [Tooltip("Max toe-down pitch while the foot is in the air / pushing off (deg).")]
-        [Range(0f, 60f)] public float maxToeDown = 30f;
+        [Tooltip("Max toe-up pitch while the foot is in the air in front of the body (deg).")]
+        [Range(0f, 40f)] public float maxToeUp = 12f;
+        [Tooltip("Max toe-down pitch while the foot is in the air behind the body / pushing off (deg).")]
+        [Range(0f, 60f)] public float maxToeDown = 22f;
+        [Tooltip("Max bend of the ankle joint away from its idle angle (deg); only a safety limit.")]
+        [Range(10f, 60f)] public float maxAnkleBend = 35f;
+        [Tooltip("How much of the foot's twist about the shin (relative to idle) is removed.")]
+        [Range(0f, 1f)] public float ankleTwistRemoval = .5f;
+        [Tooltip("Knee pole bias toward the toe heading (fraction of leg length), so knee and toes face the same way.")]
+        [Range(0f, .2f)] public float kneeTrackToes = .06f;
         [Tooltip("Pelvis drop while walking (m): soft stance knees instead of straight compass legs.")]
         [Range(0f, .04f)] public float movingPelvisDrop = .008f;
         [Tooltip("Extra foot lift during the swing, as a fraction of Furina's lift (bends the swing knee more).")]
         [Range(0f, 1.5f)] public float swingLiftBoost = .5f;
-        [Tooltip("Max bend (swing) of the ankle joint away from its idle angle (deg).")]
-        [Range(10f, 60f)] public float maxAnkleBend = 25f;
-        [Tooltip("How much of the foot's twist about the shin (relative to idle) is removed.")]
-        [Range(0f, 1f)] public float ankleTwistRemoval = .8f;
-        [Tooltip("How strongly the toe heading is held at its idle direction relative to the body.")]
-        [Range(0f, 1f)] public float footYawLock = .75f;
-        [Tooltip("Knee pole bias toward the toe heading (fraction of leg length), so knee and toes face the same way.")]
-        [Range(0f, .2f)] public float kneeTrackToes = .06f;
 
         public bool Ready { get; private set; }
         public int LinkedBones => pose.Count + details.Count + follows.Count;
@@ -325,7 +315,7 @@ namespace Game.ThirdPerson
             Bind(f + "leg", side + "足", f + "knee", side + "ひざ");
             Bind(f + "knee", side + "ひざ", f + "ankle", side + "足首");
             Bind(f + "ankle", side + "足首");
-            Secondary(f + "toe", side + "つま先", 1f);
+            // つま先 (toe, drives the 足先EX shoe front) is no longer linked to Furina's heeled toe: it stays at rest.
             // The skin weights sit on the D (deform) copies, which append the IK-style leg bones 1:1.
             AddFollow(side + "足", side + "足D");
             AddFollow(side + "ひざ", side + "ひざD");
@@ -340,6 +330,15 @@ namespace Game.ThirdPerson
             source.TryGetValue(f + "leg", out result.sourceHip);
             source.TryGetValue(f + "knee", out result.sourceKnee);
             source.TryGetValue(f + "ankle", out result.sourceFoot);
+            if (result.foot && result.toe)
+            {
+                // Rest pose = MMD bind pose with the soles flat on the floor; nothing from Furina is used here.
+                result.restFootInRoot = Quaternion.Inverse(root.rotation) * result.foot.rotation;
+                Vector3 toe = result.toe.position - result.foot.position;
+                result.toeLocal = Quaternion.Inverse(result.foot.rotation) * toe;
+                Vector3 heading = Vector3.ProjectOnPlane(root.InverseTransformDirection(toe), Vector3.up);
+                result.idleHeading = heading.sqrMagnitude > 1e-10f ? heading.normalized : Vector3.forward;
+            }
             return result;
         }
 
@@ -453,33 +452,17 @@ namespace Game.ThirdPerson
                 follows[i].follower.rotation = follows[i].leader.rotation * follows[i].offset;
         }
 
-        // Shin (knee -> ankle) tilt in root space: x = sideways toward root.right, y = toward root.forward (deg).
-        Vector2 ShinTilt(Transform knee, Transform ankle)
-        {
-            Vector3 d = root.InverseTransformDirection(ankle.position - knee.position);
-            float down = Mathf.Max(1e-4f, -d.y);
-            return new Vector2(Mathf.Atan2(d.x, down), Mathf.Atan2(d.z, down)) * Mathf.Rad2Deg;
-        }
-
         void CaptureAnkleReference(ref Leg leg)
         {
             if (!leg.foot || !leg.knee || !leg.sourceKnee || !leg.sourceFoot) return;
-            leg.sourceShinTilt = ShinTilt(leg.sourceKnee, leg.sourceFoot);
-            leg.targetShinTilt = ShinTilt(leg.knee, leg.foot);
             leg.sourceFootHeight = root.InverseTransformPoint(leg.sourceFoot.position).y;
+            // Idle ankle angle = flat rest foot on the idle shin (never Furina's copied foot).
+            if (leg.toe) leg.foot.rotation = root.rotation * leg.restFootInRoot;
             leg.idleAnkleLocal = leg.foot.localRotation;
             Vector3 shin = leg.foot.localPosition; // ankle position in the knee frame = shin direction
             leg.shinAxisInAnkle = shin.sqrMagnitude > 1e-10f
                 ? (Quaternion.Inverse(leg.idleAnkleLocal) * shin).normalized : Vector3.zero;
-            if (leg.toe)
-            {
-                Vector3 toe = leg.toe.position - leg.foot.position;
-                leg.toeLocal = Quaternion.Inverse(leg.foot.rotation) * toe;
-                Vector3 heading = Vector3.ProjectOnPlane(root.InverseTransformDirection(toe), Vector3.up);
-                leg.idleHeading = heading.sqrMagnitude > 1e-10f ? heading.normalized : Vector3.forward;
-                leg.idleToeElevation = ToeElevation(leg);
-            }
-            leg.hasReference = true;
+            leg.hasReference = leg.toe && leg.toeLocal.sqrMagnitude > 1e-10f;
         }
 
         // Two-bone fit. The ankle goal is Hu Tao's own hip plus the source hip->ankle vector scaled by the leg
@@ -491,19 +474,8 @@ namespace Game.ThirdPerson
             var hip = leg.hip.position; var knee = leg.knee.position; var foot = leg.foot.position;
             Vector3 sourceReach = leg.sourceFoot.position - leg.sourceHip.position;
             if (sourceReach.sqrMagnitude < .0000001f) return;
-            // Toe heading: Furina's foot yaw (turned-out idle, swinging while walking) turned Hu Tao's foot away
-            // from her knee. Hold it near its idle heading relative to the body; the knee then tracks the toes.
-            Vector3 heading = root.forward;
-            if (leg.hasReference && leg.toe && leg.toeLocal.sqrMagnitude > 1e-10f)
-            {
-                Vector3 current = Vector3.ProjectOnPlane(leg.foot.rotation * leg.toeLocal, root.up);
-                Vector3 idle = root.TransformDirection(leg.idleHeading);
-                if (current.sqrMagnitude > 1e-10f)
-                    leg.foot.rotation = Quaternion.AngleAxis(Vector3.SignedAngle(current, idle, root.up) * footYawLock, root.up)
-                        * leg.foot.rotation;
-                current = Vector3.ProjectOnPlane(leg.foot.rotation * leg.toeLocal, root.up);
-                if (current.sqrMagnitude > 1e-10f) heading = current.normalized;
-            }
+            // The knee tracks the toes; the toes keep Hu Tao's own rest heading relative to the body.
+            Vector3 heading = leg.hasReference ? root.TransformDirection(leg.idleHeading) : root.forward;
             var goal = FootGoal(leg, widening);
             var reach = goal - hip;
             if (reach.sqrMagnitude < .000001f) return;
@@ -523,24 +495,24 @@ namespace Game.ThirdPerson
             FitAnkle(ref leg);
         }
 
-        // The foot copies Furina's world foot rotation, which only matches Furina's own shin. Wherever Hu Tao's
-        // shin tilts differently (wider gait, different thigh/shin ratio, clamped reach) that difference used to
-        // fold the ankle. Turn the foot by the extra shin tilt instead: fully while the foot is in the air,
-        // partly while it is planted (sole stays near flat), then keep the joint within a natural range.
+        // The foot is computed for Hu Tao, not copied. Furina's foot rotation (a heeled, pointed foot whose toe link
+        // also bends) kept folding Hu Tao's flat shoes toe-down even after correction. Now the sole uses Hu Tao's own
+        // flat rest orientation relative to the body. Only while the foot is in the air does it pitch, a little
+        // toe-up when it swings in front (heel strike) and toe-down when it trails behind (push-off). A planted foot
+        // is always flat. Remaining twist about the shin is partly removed and the joint has a safety limit.
         void FitAnkle(ref Leg leg)
         {
             if (!leg.hasReference) return;
-            Vector2 extra = (ShinTilt(leg.knee, leg.foot) - leg.targetShinTilt)
-                - (ShinTilt(leg.sourceKnee, leg.sourceFoot) - leg.sourceShinTilt);
-            float scale = Mathf.Max(.01f, Mathf.Abs(root.lossyScale.y));
-            float lift = (root.InverseTransformPoint(leg.sourceFoot.position).y - leg.sourceFootHeight) * Mathf.Abs(root.lossyScale.y);
+            float scale = RootScale;
+            float lift = (root.InverseTransformPoint(leg.sourceFoot.position).y - leg.sourceFootHeight) * scale;
             float airborne = Mathf.SmoothStep(0f, 1f, Mathf.InverseLerp(.012f * scale, .05f * scale, lift));
-            float follow = Mathf.Lerp(plantedAnkleFollow, swingAnkleFollow, airborne);
-            // Sideways tilt rotates about root.forward, forward tilt about root.right (sign: shin bottom -> +axis).
-            leg.foot.rotation = Quaternion.AngleAxis(extra.x * follow, root.forward)
-                * Quaternion.AngleAxis(-extra.y * follow, root.right) * leg.foot.rotation;
-            // Split the ankle's change since idle into twist (about the shin) and swing (bend). Most of the twist
-            // is removed (a turned ankle), the bend is kept within maxAnkleBend.
+            float length = Vector3.Distance(leg.hip.position, leg.knee.position) + Vector3.Distance(leg.knee.position, leg.foot.position);
+            float ahead = Mathf.Clamp(Vector3.Dot(leg.foot.position - leg.hip.position, root.forward) / Mathf.Max(1e-4f, .35f * length), -1f, 1f);
+            float pitch = airborne * (ahead >= 0f ? ahead * maxToeUp : ahead * maxToeDown); // + raises the toes
+            var flat = root.rotation * leg.restFootInRoot;
+            Vector3 axis = Vector3.Cross(flat * leg.toeLocal, root.up);
+            leg.foot.rotation = axis.sqrMagnitude > 1e-10f ? Quaternion.AngleAxis(pitch, axis.normalized) * flat : flat;
+
             var delta = Quaternion.Inverse(leg.idleAnkleLocal) * leg.foot.localRotation;
             if (delta.w < 0f) delta = new Quaternion(-delta.x, -delta.y, -delta.z, -delta.w);
             var twist = Quaternion.identity;
@@ -555,24 +527,6 @@ namespace Game.ThirdPerson
             if (bend > maxAnkleBend) swing = Quaternion.Slerp(Quaternion.identity, swing, maxAnkleBend / bend);
             twist = Quaternion.Slerp(Quaternion.identity, twist, 1f - ankleTwistRemoval);
             leg.foot.localRotation = leg.idleAnkleLocal * swing * twist;
-
-            // Ground pitch: a planted sole stays near its idle angle; in the air the toes may lift a little (heel
-            // strike) or point down more (push-off). The foot no longer swings stiffly with the leg (toes up in
-            // front, folded down behind).
-            if (!leg.toe || leg.toeLocal.sqrMagnitude < 1e-10f) return;
-            float change = ToeElevation(leg) - leg.idleToeElevation;
-            float limited = Mathf.Clamp(change, -Mathf.Lerp(plantedToePitch, maxToeDown, airborne),
-                Mathf.Lerp(plantedToePitch, maxToeUp, airborne));
-            Vector3 axis = Vector3.Cross(leg.foot.rotation * leg.toeLocal, root.up);
-            if (Mathf.Abs(limited - change) > .01f && axis.sqrMagnitude > 1e-10f)
-                leg.foot.rotation = Quaternion.AngleAxis(limited - change, axis.normalized) * leg.foot.rotation;
-        }
-
-        // Toe direction (ankle -> つま先) above the horizon, in degrees.
-        float ToeElevation(Leg leg)
-        {
-            Vector3 toe = (leg.foot.rotation * leg.toeLocal).normalized;
-            return Mathf.Asin(Mathf.Clamp(Vector3.Dot(toe, root.up), -1f, 1f)) * Mathf.Rad2Deg;
         }
     }
 }

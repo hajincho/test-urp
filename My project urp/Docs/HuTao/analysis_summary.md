@@ -146,3 +146,15 @@
   - 구조: 에디터가 컴파일 후 자동으로(규칙 버전이 바뀌면 1회) 모든 컴포지션 메시의 무식물 충돌 복사본(`Assets/Game/Collision/CompositionNoPlants/`)과 매핑(`Assets/Game/Collision/Resources/CompositionPlantCollisionMap.asset`)을 만든다. 런타임 `Game.World.CompositionPlantCollisionMap`이 씬 로드마다 해당 MeshCollider를 복사본으로 바꾼다. 씬 파일은 수정하지 않는다.
   - 메뉴: `Tools/World/Regenerate Composition Plant Collision`(재생성), `Remove Plant Collision From Compositions`(선택: 씬에 직접 굽기), `Validate ...`.
 - 검증: tree-sitter 구문 검사 3개 파일 통과. Unity 컴파일·Play 미수행.
+
+## 13. 8차 수정 (2026-11-07) – 발 꺾임: Furina 발 회전 복사 중단
+- 증상(사용자 캡처, 정면): 양발 발끝이 아래로 크게 꺾여(포인트 자세) 신발이 접혀 보인다.
+- 원인: Hu Tao 발이 Furina 발의 월드 회전을 복사한 뒤 보정하는 구조였다. Furina는 굽 있는 신발용 다리라 발 회전이 아래로 꺾이는 성분을 갖고, 발끝 관절(つま先 → 足先EX 신발 앞부분)도 Furina 발가락 회전을 그대로 받았다. 보정(정강이 추종, 피치 제한)만으로는 남았다.
+- 수정(`HuTaoRetarget.FitAnkle`):
+  - 발은 이제 **계산값**이다. Hu Tao 자신의 rest 자세(MMD 바인드 포즈, 발바닥 평평) 발 회전을 몸(root) 기준으로 유지한다.
+  - 발이 공중에 있을 때만 피치를 준다(Furina 발목이 대기보다 1.2~5cm 위로 올라간 정도로 블렌드). 몸 앞이면 발끝을 최대 `maxToeUp`=12° 들고, 뒤면 최대 `maxToeDown`=22° 내린다(앞뒤 거리 / 다리 길이 0.35배로 정규화). 디딘 발은 항상 평평하다.
+  - つま先의 Furina 연동을 제거해 신발 앞부분은 rest를 유지한다.
+  - 기준 발목 각도(idle)도 Furina 복사값이 아니라 평평한 rest 발로 기록한다.
+  - 정강이 축 비틀림은 50% 제거하고, 발목 관절은 안전 한도 35°로 제한한다. 발끝 방향은 rest heading(몸 기준)이고, 무릎이 그쪽을 향한다.
+  - 정강이 추종(`plantedAnkleFollow`/`swingAnkleFollow`), `footYawLock`, 지면 피치 클램프 v1은 제거했다.
+- 검증: tree-sitter 구문 검사 통과. Unity 미실행.
